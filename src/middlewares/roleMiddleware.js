@@ -2,9 +2,6 @@ function roleMiddleware(allowedRoles) {
   return (req, res, next) => {
     try {
       const userRole = Number(req.user?.role_id);
-      console.log("role:", userRole, typeof userRole);
-      console.log("allowed:", allowedRoles);
-      console.log(req.headers);
 
       if (!allowedRoles.includes(userRole)) {
         return res

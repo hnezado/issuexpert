@@ -27,7 +27,24 @@ async function createTicket(req, res) {
   }
 }
 
+async function assignTicket(req, res) {
+  try {
+    const { ticketId, technicianId } = req.body;
+
+    const updated = await ticketModel.assignTicket(ticketId, technicianId);
+
+    if (updated === 0) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    res.json({ message: "Ticket assigned successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getAllTickets,
   createTicket,
+  assignTicket,
 };

@@ -13,5 +13,12 @@ router.get(
   ticketController.getAllTickets,
 );
 router.post("/new", authMiddleware, ticketController.createTicket);
+// Only admin and technitians roles are able to assign tickets
+router.put(
+  "/assign",
+  authMiddleware,
+  roleMiddleware([1, 2]),
+  ticketController.assignTicket,
+);
 
 module.exports = router;

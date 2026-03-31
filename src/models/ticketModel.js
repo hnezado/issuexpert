@@ -31,7 +31,21 @@ async function createTicket(data) {
   return result.insertId;
 }
 
+async function assignTicket(ticketId, technicianId) {
+  const [result] = await db.query(
+    `
+        UPDATE Tickets
+        SET assigned_to = ?
+        WHERE id = ?
+    `,
+    [technicianId, ticketId],
+  );
+
+  return result.affectedRows;
+}
+
 module.exports = {
   getAllTickets,
   createTicket,
+  assignTicket,
 };
