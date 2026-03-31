@@ -44,8 +44,22 @@ async function assignTicket(ticketId, technicianId) {
   return result.affectedRows;
 }
 
+async function updateTicketStatus(ticketId, statusId) {
+  const [result] = await db.query(
+    `
+        UPDATE Tickets
+        SET status_id = ?
+        WHERE id = ?
+    `,
+    [statusId, ticketId],
+  );
+
+  return result.affectedRows;
+}
+
 module.exports = {
   getAllTickets,
   createTicket,
   assignTicket,
+  updateTicketStatus,
 };

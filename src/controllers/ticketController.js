@@ -43,8 +43,25 @@ async function assignTicket(req, res) {
   }
 }
 
+async function updateStatus(req, res) {
+  try {
+    const { ticketId, statusId } = req.body;
+
+    const updated = await ticketModel.updateTicketStatus(ticketId, statusId);
+
+    if (updated === 0) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    res.json({ message: "Ticket status updated" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getAllTickets,
   createTicket,
   assignTicket,
+  updateStatus,
 };
