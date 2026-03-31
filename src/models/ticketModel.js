@@ -17,6 +17,21 @@ async function getAllTickets() {
   return rows;
 }
 
+async function createTicket(data) {
+  const { title, description, priority, status_id, created_by } = data;
+
+  const [result] = await db.query(
+    `
+        INSERT INTO Tickets (title, description, priority, status_id, created_by)
+        VALUES (?, ?, ?, ?, ?)
+    `,
+    [title, description, priority, status_id, created_by],
+  );
+
+  return result.insertId;
+}
+
 module.exports = {
   getAllTickets,
+  createTicket,
 };

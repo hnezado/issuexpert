@@ -12,5 +12,6 @@ router.get(
   roleMiddleware([1, 2]),
   ticketController.getAllTickets,
 );
+router.post("/new", authMiddleware, ticketController.createTicket);
 
 module.exports = router;
