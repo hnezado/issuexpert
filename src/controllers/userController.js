@@ -13,14 +13,20 @@ async function createUser(req, res) {
   try {
     const { username, email, password, role_id } = req.body;
 
+    // Checking required fields
     if (!username || !email || !password) {
-      return res.status(400).json({ message: "Missing fields" });
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
+    // Hashing password
+    const { hashPassword } = require("../utils/password");
+    const hashedPassword = await hashPassword(password);
+
+    // New user data
     const result = await userModel.createUser(
       username,
       email,
-      password,
+      hashedPassword,
       role_id || 3,
     );
 
