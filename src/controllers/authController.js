@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel");
 const { comparePassword } = require("../utils/password");
+const { generateToken } = require("../utils/jwt");
 
 async function login(req, res) {
   try {
@@ -23,8 +24,12 @@ async function login(req, res) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    // Generate authentication JWT token (valid access to API)
+    const token = generateToken(user);
+
     res.json({
       message: "Login successful",
+      token,
       user: {
         id: user.id,
         username: user.username,
