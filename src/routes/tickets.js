@@ -5,7 +5,7 @@ const ticketController = require("../controllers/ticketController");
 const authMiddleware = require("../middlewares/authMiddleware");
 const roleMiddleware = require("../middlewares/roleMiddleware");
 
-// Only admin and technitians roles are able to see all tickets
+// Only admin and technicians roles are able to see all tickets
 router.get(
   "/",
   authMiddleware,
@@ -15,7 +15,7 @@ router.get(
 
 router.post("/new", authMiddleware, ticketController.createTicket);
 
-// Only admin and technitians roles are able to assign tickets
+// Only admin and technicians roles are able to assign tickets
 router.put(
   "/assign",
   authMiddleware,
@@ -23,7 +23,7 @@ router.put(
   ticketController.assignTicket,
 );
 
-// Only admin and technitians roles are able to assign tickets
+// Only admin and technicians roles are able to assign tickets
 router.put(
   "/status",
   authMiddleware,
@@ -33,7 +33,7 @@ router.put(
 
 router.get("/my-tickets", authMiddleware, ticketController.getMyTickets);
 
-// Only usable by technicians
+// Only technicians
 router.get(
   "/assigned",
   authMiddleware,
