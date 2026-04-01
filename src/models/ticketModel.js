@@ -71,10 +71,25 @@ async function getTicketsByUser(userId) {
   return rows;
 }
 
+async function getTicketsAssigned(userId) {
+  const [rows] = await db.query(
+    `
+        SELECT *
+        FROM Tickets
+        WHERE assigned_to = ?
+        ORDER BY updated_at DESC
+    `,
+    [userId],
+  );
+
+  return rows;
+}
+
 module.exports = {
   getAllTickets,
   createTicket,
   assignTicket,
   updateTicketStatus,
   getTicketsByUser,
+  getTicketsAssigned,
 };

@@ -71,10 +71,23 @@ async function getMyTickets(req, res) {
   }
 }
 
+async function getAssignedTickets(req, res) {
+  try {
+    const userId = req.user.id;
+
+    const tickets = await ticketModel.getTicketsAssigned(userId);
+
+    res.json(tickets);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getAllTickets,
   createTicket,
   assignTicket,
   updateStatus,
   getMyTickets,
+  getAssignedTickets,
 };

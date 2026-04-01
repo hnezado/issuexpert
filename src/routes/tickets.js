@@ -33,4 +33,12 @@ router.put(
 
 router.get("/my-tickets", authMiddleware, ticketController.getMyTickets);
 
+// Only usable by technicians
+router.get(
+  "/assigned",
+  authMiddleware,
+  roleMiddleware([2]),
+  ticketController.getAssignedTickets,
+);
+
 module.exports = router;
