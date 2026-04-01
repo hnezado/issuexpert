@@ -45,6 +45,19 @@ async function login(req, res) {
   }
 }
 
+/**
+ * Verify endpoint controller.
+ * This function is executed only if authMiddleware has already validated the JWT.
+ * It simply confirms that the token is valid and returns the authenticated user data.
+ */
+function verify(req, res) {
+  return res.json({
+    valid: true,
+    user: req.user,
+  });
+}
+
 module.exports = {
   login,
+  verify,
 };

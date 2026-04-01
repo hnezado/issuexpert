@@ -14,7 +14,7 @@ app.use(express.static("public"));
 
 // Route mounting
 app.use("/api/users", userRoutes);
-app.use("/api/login", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/tickets", ticketRoutes);
 app.use("/api/messages", messageRoutes);
 
