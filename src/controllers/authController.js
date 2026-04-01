@@ -4,15 +4,19 @@ const { generateToken } = require("../utils/jwt");
 
 async function login(req, res) {
   try {
-    const { usernameOrEmail, password } = req.body;
+    const { identifier, password } = req.body;
+
+    // Input data validation
+    if (!identifier || !password) {
+      return res.status(400).json({
+        message: "Missing credentials",
+      });
+    }
 
     // Checking if user exists
-    let user;
-    if (usernameOrEmail) {
-      user = await userModel.findByUsername(usernameOrEmail);
-    }
+    let user = await userModel.findByEmail(identifier);
     if (!user) {
-      user = await userModel.findByEmail(usernameOrEmail);
+      user = await userModel.findByUsername(identifier);
     }
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -27,7 +31,7 @@ async function login(req, res) {
     // Generate authentication JWT token (valid access to API)
     const token = generateToken(user);
 
-    res.json({
+    return res.json({
       message: "Login successful",
       token,
       user: {
@@ -37,7 +41,7 @@ async function login(req, res) {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 }
 
