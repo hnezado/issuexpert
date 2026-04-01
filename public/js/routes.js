@@ -2,6 +2,7 @@
 const ROUTES = {
   index: "/index.html",
   login: "/login.html",
+  logout: "/logout.html",
   dashboard: "/dashboard.html",
 };
 
