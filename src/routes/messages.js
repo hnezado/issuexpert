@@ -5,5 +5,6 @@ const messageController = require("../controllers/messageController");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 router.post("/new", authMiddleware, messageController.createMessage);
+router.get("/:ticketId", authMiddleware, messageController.getMessages);
 
 module.exports = router;

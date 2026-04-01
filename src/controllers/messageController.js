@@ -17,6 +17,19 @@ async function createMessage(req, res) {
   }
 }
 
+async function getMessages(req, res) {
+  try {
+    const { ticketId } = req.params;
+
+    const messages = await messageModel.getMessagesByTicket(ticketId);
+
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   createMessage,
+  getMessages,
 };
