@@ -31,4 +31,6 @@ router.put(
   ticketController.updateStatus,
 );
 
+router.get("/my-tickets", authMiddleware, ticketController.getMyTickets);
+
 module.exports = router;

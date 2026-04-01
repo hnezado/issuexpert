@@ -59,9 +59,22 @@ async function updateStatus(req, res) {
   }
 }
 
+async function getMyTickets(req, res) {
+  try {
+    const userId = req.user.id;
+
+    const tickets = await ticketModel.getTicketsByUser(userId);
+
+    res.json(tickets);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   getAllTickets,
   createTicket,
   assignTicket,
   updateStatus,
+  getMyTickets,
 };
