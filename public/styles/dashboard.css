@@ -22,6 +22,7 @@ header {
 
   & .user-info {
     display: flex;
+    align-items: center;
 
     & .user-avatar {
       display: flex;
@@ -40,6 +41,8 @@ header {
     & .user-details {
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      padding: 5px 20px;
     }
 
     & .btn-logout {
