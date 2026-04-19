@@ -41,8 +41,12 @@ header {
     & .user-details {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 5px 20px;
+      justify-content: space-between;
+      padding: 10px 20px;
+      & .user-email {
+        font-size: 0.8rem;
+        color: grey;
+      }
     }
 
     & .btn-logout {

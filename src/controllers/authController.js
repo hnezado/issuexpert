@@ -15,9 +15,9 @@ async function login(req, res) {
     }
 
     // Checking if user exists
-    let user = await userModel.findByEmail(identifier);
+    let user = await userModel.findByEmail(identifier.toLowerCase());
     if (!user) {
-      user = await userModel.findByUsername(identifier);
+      user = await userModel.findByUsername(identifier.toLowerCase());
     }
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
