@@ -40,9 +40,9 @@ init();
 //         "Content-Type": "application/json",
 //       },
 //       body: JSON.stringify({
-//         username: "hernandita gurgundánfila",
-//         password: "hernanditapw",
-//         email: "hernandita.gurgundanfila@issuexpert.com",
+//         username: "",
+//         password: "",
+//         email: "@issuexpert.com",
 //         role_id: 3,
 //       }),
 //     });
