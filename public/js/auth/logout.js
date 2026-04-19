@@ -3,4 +3,4 @@ function logout() {
   goTo(ROUTES.login);
 }
 
-logout();
+document.querySelector(".btn-logout").addEventListener("click", logout);

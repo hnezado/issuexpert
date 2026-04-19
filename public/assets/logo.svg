@@ -1,0 +1,76 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <!-- Grid -->
+    <pattern id="grid" width="140" height="140" patternUnits="userSpaceOnUse" patternTransform="translate(42,42)">
+      <path d="M 140 0 L 0 0 0 140" fill="none" stroke="#244a6a" stroke-width="1.2"></path>
+    </pattern>
+
+    <!-- Glow -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="9" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+
+    <!-- Shadow -->
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.6"></feDropShadow>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" fill="#050d16"></rect>
+
+  <!-- OUTER FRAME (asymmetric rounded corners) -->
+  <path d="
+    M 40 10
+    H 452
+    Q 502 10 502 60
+    V 452
+    Q 502 502 452 502
+    H 60
+    Q 10 502 10 452
+    V 60
+    Q 10 10 40 10
+    Z
+  " fill="#081521"></path>
+
+  <!-- INNER PANEL -->
+  <rect x="22" y="22" width="468" height="468" rx="24" ry="24" fill="#0f2433"></rect>
+
+  <!-- GRID -->
+  <rect x="22" y="22" width="468" height="468" rx="24" ry="24" fill="url(#grid)" opacity="0.55"></rect>
+
+  <!-- IX -->
+  <g dominant-baseline="middle" text-anchor="middle">
+
+    <!-- I -->
+    <text x="190" y="265" font-size="200" fill="#c7d0d6" font-weight="300" font-family="Orbitron, Exo 2, Arial, sans-serif" filter="url(#shadow)">
+      I
+    </text>
+
+    <!-- I highlight -->
+    <text x="190" y="258" font-size="200" fill="#f0f6fa" opacity="0.35" font-family="Orbitron, Exo 2, Arial, sans-serif">
+      I
+    </text>
+
+    <!-- X -->
+    <text x="325" y="265" font-size="200" fill="#00e5ff" font-weight="800" font-family="Orbitron, Exo 2, Arial, sans-serif" filter="url(#glow)">
+      X
+    </text>
+
+    <!-- X depth -->
+    <text x="325" y="270" font-size="200" fill="#007c91" opacity="0.5" font-family="Orbitron, Exo 2, Arial, sans-serif">
+      X
+    </text>
+
+    <!-- X highlight -->
+    <text x="325" y="258" font-size="200" fill="#7ff6ff" opacity="0.25" font-family="Orbitron, Exo 2, Arial, sans-serif">
+      X
+    </text>
+
+  </g>
+</svg>
