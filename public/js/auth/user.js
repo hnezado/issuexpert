@@ -2,7 +2,7 @@ export async function loadCurrentUser() {
   const token = localStorage.getItem("auth_token");
 
   try {
-    const res = await fetch(`${API_BASE_URL}/auth/get-user-info`, {
+    const res = await fetch(`${API_BASE_URL}/auth/user-info`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -9,6 +9,15 @@ async function getAllUsers(req, res) {
   }
 }
 
+async function getUser(req, res) {
+  try {
+    const user = await userModel.findById(req.body.id);
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 async function createUser(req, res) {
   try {
     const { username, email, password, role_id } = req.body;
@@ -42,4 +51,5 @@ async function createUser(req, res) {
 module.exports = {
   getAllUsers,
   createUser,
+  getUser,
 };

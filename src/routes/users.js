@@ -11,6 +11,7 @@ router.get(
   roleMiddleware([1]),
   userController.getAllUsers,
 );
+
 router.post("/new", userController.createUser);
 
 module.exports = router;

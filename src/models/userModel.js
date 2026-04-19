@@ -18,6 +18,12 @@ async function createUser(username, email, password, role_id = 3) {
   return result;
 }
 
+async function findById(id) {
+  const sql = `SELECT * FROM Users WHERE id = ?`;
+  const [rows] = await db.execute(sql, [id]);
+  return rows[0];
+}
+
 async function findByUsername(username) {
   const sql = `SELECT * FROM Users WHERE username = ?`;
   const [rows] = await db.execute(sql, [username]);
@@ -33,6 +39,7 @@ async function findByEmail(email) {
 module.exports = {
   getAllUsers,
   createUser,
+  findById,
   findByUsername,
   findByEmail,
 };
