@@ -1,0 +1,78 @@
+header {
+  display: flex;
+  justify-content: space-between;
+}
+header .header-header img {
+  width: 32px;
+}
+header .header-nav ul {
+  display: flex;
+  list-style: none;
+}
+header .header-nav ul li a {
+  text-decoration: none;
+}
+header .user-info {
+  display: flex;
+  align-items: center;
+}
+header .user-info .user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  user-select: none;
+}
+header .user-info .user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+header .user-info .user-details .user-email {
+  font-size: 0.8rem;
+  color: grey;
+}
+header .user-info .btn-logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: blanchedalmond;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: 0.6s;
+}
+header .user-info .btn-logout:hover {
+  background-color: azure;
+  box-shadow: 0px 0px 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+table th,
+table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid lightgray;
+}
+table th {
+  font-weight: 600;
+  background: lightskyblue;
+}
+table tr:hover {
+  background: lightblue;
+}
+
+/*# sourceMappingURL=dashboard.css.map */

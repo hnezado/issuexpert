@@ -1,0 +1,20 @@
+$primary-color: #007bff;
+$primary-hover: #0056b3;
+$bg-color: #f4f6f8;
+$text-color: #333;
+$border-color: #ccc;
+$radius: 10px;
+$shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+// Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+// Global styles
+body {
+  background-color: $bg-color;
+}
