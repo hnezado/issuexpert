@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev_old": "nodemon src/server.js",
+    "dev": "concurrently \"nodemon src/server.js\" \"npm run sass\"",
+    "sass": "sass public/styles:public/css --watch"
   },
   "keywords": [],
   "author": "",
@@ -17,9 +19,11 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mysql2": "^3.20.0"
+    "mysql2": "^3.20.0",
+    "sass": "^1.99.0"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.14"
   }
 }
