@@ -1,3 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f4f6f8;
+  background-color: #0056b3;
+  height: fit-content;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: 0.6s;
+}
+.btn:hover {
+  background-color: #007bff;
+  box-shadow: 0px 0px 6px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -38,22 +74,6 @@ header .user-info .user-details {
 header .user-info .user-details .user-email {
   font-size: 0.8rem;
   color: grey;
-}
-header .user-info .btn-logout {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: blanchedalmond;
-  padding: 5px 10px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  user-select: none;
-  transition: 0.6s;
-}
-header .user-info .btn-logout:hover {
-  background-color: azure;
-  box-shadow: 0px 0px 6px;
 }
 
 table {

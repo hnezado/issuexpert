@@ -1,5 +1,5 @@
-$primary-color: #007bff;
-$primary-hover: #0056b3;
+$primary-color: #0056b3;
+$primary-hover: #007bff;
 $bg-color: #f4f6f8;
 $text-color: #333;
 $border-color: #ccc;
@@ -17,4 +17,30 @@ $shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 // Global styles
 body {
   background-color: $bg-color;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $bg-color;
+  background-color: $primary-color;
+  height: fit-content;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: 0.6s;
+
+  &:hover {
+    background-color: $primary-hover;
+    box-shadow: 0px 0px 6px;
+  }
 }
