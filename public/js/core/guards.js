@@ -1,18 +1,29 @@
 import { fetchCurrentUser } from "../auth/user.js";
+import { ERROR_CODES } from "../config.js";
 
-async function hasAccess(route) {
-  if (!route) return false;
-
-  if (route.requireAuth === false) return true;
-
-  const currentUser = await fetchCurrentUser();
-  if (!currentUser) return false;
-
-  if (!route.allowedRoles || route.allowedRoles.length === 0) {
-    return true;
+async function checkAccess(routeConfig) {
+  if (!routeConfig) {
+    return { ok: false, errorCode: ERROR_CODES.NOT_FOUND };
   }
 
-  return route.allowedRoles.includes(currentUser.role_id);
+  if (routeConfig.requireAuth === false) {
+    return { ok: true };
+  }
+
+  const currentUser = await fetchCurrentUser();
+  if (!currentUser) {
+    return { ok: false, errorCode: ERROR_CODES.NOT_AUTHENTICATED };
+  }
+
+  if (!routeConfig.allowedRoles || routeConfig.allowedRoles.length === 0) {
+    return { ok: true };
+  }
+
+  if (!routeConfig.allowedRoles.includes(currentUser.role_id)) {
+    return { ok: false, errorCode: ERROR_CODES.NO_PERMISSIONS };
+  }
+
+  return { ok: true };
 }
 
-export { hasAccess };
+export { checkAccess };

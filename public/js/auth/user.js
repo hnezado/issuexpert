@@ -1,5 +1,21 @@
-export async function loadCurrentUser() {
+import { API_BASE_URL } from "../config.js";
+
+let cachedUser = null;
+
+async function fetchCurrentUser() {
+  // Memory cache
+  if (cachedUser) return cachedUser;
+
+  // Session storage cache
+  const storedUser = sessionStorage.getItem("current_user");
+  if (storedUser) {
+    cachedUser = JSON.parse(storedUser);
+    return cachedUser;
+  }
+
+  // Backend user retrieving
   const token = localStorage.getItem("auth_token");
+  if (!token) return null;
 
   try {
     const res = await fetch(`${API_BASE_URL}/auth/user-info`, {
@@ -15,9 +31,20 @@ export async function loadCurrentUser() {
     }
 
     const data = await res.json();
-    return data.user;
+
+    cachedUser = data.user;
+    sessionStorage.setItem("current_user", JSON.stringify(cachedUser));
+
+    return cachedUser;
   } catch (err) {
     console.error(err);
     return null;
   }
 }
+
+function clearCurrentUser() {
+  cachedUser = null;
+  sessionStorage.removeItem("current_user");
+}
+
+export { fetchCurrentUser, clearCurrentUser };

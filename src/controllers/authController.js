@@ -73,7 +73,7 @@ async function getUserInfo(req, res) {
       user: {
         username: user.username,
         email: user.email,
-        role: role.name,
+        role_id: user.role_id,
         active: Boolean(user.active),
       },
     });

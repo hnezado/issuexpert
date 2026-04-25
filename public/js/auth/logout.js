@@ -1,8 +1,10 @@
-function logout() {
-  localStorage.removeItem("auth_token");
-  goTo(ROUTES.login);
-}
+import { clearCurrentUser } from "./user.js";
+import { goTo } from "../core/router.js";
 
-document.querySelector("#btn-logout").addEventListener("click", logout);
+function logout() {
+  clearCurrentUser();
+  localStorage.removeItem("auth_token");
+  goTo("login");
+}
 
 export { logout };
