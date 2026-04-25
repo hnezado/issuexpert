@@ -1,4 +1,5 @@
-const userModel = require("../models/userModel");
+import * as userModel from "../models/userModel.js";
+import { hashPassword } from "../utils/password.js";
 
 async function getAllUsers(req, res) {
   try {
@@ -28,10 +29,9 @@ async function createUser(req, res) {
     }
 
     // Hashing password
-    const { hashPassword } = require("../utils/password");
     const hashedPassword = await hashPassword(password);
 
-    // New user data
+    // Create user
     const result = await userModel.createUser(
       username,
       email,
@@ -48,8 +48,4 @@ async function createUser(req, res) {
   }
 }
 
-module.exports = {
-  getAllUsers,
-  createUser,
-  getUser,
-};
+export { getAllUsers, createUser, getUser };

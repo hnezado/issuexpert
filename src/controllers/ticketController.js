@@ -1,4 +1,4 @@
-const ticketModel = require("../models/ticketModel");
+import * as ticketModel from "../models/ticketModel.js";
 
 async function getAllTickets(req, res) {
   try {
@@ -83,7 +83,7 @@ async function getAssignedTickets(req, res) {
   }
 }
 
-module.exports = {
+export {
   getAllTickets,
   createTicket,
   assignTicket,

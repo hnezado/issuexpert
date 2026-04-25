@@ -1,6 +1,10 @@
 function roleMiddleware(allowedRoles) {
   return (req, res, next) => {
     try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+
       const userRole = Number(req.user?.role_id);
 
       if (!allowedRoles.includes(userRole)) {
@@ -17,4 +21,4 @@ function roleMiddleware(allowedRoles) {
   };
 }
 
-module.exports = roleMiddleware;
+export default roleMiddleware;

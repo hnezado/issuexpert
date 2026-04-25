@@ -1,9 +1,10 @@
-const express = require("express");
-const cors = require("cors");
-const userRoutes = require("./routes/users");
-const authRoutes = require("./routes/auth");
-const ticketRoutes = require("./routes/tickets");
-const messageRoutes = require("./routes/messages");
+import express from "express";
+import cors from "cors";
+
+import userRoutes from "./routes/users.js";
+import authRoutes from "./routes/auth.js";
+import ticketRoutes from "./routes/tickets.js";
+import messageRoutes from "./routes/messages.js";
 
 const app = express();
 
@@ -22,4 +23,4 @@ app.get("/", (req, res) => {
   res.json({ message: "API running" });
 });
 
-module.exports = app;
+export default app;

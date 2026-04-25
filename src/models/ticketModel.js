@@ -1,18 +1,18 @@
-const db = require("../config/db");
+import db from "../config/db.js";
 
 async function getAllTickets() {
   const [rows] = await db.query(`
-        SELECT 
-            t.id,
-            t.title,
-            t.description,
-            t.priority,
-            t.status_id,
-            t.created_by,
-            t.assigned_to,
-            t.created_at
-        FROM Tickets t
-    `);
+    SELECT 
+        t.id,
+        t.title,
+        t.description,
+        t.priority,
+        t.status_id,
+        t.created_by,
+        t.assigned_to,
+        t.created_at
+    FROM Tickets t
+  `);
 
   return rows;
 }
@@ -22,8 +22,8 @@ async function createTicket(data) {
 
   const [result] = await db.query(
     `
-        INSERT INTO Tickets (title, description, priority, status_id, created_by)
-        VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Tickets (title, description, priority, status_id, created_by)
+    VALUES (?, ?, ?, ?, ?)
     `,
     [title, description, priority, status_id, created_by],
   );
@@ -34,9 +34,9 @@ async function createTicket(data) {
 async function assignTicket(ticketId, technicianId) {
   const [result] = await db.query(
     `
-        UPDATE Tickets
-        SET assigned_to = ?
-        WHERE id = ?
+    UPDATE Tickets
+    SET assigned_to = ?
+    WHERE id = ?
     `,
     [technicianId, ticketId],
   );
@@ -47,9 +47,9 @@ async function assignTicket(ticketId, technicianId) {
 async function updateTicketStatus(ticketId, statusId) {
   const [result] = await db.query(
     `
-        UPDATE Tickets
-        SET status_id = ?
-        WHERE id = ?
+    UPDATE Tickets
+    SET status_id = ?
+    WHERE id = ?
     `,
     [statusId, ticketId],
   );
@@ -60,10 +60,10 @@ async function updateTicketStatus(ticketId, statusId) {
 async function getTicketsByUser(userId) {
   const [rows] = await db.query(
     `
-        SELECT *
-        FROM Tickets
-        WHERE created_by = ?
-        ORDER BY created_at DESC
+    SELECT *
+    FROM Tickets
+    WHERE created_by = ?
+    ORDER BY created_at DESC
     `,
     [userId],
   );
@@ -74,10 +74,10 @@ async function getTicketsByUser(userId) {
 async function getTicketsAssigned(userId) {
   const [rows] = await db.query(
     `
-        SELECT *
-        FROM Tickets
-        WHERE assigned_to = ?
-        ORDER BY updated_at DESC
+    SELECT *
+    FROM Tickets
+    WHERE assigned_to = ?
+    ORDER BY updated_at DESC
     `,
     [userId],
   );
@@ -85,7 +85,7 @@ async function getTicketsAssigned(userId) {
   return rows;
 }
 
-module.exports = {
+export {
   getAllTickets,
   createTicket,
   assignTicket,

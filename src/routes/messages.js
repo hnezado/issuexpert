@@ -1,10 +1,10 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import authMiddleware from "../middlewares/authMiddleware.js";
+import * as messageController from "../controllers/messageController.js";
 
-const messageController = require("../controllers/messageController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const router = express.Router();
 
 router.post("/new", authMiddleware, messageController.createMessage);
 router.get("/:ticketId", authMiddleware, messageController.getMessages);
 
-module.exports = router;
+export default router;

@@ -1,9 +1,8 @@
-const express = require("express");
+import express from "express";
+import authMiddleware from "../middlewares/authMiddleware.js";
+import roleMiddleware from "../middlewares/roleMiddleware.js";
+import * as userController from "../controllers/userController.js";
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
-const roleMiddleware = require("../middlewares/roleMiddleware");
-
-const userController = require("../controllers/userController");
 
 router.get(
   "/",
@@ -14,4 +13,4 @@ router.get(
 
 router.post("/new", userController.createUser);
 
-module.exports = router;
+export default router;

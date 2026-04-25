@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+import userModel from "../models/userModel.js";
 
 async function test() {
   const users = await userModel.getAllUsers();

@@ -1,4 +1,4 @@
-const db = require("../config/db");
+import db from "../config/db.js";
 
 async function getAllUsers() {
   const [rows] = await db.query(
@@ -9,9 +9,9 @@ async function getAllUsers() {
 
 async function createUser(username, email, password, role_id = 3) {
   const sql = `
-        INSERT INTO Users (username, email, password, role_id)
-        VALUES (?, ?, ?, ?)
-    `;
+    INSERT INTO Users (username, email, password, role_id)
+    VALUES (?, ?, ?, ?)
+  `;
 
   const [result] = await db.execute(sql, [username, email, password, role_id]);
 
@@ -36,10 +36,4 @@ async function findByEmail(email) {
   return rows[0];
 }
 
-module.exports = {
-  getAllUsers,
-  createUser,
-  findById,
-  findByUsername,
-  findByEmail,
-};
+export { getAllUsers, createUser, findById, findByUsername, findByEmail };

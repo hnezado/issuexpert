@@ -1,11 +1,10 @@
-const { get } = require("../app");
-const db = require("../config/db");
+import db from "../config/db.js";
 
 async function createMessage(ticketId, senderId, message) {
   const [result] = await db.query(
     `
-        INSERT INTO Messages (ticket_id, sender_id, message)
-        VALUES (?, ?, ?)
+    INSERT INTO Messages (ticket_id, sender_id, message)
+    VALUES (?, ?, ?)
     `,
     [ticketId, senderId, message],
   );
@@ -16,15 +15,15 @@ async function createMessage(ticketId, senderId, message) {
 async function getMessagesByTicket(ticketId) {
   const [rows] = await db.query(
     `
-        SELECT 
-            m.id,
-            m.message,
-            m.created_at,
-            u.username AS sender
-        FROM Messages m
-        LEFT JOIN Users u ON m.sender_id = u.id
-        WHERE m.ticket_id = ?
-        ORDER BY m.created_at ASC
+    SELECT 
+        m.id,
+        m.message,
+        m.created_at,
+        u.username AS sender
+    FROM Messages m
+    LEFT JOIN Users u ON m.sender_id = u.id
+    WHERE m.ticket_id = ?
+    ORDER BY m.created_at ASC
     `,
     [ticketId],
   );
@@ -32,7 +31,4 @@ async function getMessagesByTicket(ticketId) {
   return rows;
 }
 
-module.exports = {
-  createMessage,
-  getMessagesByTicket,
-};
+export { createMessage, getMessagesByTicket };

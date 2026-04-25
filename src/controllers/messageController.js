@@ -1,9 +1,8 @@
-const messageModel = require("../models/messageModel");
+import * as messageModel from "../models/messageModel.js";
 
 async function createMessage(req, res) {
   try {
     const { ticketId, message } = req.body;
-
     const senderId = req.user.id;
 
     const id = await messageModel.createMessage(ticketId, senderId, message);
@@ -29,7 +28,4 @@ async function getMessages(req, res) {
   }
 }
 
-module.exports = {
-  createMessage,
-  getMessages,
-};
+export { createMessage, getMessages };

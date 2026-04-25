@@ -1,9 +1,9 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import authMiddleware from "../middlewares/authMiddleware.js";
+import roleMiddleware from "../middlewares/roleMiddleware.js";
+import * as ticketController from "../controllers/ticketController.js";
 
-const ticketController = require("../controllers/ticketController");
-const authMiddleware = require("../middlewares/authMiddleware");
-const roleMiddleware = require("../middlewares/roleMiddleware");
+const router = express.Router();
 
 // Only admin and technicians roles are able to see all tickets
 router.get(
@@ -41,4 +41,4 @@ router.get(
   ticketController.getAssignedTickets,
 );
 
-module.exports = router;
+export default router;

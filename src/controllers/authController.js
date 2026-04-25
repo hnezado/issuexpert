@@ -1,7 +1,7 @@
-const userModel = require("../models/userModel");
-const roleModel = require("../models/roleModel");
-const { comparePassword } = require("../utils/password");
-const { generateToken } = require("../utils/jwt");
+import * as userModel from "../models/userModel.js";
+import * as roleModel from "../models/roleModel.js";
+import { comparePassword } from "../utils/password.js";
+import { generateToken } from "../utils/jwt.js";
 
 async function login(req, res) {
   try {
@@ -60,12 +60,12 @@ async function getUserInfo(req, res) {
   try {
     const user = await userModel.findById(req.user.id);
     if (!user) {
-      return res.status(400).json({ message: "The user don't exist" });
+      return res.status(400).json({ message: "The user doesn't exist" });
     }
 
     const role = await roleModel.findById(req.user.role_id);
     if (!role) {
-      return res.status(400).json({ message: "The role don't exist" });
+      return res.status(400).json({ message: "The role doesn't exist" });
     }
 
     return res.json({
@@ -82,8 +82,4 @@ async function getUserInfo(req, res) {
   }
 }
 
-module.exports = {
-  login,
-  verifyUser,
-  getUserInfo,
-};
+export { login, verifyUser, getUserInfo };
