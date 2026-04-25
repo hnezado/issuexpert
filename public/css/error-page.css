@@ -1,3 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f4f6f8;
+  background-color: #0056b3;
+  height: fit-content;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: 0.6s;
+}
+.btn:hover {
+  background-color: #007bff;
+  box-shadow: 0px 0px 6px;
+}
+
 .error-container {
   display: flex;
   flex-direction: column;
@@ -19,7 +55,7 @@
 }
 .error-container__description {
   font-size: 16px;
-  color: #666;
+  color: #333;
   max-width: 420px;
   line-height: 1.4;
 }
@@ -30,25 +66,25 @@
 }
 .error-container__button {
   padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   font-size: 14px;
   transition: 0.2s ease;
 }
 .error-container__button--primary {
-  background: #2563eb;
-  color: white;
+  background: #0056b3;
+  color: #f4f6f8;
 }
 .error-container__button--primary:hover {
-  background: #1d4ed8;
+  background: #007bff;
 }
 .error-container__button--secondary {
-  background: #e5e7eb;
-  color: #111;
+  background: #f4f6f8;
+  color: #0056b3;
 }
 .error-container__button--secondary:hover {
-  background: #d1d5db;
+  background: whitesmoke;
 }
 
 /*# sourceMappingURL=error-page.css.map */
