@@ -1,0 +1,78 @@
+@use "main" as *;
+
+// admin-page.scss
+
+h1 {
+  margin-bottom: 20px;
+}
+
+#btn-create-user {
+  margin: 10px 0 20px;
+}
+
+// Table
+#users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: $radius;
+  overflow: hidden;
+  box-shadow: $shadow;
+
+  thead {
+    background: $primary-color;
+    color: white;
+
+    th {
+      padding: 12px;
+      text-align: left;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $border-color;
+      transition: 0.2s;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.03);
+      }
+
+      td {
+        padding: 10px;
+      }
+    }
+  }
+}
+
+// inactive users visual
+.user-inactive {
+  opacity: 0.5;
+}
+
+// actions column
+.actions {
+  display: flex;
+  gap: 8px;
+
+  .btn {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+  }
+
+  .btn-danger {
+    background-color: #e74c3c;
+
+    &:hover {
+      background-color: #c0392b;
+    }
+  }
+
+  .btn-secondary {
+    background-color: #7f8c8d;
+
+    &:hover {
+      background-color: #636e72;
+    }
+  }
+}

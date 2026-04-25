@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f4f6f8;
+  background-color: #0056b3;
+  height: fit-content;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  user-select: none;
+  transition: 0.6s;
+}
+.btn:hover {
+  background-color: #007bff;
+  box-shadow: 0px 0px 6px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+#btn-create-user {
+  margin: 10px 0 20px;
+}
+
+#users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+#users-table thead {
+  background: #0056b3;
+  color: white;
+}
+#users-table thead th {
+  padding: 12px;
+  text-align: left;
+}
+#users-table tbody tr {
+  border-bottom: 1px solid #ccc;
+  transition: 0.2s;
+}
+#users-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+#users-table tbody tr td {
+  padding: 10px;
+}
+
+.user-inactive {
+  opacity: 0.5;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+.actions .btn {
+  font-size: 0.85rem;
+  padding: 4px 8px;
+}
+.actions .btn-danger {
+  background-color: #e74c3c;
+}
+.actions .btn-danger:hover {
+  background-color: #c0392b;
+}
+.actions .btn-secondary {
+  background-color: #7f8c8d;
+}
+.actions .btn-secondary:hover {
+  background-color: #636e72;
+}
+
+/*# sourceMappingURL=admin-page.css.map */

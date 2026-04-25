@@ -1,13 +1,19 @@
-import { ROUTES } from "../config.js";
-import { hasAccess } from "./guards.js";
+import { ERROR_CODES, ROUTES } from "../config.js";
+import { checkAccess } from "./guards.js";
 
 async function goTo(routeKey) {
-  const route = ROUTES[routeKey];
-  if (!route) return;
+  const routeConfig = ROUTES[routeKey];
+  if (!routeConfig) return redirectToErrorPage(ERROR_CODES.NOT_FOUND);
 
-  if (!(await hasAccess(route))) return;
+  const accessResult = await checkAccess(routeConfig);
+  if (!accessResult.ok)
+    return redirectToErrorPage(accessResult.errorCode || ERROR_CODES.NOT_FOUND);
 
-  window.location.href = route.path;
+  window.location.href = routeConfig.path;
+}
+
+function redirectToErrorPage(errorCode) {
+  window.location.href = `/error-page.html?type=${errorCode}`;
 }
 
 export { goTo };

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IssueXpert - Admin Page</title>
+    <link rel="stylesheet" href="css/admin-page.css" />
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
+  </head>
+  <body>
+    <h1>Admin page</h1>
+
+    <button id="btn-back-to-dashboard" class="btn">Go back to Dashboard</button>
+
+    <button id="btn-create-user" class="btn">Create user</button>
+
+    <table id="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="users-tbody"></tbody>
+    </table>
+
+    <script type="module" src="js/pages/admin-page.js"></script>
+  </body>
+</html>
