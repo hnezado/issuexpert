@@ -1,0 +1,63 @@
+@use "main" as *;
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  gap: 12px;
+  padding: 20px;
+
+  &__icon {
+    font-size: 64px;
+    line-height: 1;
+  }
+
+  &__title {
+    font-size: 28px;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  &__description {
+    font-size: 16px;
+    color: $text-color;
+    max-width: 420px;
+    line-height: 1.4;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  &__button {
+    padding: 10px 16px;
+    border-radius: $radius;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s ease;
+
+    &--primary {
+      background: $primary-color;
+      color: $bg-color;
+
+      &:hover {
+        background: $primary-hover;
+      }
+    }
+
+    &--secondary {
+      background: $bg-color;
+      color: $primary-color;
+
+      &:hover {
+        background: whitesmoke;
+      }
+    }
+  }
+}

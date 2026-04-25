@@ -13,10 +13,6 @@ const ROUTES = {
     path: "/index.html",
     requireAuth: false,
   },
-  error: {
-    path: "/error.html",
-    requireAuth: false,
-  },
   login: {
     path: "/login.html",
     requireAuth: false,
@@ -34,6 +30,12 @@ const ROUTES = {
     requireAuth: true,
     allowedRoles: [1],
   },
+};
+
+export const ERROR_CODES = {
+  NOT_FOUND: "NOT_FOUND",
+  NOT_AUTHENTICATED: "NOT_AUTHENTICATED",
+  NO_PERMISSIONS: "NO_PERMISSIONS",
 };
 
 export { API_BASE_URL, ROLES, ROUTES };

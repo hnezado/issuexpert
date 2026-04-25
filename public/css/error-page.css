@@ -1,0 +1,54 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  gap: 12px;
+  padding: 20px;
+}
+.error-container__icon {
+  font-size: 64px;
+  line-height: 1;
+}
+.error-container__title {
+  font-size: 28px;
+  margin: 0;
+  font-weight: 600;
+}
+.error-container__description {
+  font-size: 16px;
+  color: #666;
+  max-width: 420px;
+  line-height: 1.4;
+}
+.error-container__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.error-container__button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+.error-container__button--primary {
+  background: #2563eb;
+  color: white;
+}
+.error-container__button--primary:hover {
+  background: #1d4ed8;
+}
+.error-container__button--secondary {
+  background: #e5e7eb;
+  color: #111;
+}
+.error-container__button--secondary:hover {
+  background: #d1d5db;
+}
+
+/*# sourceMappingURL=error-page.css.map */
