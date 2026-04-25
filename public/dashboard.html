@@ -67,6 +67,39 @@
         </tr>
       </tbody>
     </table>
-    <script type="module" src="js/dashboard.js"></script>
+
+    <!-- TEST ZONE -->
+    <script type="module" src="js/test.js"></script>
+    <div class="debug-error-buttons">
+      <button onclick="goTo('dashboard')">Dashboard (OK)</button>
+
+      <button onclick="goTo('adminPage')">Admin Page (NO PERMISSIONS)</button>
+
+      <button onclick="goTo('fakeRoute')">Fake Route (NOT FOUND)</button>
+
+      <button
+        onclick="
+          window.location.href = '/error-page.html?type=NOT_AUTHENTICATED'
+        "
+      >
+        Force NOT_AUTHENTICATED
+      </button>
+
+      <button
+        onclick="window.location.href = '/error-page.html?type=NO_PERMISSIONS'"
+      >
+        Force NO_PERMISSIONS
+      </button>
+
+      <button
+        onclick="window.location.href = '/error-page.html?type=NOT_FOUND'"
+      >
+        Force NOT_FOUND</button
+      ><button onclick="window.location.href = '/error-page.html?type=ASDF'">
+        Force random error_code
+      </button>
+    </div>
+
+    <script type="module" src="js/pages/dashboard.js"></script>
   </body>
 </html>
