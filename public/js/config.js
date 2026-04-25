@@ -1,14 +1,39 @@
 // Works in dev and prod
 const API_BASE_URL = window.location.origin + "/api";
 
-// Base path for all frontend pages
-const ROUTES = {
-  index: "/index.html",
-  login: "/login.html",
-  logout: "/logout.html",
-  dashboard: "/dashboard.html",
+const ROLES = {
+  1: "admin",
+  2: "technician",
+  3: "user",
 };
 
-function goTo(route) {
-  window.location.href = route;
-}
+// Base path for all frontend pages and its allowed roles
+const ROUTES = {
+  index: {
+    path: "/index.html",
+    requireAuth: false,
+  },
+  error: {
+    path: "/error.html",
+    requireAuth: false,
+  },
+  login: {
+    path: "/login.html",
+    requireAuth: false,
+  },
+  logout: {
+    path: "/logout.html",
+    requireAuth: true,
+  },
+  dashboard: {
+    path: "/dashboard.html",
+    requireAuth: true,
+  },
+  adminPage: {
+    path: "/admin-page.html",
+    requireAuth: true,
+    allowedRoles: [1],
+  },
+};
+
+export { API_BASE_URL, ROLES, ROUTES };
