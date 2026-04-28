@@ -1,6 +1,10 @@
 import { fetchCurrentUser } from "../auth/user.js";
 import { ERROR_CODES } from "../config.js";
 
+/**
+ * Checks route access (auth + roles).
+ * Returns { ok, [errorCode] }.
+ */
 async function checkAccess(routeConfig) {
   if (!routeConfig) {
     return { ok: false, errorCode: ERROR_CODES.NOT_FOUND };

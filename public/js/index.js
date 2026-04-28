@@ -1,7 +1,9 @@
+import { API_BASE_URL } from "./config.js";
+import { logger } from "./core/logger.js";
 import { goTo } from "./core/router.js";
 
 // Index redirections
-function init() {
+async function init() {
   const authToken = localStorage.getItem("auth_token");
 
   if (!authToken) {
@@ -9,7 +11,7 @@ function init() {
     goTo("login");
   } else {
     // User is authenticated > verify token with backend
-    verifyAuthToken(authToken);
+    await verifyAuthToken(authToken);
   }
 }
 
@@ -31,8 +33,10 @@ async function verifyAuthToken(authToken) {
     // Token is valid
     goTo("dashboard");
   } catch (err) {
-    console.error(err);
-    goTo("login");
+    logger.error("[index.js|verifyAuthToken] Error validating token: ", {
+      error: err,
+    });
+    // goTo("login");
   }
 }
 
