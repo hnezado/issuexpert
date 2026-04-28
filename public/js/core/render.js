@@ -1,9 +1,11 @@
 import DashboardController from "../controllers/dashboard.controller.js";
+import ErrorController from "../controllers/error.controller.js";
 import LoginController from "../controllers/login.controller.js";
 
 const controllersMap = {
   login: LoginController,
   dashboard: DashboardController,
+  error: ErrorController,
 };
 
 /**
@@ -27,9 +29,11 @@ async function render(viewKeys) {
   }
 
   // Mount full view
+  console.log("renderizando html");
   app.innerHTML = html;
 
   // Load CSS
+  console.log("initializing css");
   for (const viewKey of viewKeys) {
     // Avoid duplicates (unique id)
     const cssId = `view-css-${viewKey}`;
@@ -41,10 +45,13 @@ async function render(viewKeys) {
     link.href = `/css/${viewKey}.css`;
     link.id = cssId;
 
+    console.log("link: ", link);
+
     document.head.appendChild(link);
   }
 
   // Initialize controllers
+  console.log("inizializando controladores");
   for (const viewKey of viewKeys) {
     const Controller = controllersMap[viewKey];
     if (!Controller) continue;

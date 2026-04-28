@@ -24,12 +24,14 @@ class DashboardController {
     this.currentUser = null;
     this.adminPageBtn = null;
     this.logoutBtn = null;
+    this.errorBtn = null;
 
     this.isInitialized = false;
 
     // Event listener handlers (used for removeEventListener in destroy)
     this.onAdminPageBtnClick = () => goTo("adminPage");
     this.onLogoutClick = () => logout();
+    this.onErrorBtnClick = () => goTo("error");
 
     DashboardController.instance = this;
   }
@@ -51,9 +53,11 @@ class DashboardController {
 
     this.adminPageBtn = this.rootElem.querySelector("#btn-admin-page");
     this.logoutBtn = this.rootElem.querySelector("#btn-logout");
+    this.errorBtn = this.rootElem.querySelector("#btn-force-error");
 
     this.adminPageBtn?.addEventListener("click", this.onAdminPageBtnClick);
     this.logoutBtn?.addEventListener("click", this.onLogoutClick);
+    this.errorBtn?.addEventListener("click", this.onErrorBtnClick);
   }
 
   async loadUser() {

@@ -1,5 +1,5 @@
 // Works in dev and prod
-const ENV = "development";
+const ENV = "dev";
 const API_BASE_URL = window.location.origin + "/api";
 
 const ROLES = {
@@ -23,6 +23,7 @@ const ROUTES = {
   error: {
     url: "/error",
     requireAuth: false,
+    views: ["error"],
   },
   login: {
     url: "/login",

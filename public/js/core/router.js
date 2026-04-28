@@ -35,6 +35,10 @@ async function goTo(routeKey) {
     return goTo("error");
   }
 
+  logger.info(`Accessing to route: ${routeKey}`, {
+    route: routeKey,
+    routeConfig,
+  });
   history.pushState({ route: routeKey }, "", routeConfig.url);
 
   render(routeConfig.views);

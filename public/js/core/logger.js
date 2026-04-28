@@ -1,3 +1,5 @@
+import { ENV } from "../config.js";
+
 /**
  * Simple environment-based logger utility.
  * Logs info, warnings, and errors with optional context.

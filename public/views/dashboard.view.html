@@ -1,95 +1,81 @@
-<header>
-  <div class="header-header">
-    <img src="assets/logo.svg" alt="Logo" />
-    <span class="logo-name">IssueXpert</span>
-  </div>
-
-  <div class="header-nav">
-    <ul>
-      <li><a href="#">Menu 1</a></li>
-      <li><a href="#">Menu 2</a></li>
-    </ul>
-  </div>
-
-  <div id="btn-admin-page" class="btn">Admin page</div>
-
-  <div class="user-info">
-    <div class="user-avatar">
-      <span id="user-avatar-content"></span>
+<div id="dashboard-view-container">
+  <header>
+    <div class="header-header">
+      <img src="assets/logo.svg" alt="Logo" />
+      <span class="logo-name">IssueXpert</span>
     </div>
 
-    <div class="user-details">
-      <span class="user-name" id="userName">...</span>
-      <span class="user-email" id="userEmail">...</span>
-      <span class="user-role" id="userRole">...</span>
+    <div class="header-nav">
+      <ul>
+        <li><a href="#">Menu 1</a></li>
+        <li><a href="#">Menu 2</a></li>
+      </ul>
     </div>
 
-    <div id="btn-logout" class="btn">Logout</div>
+    <div id="btn-admin-page" class="btn">Admin page</div>
+
+    <div class="user-info">
+      <div class="user-avatar">
+        <span id="user-avatar-content"></span>
+      </div>
+
+      <div class="user-details">
+        <span class="user-name" id="userName">...</span>
+        <span class="user-email" id="userEmail">...</span>
+        <span class="user-role" id="userRole">...</span>
+      </div>
+
+      <div id="btn-logout" class="btn">Logout</div>
+    </div>
+  </header>
+
+  <h3>My tickets</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Attachment</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>13</td>
+        <td>User settings</td>
+        <td>My user settings are not working</td>
+        <td>&lt;img_543.png&gt;</td>
+        <td class="actions-container">
+          <button type="button" class="btn">✎</button>
+          <button type="button" class="btn">🗑️</button>
+        </td>
+      </tr>
+
+      <tr>
+        <td>532</td>
+        <td>KeyboardBroken</td>
+        <td>MyLaptopKeyboardSpaceKeyIsNotWorking</td>
+        <td>&lt;img_1124.png&gt;</td>
+        <td class="actions-container">
+          <button type="button" class="btn">✎</button>
+          <button type="button" class="btn">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TEST ZONE -->
+  <script type="module" src="js/test.js"></script>
+  <div class="debug-error-buttons">
+    <button class="btn">Dashboard (OK)</button>
+
+    <button class="btn">Admin Page (NO PERMISSIONS)</button>
+
+    <button class="btn">Fake Route (NOT FOUND)</button>
+
+    <button id="btn-force-error" class="btn">Force Generic Error</button>
   </div>
-</header>
-
-<h3>My tickets</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Attachment</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td>13</td>
-      <td>User settings</td>
-      <td>My user settings are not working</td>
-      <td>&lt;img_543.png&gt;</td>
-      <td class="actions-container">
-        <button type="button" class="btn">✎</button>
-        <button type="button" class="btn">🗑️</button>
-      </td>
-    </tr>
-
-    <tr>
-      <td>532</td>
-      <td>KeyboardBroken</td>
-      <td>MyLaptopKeyboardSpaceKeyIsNotWorking</td>
-      <td>&lt;img_1124.png&gt;</td>
-      <td class="actions-container">
-        <button type="button" class="btn">✎</button>
-        <button type="button" class="btn">🗑️</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<!-- TEST ZONE -->
-<script type="module" src="js/test.js"></script>
-<div class="debug-error-buttons">
-  <button onclick="goTo('dashboard')">Dashboard (OK)</button>
-
-  <button onclick="goTo('adminPage')">Admin Page (NO PERMISSIONS)</button>
-
-  <button onclick="goTo('fakeRoute')">Fake Route (NOT FOUND)</button>
-
-  <button
-    onclick="window.location.href = '/error-page.html?type=NOT_AUTHENTICATED'"
-  >
-    Force NOT_AUTHENTICATED
-  </button>
-
-  <button
-    onclick="window.location.href = '/error-page.html?type=NO_PERMISSIONS'"
-  >
-    Force NO_PERMISSIONS
-  </button>
-
-  <button onclick="window.location.href = '/error-page.html?type=NOT_FOUND'">
-    Force NOT_FOUND</button
-  ><button onclick="window.location.href = '/error-page.html?type=ASDF'">
-    Force random error_code
-  </button>
 </div>
