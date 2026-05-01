@@ -1,0 +1,76 @@
+<div class="main-container">
+  <h3>Admin Panel</h3>
+
+  <!-- Users -->
+  <div class="table-container">
+    <table data-js="admin-panel-users-table" class="table">
+      <caption>
+        Users
+      </caption>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>User since</th>
+        </tr>
+      </thead>
+      <tbody data-js="admin-panel-users-tbody"></tbody>
+    </table>
+    <div class="table-actions">
+      <button data-js="admin-panel-btn-create-user" class="btn">
+        + Create user
+      </button>
+      <button data-js="admin-panel-btn-update-user" class="btn">
+        ✎ Update user
+      </button>
+      <button data-js="admin-panel-btn-delete-user" class="btn">
+        🗑️ Delete user
+      </button>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- Tickets -->
+  <div class="table-container">
+    <table data-js="admin-panel-tickets-table" class="table">
+      <caption>
+        Tickets
+      </caption>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Assigned to</th>
+          <th>Issued by</th>
+          <th>Issued at</th>
+          <th>Last modified at</th>
+        </tr>
+      </thead>
+      <tbody data-js="admin-panel-tickets-tbody"></tbody>
+    </table>
+  </div>
+
+  <hr />
+
+  <!-- Categories -->
+  <div class="table-container">
+    <table data-js="admin-panel-categories-table" class="table">
+      <caption>
+        Ticket categories
+      </caption>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody data-js="admin-panel-categories-tbody"></tbody>
+    </table>
+  </div>
+</div>
