@@ -35,7 +35,7 @@ async function goTo(routeKey) {
     return goTo("error");
   }
 
-  logger.info(`Accessing to route: ${routeKey}`, {
+  logger.info(`Enrouting to: ${routeKey}`, {
     route: routeKey,
     routeConfig,
   });

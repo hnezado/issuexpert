@@ -1,3 +1,4 @@
+import { registerController } from "../core/controller-registry.js";
 import { goTo } from "../core/router.js";
 
 /**
@@ -52,5 +53,7 @@ class DashboardController {
     this.isInitialized = false;
   }
 }
+
+registerController("dashboard", DashboardController);
 
 export default DashboardController;

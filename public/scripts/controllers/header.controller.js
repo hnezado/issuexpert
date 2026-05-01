@@ -3,6 +3,7 @@ import { fetchCurrentUser } from "../auth/user.js";
 import { logout } from "../auth/logout.js";
 import { ROLES } from "../config.js";
 import { logger } from "../core/logger.js";
+import { registerController } from "../core/controller-registry.js";
 
 /**
  * HeaderController (singleton)
@@ -64,7 +65,7 @@ class HeaderController {
     this.elements.adminBtn = {
       elem: this.rootElem.querySelector('[data-js="header-btn-admin"]'),
       eventType: "click",
-      handler: () => goTo("adminPanel"),
+      handler: () => goTo("admin-panel"),
     };
     this.elements.logoutBtn = {
       elem: this.rootElem.querySelector('[data-js="header-btn-logout"]'),
@@ -193,5 +194,7 @@ class HeaderController {
     return role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
   }
 }
+
+registerController("header", HeaderController);
 
 export default HeaderController;
