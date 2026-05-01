@@ -1,57 +1,8 @@
 @use "main" as *;
 
-header {
-  display: flex;
-  justify-content: space-between;
-
-  .header-header {
-    img {
-      width: 32px;
-    }
-  }
-
-  .header-nav {
-    ul {
-      display: flex;
-      list-style: none;
-
-      li {
-        a {
-          text-decoration: none;
-        }
-      }
-    }
-  }
-
-  .user-info {
-    display: flex;
-    align-items: center;
-
-    .user-avatar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: blue;
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      user-select: none;
-    }
-
-    .user-details {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 10px 20px;
-
-      .user-email {
-        font-size: 0.8rem;
-        color: grey;
-      }
-    }
+.dashboard {
+  &-container {
+    padding: 20px;
   }
 }
 

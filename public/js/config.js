@@ -38,12 +38,13 @@ const ROUTES = {
     url: "/dashboard",
     requireAuth: true,
     // views: ["header", "tickets-table", "footer"],
-    views: ["dashboard"],
+    views: ["header", "dashboard"],
   },
   adminPage: {
     url: "/admin-page",
     requireAuth: true,
     allowedRoles: [1],
+    views: ["header"],
   },
 };
 

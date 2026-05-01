@@ -1,6 +1,6 @@
 @use "main" as *;
 
-body {
+#login-view-container {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -10,8 +10,8 @@ body {
 form {
   background: #fff;
   padding: 2rem;
-  border-radius: $radius;
-  box-shadow: $shadow;
+  border-radius: $radius-sm;
+  box-shadow: $shadow-sm;
   width: 300px;
 
   h2 {

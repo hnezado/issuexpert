@@ -1,9 +1,11 @@
 import DashboardController from "../controllers/dashboard.controller.js";
 import ErrorController from "../controllers/error.controller.js";
+import HeaderController from "../controllers/header.controller.js";
 import LoginController from "../controllers/login.controller.js";
 
 const controllersMap = {
   login: LoginController,
+  header: HeaderController,
   dashboard: DashboardController,
   error: ErrorController,
 };
@@ -33,7 +35,6 @@ async function render(viewKeys) {
   app.innerHTML = html;
 
   // Load CSS
-  console.log("initializing css");
   for (const viewKey of viewKeys) {
     // Avoid duplicates (unique id)
     const cssId = `view-css-${viewKey}`;

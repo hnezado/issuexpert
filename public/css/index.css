@@ -1,5 +1,11 @@
+body {
+  width: 100%;
+}
+
 #app {
-  min-height: 1vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /*# sourceMappingURL=index.css.map */

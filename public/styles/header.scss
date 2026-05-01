@@ -1,0 +1,78 @@
+@use "main" as *;
+
+.header {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+
+  padding-right: 20px;
+
+  background-color: $border-color;
+  border-bottom: 1px solid $bg-color;
+  box-shadow: $shadow-sm;
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    // gap: $spacing-sm;
+
+    background-color: $border-color;
+
+    cursor: pointer;
+    user-select: none;
+
+    &-img {
+      max-height: 70px;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    &-title {
+      padding: 0 10px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      user-select: none;
+    }
+  }
+
+  &-user {
+    display: flex;
+    align-items: center;
+    &-avatar {
+      &-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: $primary-hover;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        user-select: none;
+      }
+    }
+
+    &-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px 20px;
+
+      &-email {
+        font-size: 0.8rem;
+        color: grey;
+      }
+
+      &-role {
+        display: flex;
+        align-items: baseline;
+        &-content {
+          font-size: 0.9rem;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
