@@ -1,14 +1,5 @@
-import DashboardController from "../controllers/dashboard.controller.js";
-import ErrorController from "../controllers/error.controller.js";
-import HeaderController from "../controllers/header.controller.js";
-import LoginController from "../controllers/login.controller.js";
-
-const controllersMap = {
-  login: LoginController,
-  header: HeaderController,
-  dashboard: DashboardController,
-  error: ErrorController,
-};
+import { getController } from "./controller-registry.js";
+import { logger } from "./logger.js";
 
 /**
  * Renders views and initializes their controllers
@@ -31,7 +22,6 @@ async function render(viewKeys) {
   }
 
   // Mount full view
-  console.log("renderizando html");
   app.innerHTML = html;
 
   // Load CSS
@@ -46,18 +36,31 @@ async function render(viewKeys) {
     link.href = `/css/${viewKey}.css`;
     link.id = cssId;
 
-    console.log("link: ", link);
-
     document.head.appendChild(link);
   }
 
-  // Initialize controllers
-  console.log("inizializando controladores");
+  // Register controllers
   for (const viewKey of viewKeys) {
-    const Controller = controllersMap[viewKey];
-    if (!Controller) continue;
+    try {
+      await import(`../controllers/${viewKey}.controller.js`);
+    } catch (err) {
+      console.warn("No controller for view:", viewKey);
+    }
+  }
 
-    const controllerInstance = Controller.getInstance();
+  // Initialize controllers
+  for (const viewKey of viewKeys) {
+    const Controller = getController(viewKey);
+    let controllerInstance;
+
+    if (Controller) {
+      controllerInstance = Controller.getInstance();
+    } else {
+      logger.warn("Render: missing controller", {
+        viewKey,
+      });
+      continue;
+    }
 
     try {
       await controllerInstance.init(app);
