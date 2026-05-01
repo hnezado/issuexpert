@@ -6,7 +6,8 @@
 }
 
 body {
-  background-color: #f4f6f8;
+  font-family: "Roboto", sans-serif;
+  color: #333;
 }
 
 .actions-container {
@@ -24,14 +25,60 @@ body {
   height: fit-content;
   padding: 5px 10px;
   border-radius: 8px;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   user-select: none;
+  cursor: pointer;
   transition: 0.6s;
 }
 .btn:hover {
   background-color: #007bff;
-  box-shadow: 0px 0px 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.btn:hover .btn-anim-content-grow-sm {
+  transform: scale(1.05);
+}
+.btn:hover .btn-anim-content-grow-md {
+  transform: scale(1.2);
+}
+.btn:hover .btn-anim-letter-spacing {
+  letter-spacing: 1.2px;
+}
+.btn-clean {
+  border: none;
+  background-color: transparent;
+  user-select: none;
+  cursor: pointer;
+}
+.btn.btn-sm {
+  font-size: 0.8rem;
+  padding: 1px;
+}
+.btn.btn-lg {
+  font-size: 1.5rem;
+  padding: 0 5px 5px 5px;
+}
+.btn-anim-content-rotate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.4s ease;
+  transform-origin: center;
+}
+.btn-anim-content-rotate:hover {
+  transform: rotate(270deg);
+}
+.btn-anim-content-rotate:not(:hover) {
+  transform: rotate(0deg);
+}
+.btn-anim-content-grow-sm, .btn-anim-content-grow-md {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+.btn-anim-letter-spacing {
+  display: inline-block;
+  transition: letter-spacing 0.2s ease;
 }
 
 .error-container {
@@ -66,7 +113,7 @@ body {
 }
 .error-container__button {
   padding: 10px 16px;
-  border-radius: 10px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
   font-size: 14px;
@@ -84,7 +131,7 @@ body {
   color: #0056b3;
 }
 .error-container__button--secondary:hover {
-  background: whitesmoke;
+  background: #ffffff;
 }
 
 /*# sourceMappingURL=error.css.map */
