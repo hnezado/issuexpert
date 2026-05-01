@@ -112,46 +112,8 @@ body {
   transition: letter-spacing 0.2s ease;
 }
 
-#login-view-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.row-inactive {
+  opacity: 0.3;
 }
 
-form {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  width: 300px;
-}
-form h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #333;
-}
-form input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
-}
-form input:focus {
-  border-color: #0056b3;
-  outline: none;
-}
-form button {
-  width: 100%;
-  padding: 10px;
-  background-color: #0056b3;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-form button:hover {
-  background-color: #007bff;
-}
-
-/*# sourceMappingURL=login.css.map */
+/*# sourceMappingURL=admin-panel.css.map */

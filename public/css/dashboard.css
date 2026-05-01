@@ -10,6 +10,37 @@ body {
   color: #333;
 }
 
+.main-container {
+  padding: 24px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.table td,
+.table th {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #333;
+}
+.table th {
+  color: #ffffff;
+  font-weight: 600;
+  background: #666;
+}
+.table td {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.table-actions {
+  display: flex;
+  justify-content: space-evenly;
+}
+.table tr:hover {
+  background: lightblue;
+}
+
 .actions-container {
   display: flex;
   justify-content: space-evenly;
@@ -79,29 +110,6 @@ body {
 .btn-anim-letter-spacing {
   display: inline-block;
   transition: letter-spacing 0.2s ease;
-}
-
-.dashboard-container {
-  padding: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-table th,
-table td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid lightgray;
-}
-table th {
-  font-weight: 600;
-  background: lightskyblue;
-}
-table tr:hover {
-  background: lightblue;
 }
 
 .debug-error-buttons {

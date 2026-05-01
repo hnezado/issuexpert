@@ -37,6 +37,41 @@ body {
   color: $text-color;
 }
 
+.main-container {
+  padding: $spacing-lg;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+
+  td,
+  th {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid $text-color;
+  }
+  th {
+    color: $surface-color;
+    font-weight: 600;
+    background: $text-muted;
+  }
+
+  td {
+    background-color: $border-color;
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  tr:hover {
+    background: lightblue;
+  }
+}
+
 .actions-container {
   display: flex;
   justify-content: space-evenly;

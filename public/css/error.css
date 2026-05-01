@@ -10,6 +10,37 @@ body {
   color: #333;
 }
 
+.main-container {
+  padding: 24px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.table td,
+.table th {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #333;
+}
+.table th {
+  color: #ffffff;
+  font-weight: 600;
+  background: #666;
+}
+.table td {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.table-actions {
+  display: flex;
+  justify-content: space-evenly;
+}
+.table tr:hover {
+  background: lightblue;
+}
+
 .actions-container {
   display: flex;
   justify-content: space-evenly;
@@ -89,7 +120,6 @@ body {
   min-height: 100vh;
   text-align: center;
   gap: 12px;
-  padding: 20px;
 }
 .error-container__icon {
   font-size: 64px;
