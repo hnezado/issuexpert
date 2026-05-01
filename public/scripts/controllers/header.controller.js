@@ -56,10 +56,15 @@ class HeaderController {
       return;
     }
 
+    this.elements.logo = {
+      elem: this.rootElem.querySelector('[data-js="header-logo"]'),
+      eventType: "click",
+      handler: () => goTo("dashboard"),
+    };
     this.elements.adminBtn = {
       elem: this.rootElem.querySelector('[data-js="header-btn-admin"]'),
       eventType: "click",
-      handler: () => goTo("admin"),
+      handler: () => goTo("adminPanel"),
     };
     this.elements.logoutBtn = {
       elem: this.rootElem.querySelector('[data-js="header-btn-logout"]'),
