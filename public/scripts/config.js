@@ -40,11 +40,11 @@ const ROUTES = {
     // views: ["header", "tickets-table", "footer"],
     views: ["header", "dashboard"],
   },
-  adminPage: {
-    url: "/admin-page",
+  adminPanel: {
+    url: "/admin-panel",
     requireAuth: true,
     allowedRoles: [1],
-    views: ["header"],
+    views: ["header", "admin-panel"],
   },
 };
 
