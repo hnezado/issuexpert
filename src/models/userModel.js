@@ -2,7 +2,7 @@ import db from "../config/db.js";
 
 async function getAllUsers() {
   const [rows] = await db.query(
-    "SELECT id, username, email, role_id FROM Users",
+    "SELECT id, username, email, role_id, created_at, active FROM Users",
   );
   return rows;
 }

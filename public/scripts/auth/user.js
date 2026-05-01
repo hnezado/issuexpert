@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "../config.js";
+import { logger } from "../core/logger.js";
 
 let cachedUser = null;
 
@@ -26,7 +27,7 @@ async function fetchCurrentUser() {
     });
 
     if (!res.ok) {
-      console.error("Error retrieving user data");
+      logger.error("Error retrieving user data");
       return null;
     }
 
@@ -37,7 +38,7 @@ async function fetchCurrentUser() {
 
     return cachedUser;
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return null;
   }
 }
