@@ -10,7 +10,7 @@ issuexpert/
 │
 ├─ public/					# Frontend estático
 │  ├─ assets/				# Imágenes, contenido multimedia
-│  ├─ js/
+│  ├─ scripts/
 │  │  ├─ auth/				# Scripts de autentificación
 │  │  ├─ <...>.js			# Scripts específicos de cada página
 │  │  ├─ config.js			# Configuración del frontend (constantes)
