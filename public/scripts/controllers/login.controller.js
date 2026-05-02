@@ -9,6 +9,7 @@ import { goTo } from "../core/router.js";
 class LoginController {
   static instance = null;
 
+  // Singleton getter
   static getInstance() {
     if (!LoginController.instance) {
       LoginController.instance = new LoginController();
@@ -17,12 +18,8 @@ class LoginController {
   }
 
   constructor() {
-    if (LoginController.instance) return LoginController.instance;
-
     this.form = null;
-    this.onSubmit = this.handleSubmit.bind(this);
-
-    LoginController.instance = this;
+    this.onSubmit = (event) => this.handleSubmit(event);
   }
 
   init(rootElem) {

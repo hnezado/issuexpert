@@ -12,15 +12,11 @@ class ErrorController {
   }
 
   constructor() {
-    if (ErrorController.instance) return ErrorController.instance;
-
     this.backBtn = null;
-
     this.isInitialized = false;
 
+    // Event listener handlers (used for removeEventListener in destroy)
     this.onBackBtnClick = () => goTo("dashboard");
-
-    ErrorController.instance = this;
   }
 
   init(rootElem) {

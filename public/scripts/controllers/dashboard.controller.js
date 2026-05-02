@@ -16,16 +16,11 @@ class DashboardController {
   }
 
   constructor() {
-    if (DashboardController.instance) return DashboardController.instance;
-
     this.errorBtn = null;
-
     this.isInitialized = false;
 
     // Event listener handlers (used for removeEventListener in destroy)
     this.onErrorBtnClick = () => goTo("error");
-
-    DashboardController.instance = this;
   }
 
   async init(rootElem) {

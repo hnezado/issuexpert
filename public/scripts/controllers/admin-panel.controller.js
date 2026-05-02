@@ -21,16 +21,10 @@ class AdminPanelController {
   }
 
   constructor() {
-    if (AdminPanelController.instance) return AdminPanelController.instance;
-
     this.currentUser = null;
     this.users = [];
-
     this.elements = {};
-
     this.isInitialized = false;
-
-    AdminPanelController.instance = this;
   }
 
   async init(rootElem) {
@@ -199,8 +193,8 @@ class AdminPanelController {
     logger.info("Create user clicked");
   }
 
-  editUser(id) {
-    logger.info("Edit user", { id });
+  updateUser(id) {
+    logger.info("Update user", { id });
   }
 
   deleteUser(id) {

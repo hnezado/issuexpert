@@ -21,14 +21,9 @@ class HeaderController {
   }
 
   constructor() {
-    if (HeaderController.instance) return HeaderController.instance;
-
     this.currentUser = null;
     this.elements = {};
-
     this.isInitialized = false;
-
-    HeaderController.instance = this;
   }
 
   async init(rootElem) {
