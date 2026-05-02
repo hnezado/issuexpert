@@ -1,0 +1,153 @@
+@use "../styles/main.scss" as *;
+
+#modal-view-container {
+  @include full-overlay;
+  z-index: 2000;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  @include full-overlay;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-overlay {
+    @include full-overlay;
+    background: $overlay;
+  }
+
+  &-content {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+
+    background: $modal-bg;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-lg;
+
+    overflow: hidden;
+    animation: modalIn 0.2s ease-out;
+  }
+
+  &-header {
+    @include flex-center;
+    position: relative;
+    padding: $spacing-md;
+    background: $modal-header;
+    border-bottom: 1px solid $modal-border;
+
+    &-title {
+      @include flex-center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: $text;
+      width: 100%;
+    }
+
+    &-close {
+      @include flex-center;
+      position: absolute;
+      right: $spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+
+      font-size: 1.2rem;
+      // line-height: 1;
+      color: $text-muted;
+
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        color: $danger;
+      }
+    }
+  }
+
+  &-body {
+    @include flex-center;
+    margin-bottom: $spacing-md;
+    padding: $spacing-lg;
+    color: $text;
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-sm;
+
+    padding: $spacing-md;
+    border-top: 1px solid $modal-border;
+    background: $surface;
+  }
+}
+
+// =========================
+// Modal Form System
+// =========================
+
+.modal-body {
+  padding: $spacing-md;
+}
+
+// Base form container (optional wrapper)
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  &-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: $text;
+    user-select: none;
+  }
+
+  &-input,
+  &-select,
+  &-textarea {
+    width: 100%;
+    padding: $spacing-sm;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    background: $surface;
+    color: $text;
+    font-size: 0.9rem;
+    transition: 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 2px rgba($primary, 0.2);
+    }
+
+    &:hover {
+      border-color: $border-hover;
+    }
+  }
+
+  &-select {
+    cursor: pointer;
+  }
+
+  &-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+}
+
+// Animations
+@keyframes modalIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

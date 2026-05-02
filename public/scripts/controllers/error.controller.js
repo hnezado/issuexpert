@@ -1,3 +1,4 @@
+import { registerController } from "../core/controller-registry.js";
 import { goTo } from "../core/router.js";
 
 class ErrorController {
@@ -43,5 +44,7 @@ class ErrorController {
     this.isInitialized = false;
   }
 }
+
+registerController("error", ErrorController);
 
 export default ErrorController;

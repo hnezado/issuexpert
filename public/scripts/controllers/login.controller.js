@@ -1,5 +1,6 @@
 import { fetchCurrentUser, clearCurrentUser } from "../auth/user.js";
 import { API_BASE_URL } from "../config.js";
+import { registerController } from "../core/controller-registry.js";
 import { goTo } from "../core/router.js";
 
 /**
@@ -71,5 +72,7 @@ class LoginController {
     this.rootElem = null;
   }
 }
+
+registerController("login", LoginController);
 
 export default LoginController;

@@ -2,7 +2,10 @@ import { API_BASE_URL, ROLES } from "../config.js";
 import { goTo } from "../core/router.js";
 import { fetchCurrentUser } from "../auth/user.js";
 import { logger } from "../core/logger.js";
-import { registerController } from "../core/controller-registry.js";
+import {
+  getController,
+  registerController,
+} from "../core/controller-registry.js";
 import { formatDate } from "../../utils/date.js";
 
 /**
@@ -191,6 +194,40 @@ class AdminPanelController {
 
   createUser() {
     logger.info("Create user clicked");
+    const modal = getController("modal").getInstance();
+
+    modal.open({
+      title: "New user",
+      content: `
+        <div class="form">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input data-js="new-user-username" class="form-input">
+          </div>
+          <div class="form-groups">
+            <label class="form-label">Email</label>
+            <input data-js="new-user-email" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input data-js="new-user-password" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Role</label>
+            <select data-js="new-user-role" class="form-select">
+              <option value="1">Admin</option>
+              <option value="2">Technician</option>
+              <option value="3">User</option>
+            </select>
+          </div>
+        </div>
+      `,
+      footer: "This is the footer",
+    });
   }
 
   updateUser(id) {

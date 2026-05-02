@@ -4,6 +4,7 @@ import { goTo } from "./core/router.js";
 
 // Index redirections
 async function init() {
+  await loadModal();
   const authToken = localStorage.getItem("auth_token");
 
   if (!authToken) {
@@ -13,6 +14,21 @@ async function init() {
     // User is authenticated > verify token with backend
     await verifyAuthToken(authToken);
   }
+}
+
+// Load global modal once
+async function loadModal() {
+  const res = await fetch("/views/modal.view.html");
+  const html = await res.text();
+
+  document.getElementById("modal").innerHTML = html;
+
+  // Import modal container AFTER injecting HTML
+  const ModalController = (await import("./controllers/modal.controller.js"))
+    .default;
+  const modalInstance = ModalController.getInstance();
+  const modalRoot = document.querySelector("#modal");
+  modalInstance.init(modalRoot);
 }
 
 async function verifyAuthToken(authToken) {
