@@ -1,157 +1,17 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+/* Error: Undefined variable.
+ *    ,
+ * 32 |       border-color: $primary-color;
+ *    |                     ^^^^^^^^^^^^^^
+ *    '
+ *   public\styles\login.scss 32:21  root stylesheet */
 
-body {
-  font-family: "Roboto", sans-serif;
-  color: #333;
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined variable.\a    \2577 \a 32 \2502        border-color: $primary-color;\d\a    \2502                      ^^^^^^^^^^^^^^\a    \2575 \a   public\\styles\\login.scss 32:21  root stylesheet";
 }
-
-.main-container {
-  padding: 24px;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-.table td,
-.table th {
-  padding: 8px;
-  text-align: left;
-  border: 1px solid #333;
-}
-.table th {
-  color: #ffffff;
-  font-weight: 600;
-  background: #666;
-}
-.table td {
-  background-color: rgba(0, 0, 0, 0.08);
-}
-.table-actions {
-  display: flex;
-  justify-content: space-evenly;
-}
-.table tr:hover {
-  background: lightblue;
-}
-
-.actions-container {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #f4f6f8;
-  background-color: #0056b3;
-  height: fit-content;
-  padding: 5px 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  user-select: none;
-  cursor: pointer;
-  transition: 0.6s;
-}
-.btn:hover {
-  background-color: #007bff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-.btn:hover .btn-anim-content-grow-sm {
-  transform: scale(1.05);
-}
-.btn:hover .btn-anim-content-grow-md {
-  transform: scale(1.2);
-}
-.btn:hover .btn-anim-letter-spacing {
-  letter-spacing: 1.2px;
-}
-.btn-clean {
-  border: none;
-  background-color: transparent;
-  user-select: none;
-  cursor: pointer;
-}
-.btn.btn-sm {
-  font-size: 0.8rem;
-  padding: 1px;
-}
-.btn.btn-lg {
-  font-size: 1.5rem;
-  padding: 0 5px 5px 5px;
-}
-.btn-anim-content-rotate {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  transition: transform 0.4s ease;
-  transform-origin: center;
-}
-.btn-anim-content-rotate:hover {
-  transform: rotate(270deg);
-}
-.btn-anim-content-rotate:not(:hover) {
-  transform: rotate(0deg);
-}
-.btn-anim-content-grow-sm, .btn-anim-content-grow-md {
-  display: inline-block;
-  transform-origin: center;
-  transition: transform 0.2s ease;
-}
-.btn-anim-letter-spacing {
-  display: inline-block;
-  transition: letter-spacing 0.2s ease;
-}
-
-#login-view-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-form {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  width: 300px;
-}
-form h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #333;
-}
-form input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 5px;
-}
-form input:focus {
-  border-color: #0056b3;
-  outline: none;
-}
-form button {
-  width: 100%;
-  padding: 10px;
-  background-color: #0056b3;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-form button:hover {
-  background-color: #007bff;
-}
-
-/*# sourceMappingURL=login.css.map */

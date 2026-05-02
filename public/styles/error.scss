@@ -7,7 +7,7 @@
   justify-content: center;
   min-height: 100vh;
   text-align: center;
-  gap: 12px;
+  gap: $spacing-sm;
 
   &__icon {
     font-size: 64px;
@@ -18,19 +18,20 @@
     font-size: 28px;
     margin: 0;
     font-weight: 600;
+    color: $text;
   }
 
   &__description {
     font-size: 16px;
-    color: $text-color;
+    color: $text-muted;
     max-width: 420px;
     line-height: 1.4;
   }
 
   &__actions {
     display: flex;
-    gap: 12px;
-    margin-top: 20px;
+    gap: $spacing-sm;
+    margin-top: $spacing-md;
   }
 
   &__button {
@@ -42,8 +43,8 @@
     transition: 0.2s ease;
 
     &--primary {
-      background: $primary-color;
-      color: $bg-color;
+      background: $primary;
+      color: $text-inverse;
 
       &:hover {
         background: $primary-hover;
@@ -51,11 +52,12 @@
     }
 
     &--secondary {
-      background: $bg-color;
-      color: $primary-color;
+      background: $surface;
+      color: $primary;
+      border: 1px solid $border;
 
       &:hover {
-        background: $surface-color;
+        background: $surface-hover;
       }
     }
   }

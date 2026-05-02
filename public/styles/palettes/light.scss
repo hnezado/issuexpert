@@ -1,0 +1,47 @@
+// =========================
+// LIGHT THEME - Colors
+// =========================
+
+// Background system (light mode)
+$bg: #f8fafc; // main app background
+$surface: #ffffff; // cards, panels, containers
+$surface-hover: #f1f5f9; // hover on cards/rows
+$surface-active: #e2e8f0; // selected/active containers
+
+// Overlays (modals, dropdowns, dialogs)
+$overlay: rgba(15, 23, 42, 0.4); // backdrop for modals
+$modal-bg: #ffffff; // modal window background
+$modal-header: #f1f5f9; // modal header separation
+$modal-border: #e2e8f0; // modal borders
+
+// Text
+$text: #0f172a; // primary text
+$text-muted: #475569; // secondary text / placeholders
+$text-inverse: #f8fafc; // text on dark elements (badges, etc)
+
+// Primary actions
+$primary: #2563eb; // main buttons / links (slightly darker than dark mode)
+$primary-hover: #3b82f6; // hover state
+$primary-active: #1d4ed8; // active/pressed state
+
+// Status system (tickets)
+$success: #16a34a; // resolved / done
+$success-hover: #22c55e;
+$success-active: #15803d;
+
+$warning: #d97706; // pending / attention
+$warning-hover: #f59e0b;
+$warning-active: #b45309;
+
+$danger: #dc2626; // blocked / error
+$danger-hover: #ef4444;
+$danger-active: #b91c1c;
+
+$info: #0891b2; // informational
+$info-hover: #06b6d4;
+$info-active: #0e7490;
+
+// Borders & separators
+$border: #e2e8f0; // default borders
+$border-hover: #cbd5e1; // hover/focus borders
+$divider: #f1f5f9; // section separators

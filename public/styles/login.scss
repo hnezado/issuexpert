@@ -2,47 +2,35 @@
 
 #login-view-container {
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
+  background-color: $bg;
 }
 
 form {
-  background: #fff;
-  padding: 2rem;
+  background: $surface;
+  padding: $spacing-lg;
   border-radius: $radius-sm;
   box-shadow: $shadow-sm;
   width: 300px;
 
   h2 {
     text-align: center;
-    margin-bottom: 1rem;
-    color: $text-color;
+    margin-bottom: $spacing-md;
+    color: $text;
   }
 
   input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 1rem;
-    border: 1px solid $border-color;
-    border-radius: 5px;
+    margin-bottom: $spacing-md;
+    background-color: $surface;
+    color: $text;
+    border: 1px solid $border;
+    border-radius: $spacing-sm;
 
     &:focus {
       border-color: $primary-color;
       outline: none;
-    }
-  }
-
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: $primary-color;
-    color: white;
-    border: none;
-    border-radius: 5px;
-
-    &:hover {
-      background-color: $primary-hover;
     }
   }
 }
