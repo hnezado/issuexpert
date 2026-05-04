@@ -65,7 +65,7 @@ async function render(viewKeys) {
     try {
       await controllerInstance.init(app);
     } catch (err) {
-      loggin.error("Render: error initializing controllers.", { viewKey, err });
+      logger.error("Render: error initializing controllers.", { viewKey, err });
     }
   }
 }

@@ -2,12 +2,6 @@
 const ENV = "dev";
 const API_BASE_URL = window.location.origin + "/api";
 
-const ROLES = {
-  1: "admin",
-  2: "technician",
-  3: "user",
-};
-
 const ERROR_CODES = {
   NOT_FOUND: "NOT_FOUND",
   NOT_AUTHENTICATED: "NOT_AUTHENTICATED",
@@ -48,4 +42,4 @@ const ROUTES = {
   },
 };
 
-export { ENV, API_BASE_URL, ROLES, ERROR_CODES, ROUTES };
+export { ENV, API_BASE_URL, ERROR_CODES, ROUTES };
