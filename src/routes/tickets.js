@@ -5,7 +5,7 @@ import * as ticketController from "../controllers/ticketController.js";
 
 const router = express.Router();
 
-// Only admin and technicians roles are able to see all tickets
+// Only admins and technicians are able to get all the tickets
 router.get(
   "/",
   authMiddleware,
@@ -13,32 +13,36 @@ router.get(
   ticketController.getAllTickets,
 );
 
-router.post("/new", authMiddleware, ticketController.createTicket);
+// Anyone authenticated can obtain their created tickets
+router.get("/me", authMiddleware, ticketController.getMyTickets);
 
-// Only admin and technicians roles are able to assign tickets
-router.put(
-  "/assign",
+// Only technicians can obtain their assigned tickets
+router.get(
+  "/me/assigned",
+  authMiddleware,
+  roleMiddleware([2]),
+  ticketController.getAssignedTickets,
+);
+
+// Only admins and technicians are able to assign tickets
+router.patch(
+  "/:id/assign",
   authMiddleware,
   roleMiddleware([1, 2]),
   ticketController.assignTicket,
 );
 
-// Only admin and technicians roles are able to assign tickets
-router.put(
-  "/status",
+// Only admins and technicians are able to modify tickets statuses
+router.patch(
+  "/:id/status",
   authMiddleware,
   roleMiddleware([1, 2]),
   ticketController.updateStatus,
 );
 
-router.get("/my-tickets", authMiddleware, ticketController.getMyTickets);
-
-// Only technicians
-router.get(
-  "/assigned",
-  authMiddleware,
-  roleMiddleware([2]),
-  ticketController.getAssignedTickets,
-);
+// Anyone authenticated can manage their tickets
+router.post("/", authMiddleware, ticketController.createTicket);
+router.patch("/:id", authMiddleware, ticketController.updateTicket);
+router.delete("/:id", authMiddleware, ticketController.deleteTicket);
 
 export default router;

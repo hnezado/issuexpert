@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
 
-import userRoutes from "./routes/users.js";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
 import ticketRoutes from "./routes/tickets.js";
+import categoryRoutes from "./routes/categories.js";
 import messageRoutes from "./routes/messages.js";
 
 import path from "path";
@@ -21,9 +22,10 @@ app.use(express.static("public"));
 // =======================
 // API ROUTES
 // =======================
-app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/categories", categoryRoutes);
 app.use("/api/messages", messageRoutes);
 
 // Health check
