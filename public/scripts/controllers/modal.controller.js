@@ -17,8 +17,15 @@ class ModalController {
   }
 
   constructor() {
+    // Root container element where this controller is mounted
     this.rootElem = null;
+
+    // DOM elements used by the controller
     this.elements = {};
+
+    // Dynamic actions for modal buttons
+    this.actions = {};
+
     this.isOpen = false;
   }
 
@@ -80,14 +87,30 @@ class ModalController {
       .forEach((e) => {
         e.elem.addEventListener(e.eventType, e.handler);
       });
+
+    // Handles modal button actions via data-action
+    this.rootElem.addEventListener("click", (e) => {
+      const action = e.target.dataset.action;
+      if (!action) return;
+      const handler = this.actions?.[action];
+      if (handler) handler();
+    });
   }
 
+  destroy() {
+    Object.values(this.elements)
+      .filter((e) => e.elem && e.eventType && e.handler)
+      .forEach((e) => {
+        e.elem.removeEventListener(e.eventType, e.handler);
+      });
+
+    this.rootElem = null;
+    this.elements = {};
+    this.isOpen = false;
+  }
   // Allows partial params ({title: "Modal"})
   // Default object ({}) prevents undefined errors
-  open({ title = "", content = "", footer = "" } = {}) {
-    console.log("title: ", title);
-    console.log("content: ", content);
-    console.log("footer: ", footer);
+  open({ title = "", content = "", footer = "", actions = {} } = {}) {
     if (!this.elements.modalContainer?.elem) return;
 
     if (this.elements.title?.elem) {
@@ -101,6 +124,8 @@ class ModalController {
     if (this.elements.footer?.elem) {
       this.elements.footer.elem.innerHTML = footer;
     }
+
+    this.actions = actions;
 
     this.elements.modalContainer.elem.classList.remove("hidden");
     this.isOpen = true;
@@ -118,16 +143,22 @@ class ModalController {
     this.isOpen = false;
   }
 
-  destroy() {
-    Object.values(this.elements)
-      .filter((e) => e.elem && e.eventType && e.handler)
-      .forEach((e) => {
-        e.elem.removeEventListener(e.eventType, e.handler);
-      });
+  // Extract all form values inside the modal
+  getFormData() {
+    const inputs = this.rootElem.querySelectorAll("input, select, textarea");
+    const data = {};
 
-    this.rootElem = null;
-    this.elements = {};
-    this.isOpen = false;
+    inputs.forEach((input) => {
+      // Only extract the checked one
+      if (input.type === "radio" && !input.checked) return;
+
+      const key = input.dataset.js;
+      if (!key) return;
+
+      data[key] = input.value;
+    });
+
+    return data;
   }
 }
 
