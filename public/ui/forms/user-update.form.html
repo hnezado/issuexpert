@@ -1,0 +1,72 @@
+<div class="modal-form">
+  <div class="modal-form-group">
+    <label for="modal-user-username" class="modal-form-label">Username</label>
+    <input
+      placeholder="John Doe"
+      id="modal-user-username"
+      data-js="modal-user-update-username"
+      class="modal-form-input"
+      disabled
+    />
+  </div>
+  <div class="modal-form-group">
+    <label for="modal-user-email" class="modal-form-label">Email</label>
+    <input
+      type="email"
+      placeholder="john.doe@issuexpert.com"
+      id="modal-user-email"
+      data-js="modal-user-update-email"
+      class="modal-form-input"
+      required
+    />
+  </div>
+  <!-- <div class="modal-form-group">
+    <label for="modal-user-role" class="modal-form-label">Role</label>
+    <select
+      id="modal-user-role"
+      data-js="modal-user-update-role"
+      class="modal-form-select"
+      required
+    >
+      <option value="1">Admin</option>
+      <option value="2">Technician</option>
+      <option value="3" selected>User</option>
+    </select>
+  </div> -->
+  <div class="modal-form-group">
+    <label class="modal-form-label">Role</label>
+
+    <div class="modal-form-radio-container">
+      <label>
+        <input
+          type="radio"
+          name="role"
+          value="1"
+          data-js="modal-user-update-role"
+        />
+        Admin
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="role"
+          value="2"
+          data-js="modal-user-update-role"
+        />
+        Technician
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="role"
+          value="3"
+          data-js="modal-user-update-role"
+          checked
+        />
+        User
+      </label>
+    </div>
+  </div>
+</div>
