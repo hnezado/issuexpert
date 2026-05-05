@@ -19,7 +19,7 @@
     user-select: none;
 
     &-img {
-      max-height: 70px;
+      max-height: 80px;
       height: 100%;
       object-fit: contain;
     }
@@ -78,7 +78,8 @@
     }
 
     &-details {
-      @include flex(column, space-between);
+      @include flex(column, space-between, flex-start);
+      gap: 5px;
       padding: $spacing-sm $spacing-md;
 
       &-email {

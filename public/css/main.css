@@ -168,7 +168,7 @@ body.modal-open {
 }
 .btn.btn-lg {
   font-size: 1.5rem;
-  padding: 0 5px 5px 5px;
+  padding: 5px;
 }
 .btn.btn-lg span {
   color: #f8fafc;
@@ -191,6 +191,13 @@ body.modal-open {
   display: inline-block;
   transform-origin: center;
   transition: transform 0.2s ease;
+}
+.btn-anim-content-grow-sm .icon, .btn-anim-content-grow-md .icon {
+  color: #f8fafc;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: block;
 }
 .btn-anim-letter-spacing {
   display: inline-block;

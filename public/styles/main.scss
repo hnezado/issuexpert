@@ -202,7 +202,8 @@ body.modal-open {
 
   &.btn-lg {
     font-size: $size-lg;
-    padding: 0 $spacing-xs $spacing-xs $spacing-xs;
+    // padding: 0 $spacing-xs $spacing-xs $spacing-xs;
+    padding: $spacing-xs;
 
     & span {
       color: $text-inverse;
@@ -232,6 +233,14 @@ body.modal-open {
         display: inline-block;
         transform-origin: center;
         transition: transform 0.2s ease;
+
+        .icon {
+          color: $text-inverse;
+          width: 24px;
+          height: 24px;
+          flex-shrink: 0;
+          display: block;
+        }
       }
     }
 
