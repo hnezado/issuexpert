@@ -1,4 +1,4 @@
-@use "../styles/main.scss" as *;
+@use "core" as *;
 
 #modal-view-container {
   @include full-overlay;
@@ -34,7 +34,7 @@
   }
 
   &-header {
-    @include flex-center;
+    @include flex(row);
     position: relative;
     padding: $spacing-md;
     background: $modal-header;
@@ -42,15 +42,13 @@
     user-select: none;
 
     &-title {
-      @include flex-center;
       font-size: 1.1rem;
       font-weight: 600;
       color: $text;
-      width: 100%;
     }
 
     &-close {
-      @include flex-center;
+      @include flex();
       position: absolute;
       right: $spacing-md;
       top: 50%;
@@ -69,17 +67,31 @@
   }
 
   &-body {
-    @include flex-center;
-    padding: $spacing-xl $spacing-lg;
+    @include flex();
+    padding: $spacing-xl $spacing-xl * 3;
     color: $text;
     user-select: none;
+
+    &-user {
+      @include flex(column);
+      gap: $spacing-sm;
+      font-size: $size-sm;
+      &-email {
+        color: $text-muted;
+      }
+    }
   }
 
   &-form {
     display: flex;
     flex-direction: column;
-    // gap: $spacing-md;
+    gap: $spacing-md;
     cursor: default;
+
+    &-group {
+      @include flex(column);
+      gap: $spacing-xs;
+    }
 
     &-label {
       font-size: 0.9rem;
@@ -92,7 +104,7 @@
     &-textarea {
       width: 100%;
       padding: $spacing-sm;
-      margin: 5px 0 10px 0;
+      // margin: 5px 0 10px 0;
       border: 1px solid $border;
       border-radius: $radius-sm;
       background: $surface;

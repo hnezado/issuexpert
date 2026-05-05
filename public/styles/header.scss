@@ -1,22 +1,20 @@
-@use "main" as *;
+@use "core" as *;
+
+#header-view-container {
+  width: 100%;
+}
 
 .header {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-
+  @include flex(row, space-between, stretch);
   padding-right: $spacing-md;
-
   background-color: $surface;
   border-bottom: 1px solid $border;
   box-shadow: $shadow-sm;
+  width: 100%;
 
   &-logo {
-    display: flex;
-    align-items: center;
-
-    background-color: $surface;
-
+    @include flex(row);
+    background-color: $surface-active;
     cursor: pointer;
     user-select: none;
 
@@ -32,16 +30,42 @@
       font-size: 1.2rem;
       user-select: none;
       color: $text;
+
+      &-container {
+        @include flex();
+        height: 100%;
+        position: relative;
+        z-index: 1;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 0%;
+          background-color: $surface-hover;
+          z-index: -1;
+          transition: width 0.25s ease;
+        }
+      }
+    }
+
+    &:hover {
+      transition: background-color 0.5s ease;
+
+      .header-logo-title-container::before {
+        width: 100%;
+      }
     }
   }
 
   &-user {
-    display: flex;
-    align-items: center;
+    @include flex(row, center, center);
 
     &-avatar {
       &-content {
-        @include flex-center;
+        @include flex();
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -54,9 +78,7 @@
     }
 
     &-details {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      @include flex(column, space-between);
       padding: $spacing-sm $spacing-md;
 
       &-email {
@@ -65,8 +87,7 @@
       }
 
       &-role {
-        display: flex;
-        align-items: baseline;
+        @include flex(row, center, baseline);
 
         &-content {
           font-size: 0.9rem;

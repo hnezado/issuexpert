@@ -1,6 +1,5 @@
-@use "main" as *;
+@use "core" as *;
 
-// inactive users visual
-.row-inactive {
-  opacity: 0.3;
+h2 {
+  @include flex();
 }

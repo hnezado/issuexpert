@@ -1,109 +1,4 @@
-// =========================
-// LIGHT THEME - Colors
-// =========================
-
-// Background system (light mode)
-$bg: #f8fafc; // main app background
-$surface: #ffffff; // cards, panels, containers
-$surface-hover: #f1f5f9; // hover on cards/rows
-$surface-active: #e2e8f0; // selected/active containers
-$surface-inactive: #ccd6e1; // inactive containers
-
-// Overlays (modals, dropdowns, dialogs)
-$overlay: rgba(15, 23, 42, 0.4); // backdrop for modals
-$modal-bg: #ffffff; // modal window background
-$modal-header: #f1f5f9; // modal header separation
-$modal-border: #e2e8f0; // modal borders
-
-// Text
-$text: #0f172a; // primary text
-$text-muted: #475569; // secondary text / placeholders
-$text-inverse: #f8fafc; // text on dark elements (badges, etc)
-
-// Primary actions
-$primary: #4579e9; // main buttons / links (slightly darker than dark mode)
-$primary-hover: #70a3f4; // hover state
-$primary-active: #5c7edb; // active/pressed state
-
-// Status system (tickets)
-$success: #16a34a; // resolved / done
-$success-hover: #22c55e;
-$success-active: #15803d;
-
-$warning: #d97706; // pending / attention
-$warning-hover: #f59e0b;
-$warning-active: #b45309;
-
-$danger: #dc2626; // blocked / error
-$danger-hover: #ef4444;
-$danger-active: #b91c1c;
-
-$info: #0891b2; // informational
-$info-hover: #06b6d4;
-$info-active: #0e7490;
-
-// Borders & separators
-$border: #e2e8f0; // default borders
-$border-hover: #cbd5e1; // hover/focus borders
-$divider: #f1f5f9; // section separators
-
-// Priorities
-$priority-low: #d1fae5;
-$priority-medium: #dbeafe;
-$priority-high: #fef3c7;
-$priority-critical: #fee2e2;
-
-// =========================
-// Font sizes
-// =========================
-$size-xs: 0.5rem;
-$size-sm: 0.8rem;
-$size-md: 1.2rem;
-$size-lg: 1.5rem;
-$size-xl: 1.8rem;
-
-// =========================
-// Shadows
-// =========================
-$shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
-$shadow-md: 0 4px 10px rgba(0, 0, 0, 0.2);
-$shadow-lg: 0 4px 14px rgba(0, 0, 0, 0.2);
-
-// =========================
-// Radius
-// =========================
-$radius-sm: 6px;
-$radius-md: 10px;
-$radius-lg: 14px;
-
-// =========================
-// Spacing
-// =========================
-$spacing-xs: 5px;
-$spacing-sm: 10px;
-$spacing-md: 16px;
-$spacing-lg: 20px;
-$spacing-xl: 24px;
-
-// =========================
-// Mixins
-// =========================
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin full-overlay {
-  position: fixed;
-  inset: 0;
-}
-
-@mixin overlay {
-  @include full-overlay;
-  background: $overlay;
-  z-index: 1000;
-}
+@use "core" as *;
 
 // =========================
 // Reset
@@ -119,10 +14,16 @@ $spacing-xl: 24px;
 body {
   background-color: $bg;
   color: $text;
+  width: 100%;
+}
+
+#app {
+  min-height: 100vh;
+  @include flex(column, flex-start);
 }
 
 // =========================
-// Base
+// Base view container
 // =========================
 .main-container {
   padding: $spacing-lg;
@@ -215,8 +116,7 @@ body.modal-open {
   }
 
   &-actions {
-    @include flex-center;
-    justify-content: space-evenly;
+    @include flex(row, space-evenly);
     padding: $spacing-sm 0;
     background: $surface-inactive;
     border: 1px solid $border;
@@ -224,17 +124,11 @@ body.modal-open {
 }
 
 .actions-container {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  @include flex(row, space-evenly);
 }
 
 .btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: $text-inverse;
-  background-color: $primary;
+  @include flex(row);
   height: fit-content;
   padding: $spacing-xs $spacing-sm;
   border-radius: $radius-md;
@@ -267,6 +161,16 @@ body.modal-open {
     cursor: not-allowed;
     pointer-events: none;
     box-shadow: none;
+  }
+
+  &-primary {
+    color: $text-inverse;
+    background-color: $primary;
+  }
+
+  &-secondary {
+    color: $primary;
+    background-color: $text-inverse;
   }
 
   &-wider {

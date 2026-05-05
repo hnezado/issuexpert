@@ -1,13 +1,12 @@
-@use "main" as *;
+@use "core" as *;
 
 .debug-error-buttons {
+  @include flex(column);
+  gap: $spacing-sm;
+
   position: fixed;
   bottom: 20px;
   left: 20px;
-
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-sm;
 
   z-index: 5555;
 }

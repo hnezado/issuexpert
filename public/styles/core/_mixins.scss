@@ -1,0 +1,22 @@
+@forward "variables";
+
+// =========================
+// Mixins
+// =========================
+@mixin flex($direction: row, $justify: center, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin full-overlay {
+  position: fixed;
+  inset: 0;
+}
+
+@mixin overlay {
+  @include full-overlay;
+  background: $overlay;
+  z-index: 1000;
+}
