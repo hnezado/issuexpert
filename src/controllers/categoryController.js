@@ -105,7 +105,33 @@ async function updateCategory(req, res) {
   }
 }
 
-async function deleteCategory() {}
+async function deleteCategory(req, res) {
+  try {
+    const id = Number(req.params.id);
+    const userRole = req.user.role_id;
+
+    if (!id) {
+      return res.status(400).json({ message: "Missing category id" });
+    }
+
+    // Only admin can delete
+    if (userRole !== 1) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    const result = await categoryModel.deleteCategory(id);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.status(200).json({
+      message: "Category deleted",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 export {
   getAllCategories,
