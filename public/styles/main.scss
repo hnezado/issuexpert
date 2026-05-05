@@ -7,6 +7,7 @@ $bg: #f8fafc; // main app background
 $surface: #ffffff; // cards, panels, containers
 $surface-hover: #f1f5f9; // hover on cards/rows
 $surface-active: #e2e8f0; // selected/active containers
+$surface-inactive: #ccd6e1; // inactive containers
 
 // Overlays (modals, dropdowns, dialogs)
 $overlay: rgba(15, 23, 42, 0.4); // backdrop for modals
@@ -20,9 +21,9 @@ $text-muted: #475569; // secondary text / placeholders
 $text-inverse: #f8fafc; // text on dark elements (badges, etc)
 
 // Primary actions
-$primary: #2563eb; // main buttons / links (slightly darker than dark mode)
-$primary-hover: #3b82f6; // hover state
-$primary-active: #1d4ed8; // active/pressed state
+$primary: #4579e9; // main buttons / links (slightly darker than dark mode)
+$primary-hover: #70a3f4; // hover state
+$primary-active: #5c7edb; // active/pressed state
 
 // Status system (tickets)
 $success: #16a34a; // resolved / done
@@ -46,6 +47,21 @@ $border: #e2e8f0; // default borders
 $border-hover: #cbd5e1; // hover/focus borders
 $divider: #f1f5f9; // section separators
 
+// Priorities
+$priority-low: #d1fae5;
+$priority-medium: #dbeafe;
+$priority-high: #fef3c7;
+$priority-critical: #fee2e2;
+
+// =========================
+// Font sizes
+// =========================
+$size-xs: 0.5rem;
+$size-sm: 0.8rem;
+$size-md: 1.2rem;
+$size-lg: 1.5rem;
+$size-xl: 1.8rem;
+
 // =========================
 // Shadows
 // =========================
@@ -63,9 +79,11 @@ $radius-lg: 14px;
 // =========================
 // Spacing
 // =========================
-$spacing-sm: 8px;
+$spacing-xs: 5px;
+$spacing-sm: 10px;
 $spacing-md: 16px;
-$spacing-lg: 24px;
+$spacing-lg: 20px;
+$spacing-xl: 24px;
 
 // =========================
 // Mixins
@@ -118,10 +136,20 @@ body.modal-open {
 // =========================
 // Table
 // =========================
+.table-container {
+  margin: $spacing-md;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: $spacing-sm;
+  user-select: none;
+
+  caption {
+    padding: $spacing-sm 0;
+    background: $surface-inactive;
+    border: 1px solid $border;
+  }
 
   td,
   th {
@@ -131,22 +159,67 @@ body.modal-open {
   }
 
   th {
+    font-size: $size-sm;
+    font-weight: 600;
     background: $surface-hover;
     color: $text;
-    font-weight: 600;
+  }
+
+  tr {
+    cursor: pointer;
+
+    &.inactive {
+      td {
+        opacity: 0.3;
+      }
+    }
+
+    &.selected {
+      td {
+        background-color: $primary;
+        color: $text-inverse;
+      }
+    }
+
+    &:hover {
+      background: $surface-hover;
+    }
   }
 
   td {
+    font-size: $size-sm;
     background-color: $surface;
-  }
 
-  tr:hover {
-    background: $surface-hover;
+    &.priority {
+      &-low {
+        background-color: $priority-low;
+      }
+
+      &-medium {
+        background-color: $priority-medium;
+      }
+
+      &-high {
+        background-color: $priority-high;
+      }
+
+      &-critical {
+        background-color: $priority-critical;
+      }
+
+      &-invalid {
+        background-color: $danger;
+        color: $text-inverse;
+      }
+    }
   }
 
   &-actions {
     @include flex-center;
     justify-content: space-evenly;
+    padding: $spacing-sm 0;
+    background: $surface-inactive;
+    border: 1px solid $border;
   }
 }
 
@@ -163,7 +236,7 @@ body.modal-open {
   color: $text-inverse;
   background-color: $primary;
   height: fit-content;
-  padding: 5px 10px;
+  padding: $spacing-xs $spacing-sm;
   border-radius: $radius-md;
   box-shadow: $shadow-md;
   user-select: none;
@@ -171,7 +244,7 @@ body.modal-open {
   transition: 0.2s;
 
   &:hover {
-    background-color: $primary;
+    background-color: $primary-hover;
     box-shadow: $shadow-sm;
 
     .btn-anim-content-grow {
@@ -189,6 +262,28 @@ body.modal-open {
     }
   }
 
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  &-wider {
+    &-sm {
+      padding-left: $spacing-sm;
+      padding-right: $spacing-sm;
+    }
+    &-md {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+    &-lg {
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+  }
+
   &-clean {
     border: none;
     background-color: transparent;
@@ -197,13 +292,17 @@ body.modal-open {
   }
 
   &.btn-sm {
-    font-size: 0.8rem;
+    font-size: $size-sm;
     padding: 1px;
   }
 
   &.btn-lg {
-    font-size: 1.5rem;
-    padding: 0 5px 5px 5px;
+    font-size: $size-lg;
+    padding: 0 $spacing-xs $spacing-xs $spacing-xs;
+
+    & span {
+      color: $text-inverse;
+    }
   }
   &-anim {
     &-content-rotate {
