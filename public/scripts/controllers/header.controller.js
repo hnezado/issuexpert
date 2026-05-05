@@ -1,9 +1,10 @@
 import { goTo } from "../core/router.js";
 import { fetchCurrentUser } from "../auth/user.js";
 import { logout } from "../auth/logout.js";
-import { ROLES } from "../config.js";
 import { logger } from "../core/logger.js";
 import { registerController } from "../core/controller-registry.js";
+import { formatText } from "../../utils/general.js";
+import { getUserAvatar, ROLES } from "../../utils/user.js";
 
 /**
  * HeaderController (singleton)
@@ -115,13 +116,13 @@ class HeaderController {
 
     // Avatar injection
     if (this.elements.avatar?.elem)
-      this.elements.avatar.elem.textContent = this.getUserAvatar(
-        this.currentUser,
+      this.elements.avatar.elem.textContent = getUserAvatar(
+        this.currentUser?.username,
       );
 
     // Username injection
     if (this.elements.name?.elem)
-      this.elements.name.elem.textContent = this.formatUsername(
+      this.elements.name.elem.textContent = formatText(
         this.currentUser.username,
       );
 
@@ -137,7 +138,7 @@ class HeaderController {
       });
     } else {
       if (this.elements.role?.elem) {
-        this.elements.role.elem.textContent = this.getRoleName(role);
+        this.elements.role.elem.textContent = formatText(role);
       }
     }
   }
@@ -163,30 +164,6 @@ class HeaderController {
     this.rootElem = null;
 
     this.isInitialized = false;
-  }
-
-  // Generates avatar (user initials)
-  getUserAvatar(user) {
-    if (!user?.username) return "";
-
-    return user.username
-      .split(" ")
-      .map((w) => w[0].toUpperCase())
-      .join("");
-  }
-
-  // Formats username (each word Capitalized)
-  formatUsername(username) {
-    return username
-      .split(" ")
-      .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
-      .join(" ");
-  }
-
-  // Returns the formated role (Capitalized)
-  getRoleName(role = "") {
-    if (!role) return "";
-    return role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
   }
 }
 
