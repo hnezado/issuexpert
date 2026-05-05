@@ -1,19 +1,26 @@
-import { API_BASE_URL } from "./config.js";
+import { API_BASE_URL, ROUTES } from "./config.js";
 import { logger } from "./core/logger.js";
 import { goTo } from "./core/router.js";
 
 // Index redirections
 async function init() {
   await loadModal();
+
   const authToken = localStorage.getItem("auth_token");
 
   if (!authToken) {
     // No authentication token > go login
     goTo("login");
-  } else {
-    // User is authenticated > verify token with backend
-    await verifyAuthToken(authToken);
+    return;
   }
+
+  // User is authenticated > verify token with backend
+  const isValidAuth = await verifyAuthToken(authToken);
+  if (isValidAuth === false) return;
+
+  // Token is correct > redirect to current page
+  const initialRoute = resolveInitialRoute();
+  goTo(initialRoute);
 }
 
 // Load global modal once
@@ -39,21 +46,36 @@ async function verifyAuthToken(authToken) {
       },
     });
 
-    if (!res.ok) {
-      // Invalid or expired token
+    // Invalid or expired token
+    if (res.status === 401) {
       localStorage.removeItem("auth_token");
       goTo("login");
-      return;
+      return false;
     }
 
-    // Token is valid
-    goTo("dashboard");
+    // Undefined error
+    if (!res.ok) {
+      logger.error("VerifyAuthToken: unexpected response", {
+        status: res.status,
+      });
+      return false;
+    }
+
+    return true;
   } catch (err) {
-    logger.error("[index.js|verifyAuthToken] Error validating token: ", {
-      error: err,
-    });
-    // goTo("login");
+    logger.error("VerifyAuthToken: error validating token: ", { err });
+    localStorage.removeItem("auth_token");
+    goTo("login");
+    return false;
   }
+}
+
+function resolveInitialRoute() {
+  const path = window.location.pathname;
+
+  const match = Object.entries(ROUTES).find(([, route]) => route.url === path);
+
+  return match ? match[0] : "dashboard";
 }
 
 init();
