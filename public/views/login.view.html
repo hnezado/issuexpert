@@ -1,17 +1,48 @@
 <div id="login-view-container">
-  <form id="loginForm">
-    <h2>Login</h2>
-    <label for="identifier">Email or username</label>
-    <input
-      type="text"
-      id="identifier"
-      placeholder="Email or username"
-      required
-    />
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Password" required />
-    <button class="btn" type="submit">
-      <span class="btn-anim-letter-spacing">Login</span>
-    </button>
-  </form>
+  <div class="modal">
+    <div class="modal-overlay" data-js="modal-overlay"></div>
+
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <span class="modal-header-title" data-js="modal-title">Login</span>
+      </div>
+
+      <div class="modal-body" data-js="modal-body">
+        <div class="modal-form">
+          <div class="modal-form-group">
+            <label for="identifier" class="modal-form-label"
+              >Email or username</label
+            >
+            <input
+              type="text"
+              id="identifier"
+              data-js="modal-login-identifier"
+              class="modal-form-input"
+              placeholder="john.doe@issuexpert.com"
+              required
+            />
+          </div>
+          <div class="modal-form-group">
+            <label for="password" class="modal-form-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              data-js="modal-login-password"
+              class="modal-form-input"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer (optional) -->
+      <div class="modal-footer" data-js="modal-footer">
+        <button data-js="modal-login-btn" class="btn btn-primary" type="submit">
+          <span class="btn-anim-letter-spacing btn-span">Login</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
