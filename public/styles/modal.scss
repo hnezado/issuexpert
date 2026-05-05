@@ -39,6 +39,7 @@
     padding: $spacing-md;
     background: $modal-header;
     border-bottom: 1px solid $modal-border;
+    user-select: none;
 
     &-title {
       @include flex-center;
@@ -56,7 +57,6 @@
       transform: translateY(-50%);
 
       font-size: 1.2rem;
-      // line-height: 1;
       color: $text-muted;
 
       cursor: pointer;
@@ -70,73 +70,85 @@
 
   &-body {
     @include flex-center;
-    margin-bottom: $spacing-md;
-    padding: $spacing-lg;
+    padding: $spacing-xl $spacing-lg;
     color: $text;
+    user-select: none;
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    // gap: $spacing-md;
+    cursor: default;
+
+    &-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: $text;
+    }
+
+    &-input,
+    &-select,
+    &-textarea {
+      width: 100%;
+      padding: $spacing-sm;
+      margin: 5px 0 10px 0;
+      border: 1px solid $border;
+      border-radius: $radius-sm;
+      background: $surface;
+      color: $text;
+      font-size: 0.9rem;
+      transition: 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+        box-shadow: 0 0 0 2px rgba($primary, 0.2);
+      }
+
+      &:hover {
+        border-color: $border-hover;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    }
+
+    &-radio-container {
+      display: flex;
+      justify-content: space-between;
+      margin: $spacing-sm 0;
+
+      & label {
+        font-size: $size-sm;
+
+        input[type="radio"] {
+          accent-color: $primary;
+        }
+      }
+    }
+
+    &-select {
+      cursor: pointer;
+    }
+
+    &-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
   }
 
   &-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-evenly;
     gap: $spacing-sm;
 
     padding: $spacing-md;
     border-top: 1px solid $modal-border;
     background: $surface;
-  }
-}
-
-// =========================
-// Modal Form System
-// =========================
-
-.modal-body {
-  padding: $spacing-md;
-}
-
-// Base form container (optional wrapper)
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
-
-  &-label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: $text;
-    user-select: none;
-  }
-
-  &-input,
-  &-select,
-  &-textarea {
-    width: 100%;
-    padding: $spacing-sm;
-    border: 1px solid $border;
-    border-radius: $radius-sm;
-    background: $surface;
-    color: $text;
-    font-size: 0.9rem;
-    transition: 0.2s;
-
-    &:focus {
-      outline: none;
-      border-color: $primary;
-      box-shadow: 0 0 0 2px rgba($primary, 0.2);
-    }
-
-    &:hover {
-      border-color: $border-hover;
-    }
-  }
-
-  &-select {
-    cursor: pointer;
-  }
-
-  &-textarea {
-    min-height: 100px;
-    resize: vertical;
   }
 }
 
