@@ -111,8 +111,10 @@ async function getTicketsAssigned(userId) {
 export {
   getAllTickets,
   createTicket,
+  updateTicket,
   assignTicket,
   updateTicketStatus,
+  deleteTicket,
   getTicketsByUser,
   getTicketsAssigned,
 };
