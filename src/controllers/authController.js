@@ -2,6 +2,7 @@ import * as userModel from "../models/userModel.js";
 import * as roleModel from "../models/roleModel.js";
 import { comparePassword } from "../utils/password.js";
 import { generateToken } from "../utils/jwt.js";
+import logger from "../utils/logger.js";
 
 async function login(req, res) {
   try {
@@ -9,23 +10,26 @@ async function login(req, res) {
 
     // Input data validation
     if (!identifier || !password) {
+      logger.warn("AuthController.login: missing credentials");
       return res.status(400).json({
         message: "Missing credentials",
       });
     }
 
     // Checking if user exists
-    let user = await userModel.findByEmail(identifier.toLowerCase());
+    let user = await userModel.findByUsername(identifier.toLowerCase());
     if (!user) {
-      user = await userModel.findByUsername(identifier.toLowerCase());
+      user = await userModel.findByEmail(identifier.toLowerCase());
     }
     if (!user) {
+      logger.warn("AuthController.login: invalid user identifier");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Validating password
     const validPassword = await comparePassword(password, user.password);
     if (!validPassword) {
+      logger.warn("AuthController.login: invalid user password");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
@@ -37,6 +41,7 @@ async function login(req, res) {
       token,
     });
   } catch (error) {
+    logger.error("AuthController.login: error logging in");
     return res.status(500).json({ message: error.message });
   }
 }
@@ -58,14 +63,15 @@ function verifyUser(req, res) {
  */
 async function getUserInfo(req, res) {
   try {
-    const user = await userModel.findById(req.user.id);
-    if (!user) {
-      return res.status(400).json({ message: "The user doesn't exist" });
+    if (!req.user) {
+      logger.warn("AuthController.getUserInfo: not authenticated");
+      return res.status(401).json({ message: "Not authenticated" });
     }
 
-    const role = await roleModel.findById(req.user.role_id);
-    if (!role) {
-      return res.status(400).json({ message: "The role doesn't exist" });
+    const user = await userModel.findById(req.user.id);
+    if (!user) {
+      logger.warn("AuthController.getUserInfo: user not found");
+      return res.status(404).json({ message: "User not found" });
     }
 
     return res.json({
@@ -73,12 +79,15 @@ async function getUserInfo(req, res) {
       user: {
         username: user.username,
         email: user.email,
-        role_id: user.role_id,
+        role: user.role,
         active: Boolean(user.active),
       },
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    logger.error(
+      "AuthController.getUserInfo: error retrieving user information",
+    );
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
 
