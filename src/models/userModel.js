@@ -1,7 +1,7 @@
 import db from "../config/db.js";
 
 async function getAllUsers() {
-  const [result] = await db.execute(`
+  const sql = `
       SELECT 
         u.id,
         u.username,
@@ -12,7 +12,9 @@ async function getAllUsers() {
       FROM users u
       LEFT JOIN roles r ON u.role_id = r.id
       WHERE u.is_deleted = 0;
-    `);
+    `;
+
+  const [result] = await db.execute(sql);
   return result;
 }
 
@@ -29,6 +31,7 @@ async function findById(id) {
     LEFT JOIN roles r ON u.role_id = r.id
     WHERE u.id = ? AND u.is_deleted = 0
   `;
+
   const [result] = await db.execute(sql, [id]);
   return result[0];
 }
@@ -46,6 +49,7 @@ async function findByUsername(username) {
     LEFT JOIN roles r ON u.role_id = r.id
     WHERE u.username = ? AND u.is_deleted = 0
   `;
+
   const [result] = await db.execute(sql, [username]);
   return result[0];
 }
@@ -56,13 +60,14 @@ async function findByEmail(email) {
       u.id,
       u.username,
       u.email,
-      r.name AS role
+      r.name AS role,
       u.created_at,
-      u.active,
+      u.active
     FROM users u
     LEFT JOIN roles r ON u.role_id = r.id
-    WHERE u.email = ? AND u.is_deleted = 0;
+    WHERE u.email = ? AND u.is_deleted = 0
   `;
+
   const [result] = await db.execute(sql, [email]);
   return result[0];
 }
@@ -75,7 +80,6 @@ async function createUser(username, email, password, role_id = 3) {
   `;
 
   const [result] = await db.execute(sql, [username, email, password, role_id]);
-
   return result;
 }
 

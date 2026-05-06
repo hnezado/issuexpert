@@ -1,34 +1,76 @@
 import db from "../config/db.js";
 
-async function createMessage(ticketId, senderId, message) {
-  const [result] = await db.query(
-    `
-    INSERT INTO Messages (ticket_id, sender_id, message)
-    VALUES (?, ?, ?)
-    `,
-    [ticketId, senderId, message],
-  );
-
-  return result.insertId;
-}
-
 async function getMessagesByTicket(ticketId) {
-  const [rows] = await db.query(
-    `
+  const sql = `
     SELECT 
-        m.id,
-        m.message,
-        m.created_at,
-        u.username AS sender
-    FROM Messages m
-    LEFT JOIN Users u ON m.sender_id = u.id
-    WHERE m.ticket_id = ?
-    ORDER BY m.created_at ASC
-    `,
-    [ticketId],
-  );
+      id,
+      ticket_id,
+      sender_id,
+      content,
+      created_at
+    FROM Messages
+    WHERE ticket_id = ? AND is_deleted = 0
+    ORDER BY created_at ASC
+    `;
 
-  return rows;
+  const [result] = await db.execute(sql, [ticketId]);
+  return result;
 }
 
-export { createMessage, getMessagesByTicket };
+async function getMessagesBySender(senderId) {
+  const sql = `
+    SELECT 
+      id,
+      ticket_id,
+      sender_id,
+      content,
+      created_at
+    FROM Messages
+    WHERE sender_id = ? AND is_deleted = 0
+    ORDER BY created_at ASC
+  `;
+
+  const [result] = await db.execute(sql, [senderId]);
+  return result;
+}
+
+async function createMessage(ticketId, senderId, content) {
+  const sql = `
+    INSERT INTO Messages (ticket_id, sender_id, content)
+    VALUES (?, ?, ?)
+    `;
+
+  const [result] = await db.execute(sql, [ticketId, senderId, content]);
+  return result;
+}
+
+async function updateMessage(id, content) {
+  const sql = `
+    UPDATE Messages
+    SET content = ?
+    WHERE id = ? AND is_deleted = 0
+  `;
+
+  const [result] = await db.execute(sql, [content, id]);
+  return result;
+}
+
+async function deleteMessage(id) {
+  const sql = `
+    UPDATE Messages
+    SET is_deleted = 1
+    WHERE id = ? AND is_deleted = 0
+  `;
+
+  const [result] = await db.execute(sql, [id]);
+  return result;
+}
+
+export {
+  getMessagesByTicket,
+  getMessagesBySender,
+  getMessageById,
+  createMessage,
+  updateMessage,
+  deleteMessage,
+};
