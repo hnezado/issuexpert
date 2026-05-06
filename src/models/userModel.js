@@ -2,18 +2,32 @@ import db from "../config/db.js";
 
 async function getAllUsers() {
   const [result] = await db.execute(`
-      SELECT id, username, email, role_id, created_at, active
-      FROM users
-      WHERE is_deleted = 0
+      SELECT 
+        u.id,
+        u.username,
+        u.email,
+        r.name AS role,
+        u.created_at,
+        u.active
+      FROM users u
+      LEFT JOIN roles r ON u.role_id = r.id
+      WHERE u.is_deleted = 0;
     `);
   return result;
 }
 
 async function findById(id) {
   const sql = `
-    SELECT *
-    FROM users
-    WHERE id = ? AND is_deleted = 0
+    SELECT 
+      u.id,
+      u.username,
+      u.email,
+      r.name AS role,
+      u.created_at,
+      u.active
+    FROM users u
+    LEFT JOIN roles r ON u.role_id = r.id
+    WHERE u.id = ? AND u.is_deleted = 0
   `;
   const [result] = await db.execute(sql, [id]);
   return result[0];
@@ -21,9 +35,16 @@ async function findById(id) {
 
 async function findByUsername(username) {
   const sql = `
-    SELECT *
-    FROM users
-    WHERE username = ? AND is_deleted = 0
+    SELECT 
+      u.id,
+      u.username,
+      u.email,
+      r.name AS role,
+      u.created_at,
+      u.active
+    FROM users u
+    LEFT JOIN roles r ON u.role_id = r.id
+    WHERE u.username = ? AND u.is_deleted = 0
   `;
   const [result] = await db.execute(sql, [username]);
   return result[0];
@@ -31,9 +52,16 @@ async function findByUsername(username) {
 
 async function findByEmail(email) {
   const sql = `
-    SELECT *
-    FROM users
-    WHERE email = ? AND is_deleted = 0
+    SELECT 
+      u.id,
+      u.username,
+      u.email,
+      r.name AS role
+      u.created_at,
+      u.active,
+    FROM users u
+    LEFT JOIN roles r ON u.role_id = r.id
+    WHERE u.email = ? AND u.is_deleted = 0;
   `;
   const [result] = await db.execute(sql, [email]);
   return result[0];
@@ -82,7 +110,7 @@ async function setUserActive(id, active) {
     WHERE id = ? AND is_deleted = 0 AND active != ?
   `;
 
-  const [result] = await db.execute(sql, [active, id]);
+  const [result] = await db.execute(sql, [active, id, active]);
   return result;
 }
 
