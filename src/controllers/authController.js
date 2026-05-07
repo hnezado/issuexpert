@@ -1,5 +1,4 @@
 import * as userModel from "../models/userModel.js";
-import * as roleModel from "../models/roleModel.js";
 import { comparePassword } from "../utils/password.js";
 import { generateToken } from "../utils/jwt.js";
 import logger from "../utils/logger.js";
@@ -48,8 +47,8 @@ async function login(req, res) {
 
 /**
  * Verify endpoint controller.
- * This function is executed only if authMiddleware has already validated the JWT.
- * It simply confirms that the token is valid and returns the authenticated user data.
+ * Asumes authMiddleware has already validated the JWT.
+ * Returns the authenticated user data.
  */
 function verifyUser(req, res) {
   return res.json({

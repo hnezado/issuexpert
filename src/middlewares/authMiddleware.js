@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import logger from "../utils/logger.js";
 
 /**
  * Authentication middleware that validates JWT authentication token from Authorization header.
@@ -10,6 +11,7 @@ function authMiddleware(req, res, next) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
+      logger.warn("AuthMiddleware: No authentication token provided");
       return res
         .status(401)
         .json({ message: "No authentication token provided" });
@@ -19,6 +21,7 @@ function authMiddleware(req, res, next) {
     const authToken = authHeader.split(" ")[1];
 
     if (!authToken) {
+      logger.warn("AuthMiddleware: invalid authentication token format");
       return res
         .status(401)
         .json({ message: "Invalid authentication token format" });
@@ -32,6 +35,7 @@ function authMiddleware(req, res, next) {
     // Finish this middleware and skips to next middleware or route
     next();
   } catch (error) {
+    logger.error("AuthMiddleware: invalid authentication token");
     return res.status(401).json({ message: "Invalid authentication token" });
   }
 }

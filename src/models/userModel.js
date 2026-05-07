@@ -18,7 +18,7 @@ async function getAllUsers() {
   return result;
 }
 
-async function findById(id) {
+async function getUserById(id) {
   const sql = `
     SELECT 
       u.id,
@@ -36,7 +36,7 @@ async function findById(id) {
   return result[0];
 }
 
-async function findByUsername(username) {
+async function getUserByUsername(username) {
   const sql = `
     SELECT 
       u.id,
@@ -54,7 +54,7 @@ async function findByUsername(username) {
   return result[0];
 }
 
-async function findByEmail(email) {
+async function getUserByEmail(email) {
   const sql = `
     SELECT 
       u.id,
@@ -83,8 +83,8 @@ async function createUser(username, email, password, role_id = 3) {
   return result;
 }
 
-// Updates a user dynamically based on provided fields
 async function updateUser(fields, values) {
+  // Updates a user dynamically based on provided fields
   // Using safe parameter placeholders (?) to avoid SQL injection
   const sql = `
     UPDATE users
@@ -93,6 +93,28 @@ async function updateUser(fields, values) {
   `;
 
   const [result] = await db.execute(sql, values);
+  return result;
+}
+
+async function activateUser(id) {
+  const sql = `
+    UPDATE users
+    SET active = 1
+    WHERE id = ? AND is_deleted = 0 AND active = 0
+  `;
+
+  const [result] = await db.execute(sql, [id]);
+  return result;
+}
+
+async function deactivateUser(id) {
+  const sql = `
+    UPDATE users
+    SET active = 0
+    WHERE id = ? AND is_deleted = 0 AND active = 1
+  `;
+
+  const [result] = await db.execute(sql, [id]);
   return result;
 }
 
@@ -107,24 +129,14 @@ async function deleteUser(id) {
   return result;
 }
 
-async function setUserActive(id, active) {
-  const sql = `
-    UPDATE users
-    SET active = ?
-    WHERE id = ? AND is_deleted = 0 AND active != ?
-  `;
-
-  const [result] = await db.execute(sql, [active, id, active]);
-  return result;
-}
-
 export {
   getAllUsers,
-  findById,
-  findByUsername,
-  findByEmail,
+  getUserById,
+  getUserByUsername,
+  getUserByEmail,
   createUser,
   updateUser,
+  activateUser,
+  deactivateUser,
   deleteUser,
-  setUserActive,
 };
