@@ -1,0 +1,43 @@
+<div class="modal-form">
+  <div class="modal-form-group">
+    <label for="modal-ticket-title" class="modal-form-label">Title</label>
+    <input
+      placeholder="Brief issue summary"
+      id="modal-ticket-title"
+      data-js="modal-ticket-create-title"
+      class="modal-form-input"
+      required
+    />
+  </div>
+  <div class="modal-form-group">
+    <label for="modal-ticket-description" class="modal-form-label"
+      >Description</label
+    >
+    <textarea
+      placeholder="Describe the issue in detail"
+      id="modal-ticket-description"
+      data-js="modal-ticket-create-description"
+      class="modal-form-textarea"
+    ></textarea>
+  </div>
+  <div class="modal-form-group">
+    <label class="modal-form-label">Priority</label>
+    <div class="slider-wrapper">
+      <span
+        data-js="modal-ticket-create-priority-span"
+        class="modal-form-input-slider-label"
+        >0</span
+      >
+      <input
+        value="5"
+        type="range"
+        min="1"
+        max="9"
+        id="modal-ticket-priority"
+        data-js="modal-ticket-create-priority"
+        class="modal-form-input-slider"
+        required
+      />
+    </div>
+  </div>
+</div>

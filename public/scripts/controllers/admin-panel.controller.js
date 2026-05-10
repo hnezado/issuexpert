@@ -1,3 +1,4 @@
+import ENV from "../core/env.js";
 import { API_BASE_URL } from "../config.js";
 import { goTo } from "../core/router.js";
 import { fetchCurrentUser } from "../auth/user.js";
@@ -6,10 +7,15 @@ import {
   getController,
   registerController,
 } from "../core/controller-registry.js";
-import { cleanUsername } from "../../utils/user.js";
 import { formatText } from "../../utils/general.js";
-import { getPriorityStr, formatPriority } from "../../utils/tickets.js";
 import { formatDate } from "../../utils/date.js";
+import { getPriorityStr, formatPriority } from "../../utils/tickets.js";
+import {
+  cleanUsername,
+  isValidUsername,
+  isValidEmail,
+  isValidPassword,
+} from "../../utils/user.js";
 
 /**
  * AdminPanelController (singleton)
@@ -30,6 +36,7 @@ class AdminPanelController {
     this.currentUser = null;
     this.users = [];
     this.elements = {};
+    this.activeTab = null;
     this.selectedUser = null;
     this.selectedTicket = null;
     this.selectedCategory = null;
@@ -69,11 +76,19 @@ class AdminPanelController {
 
   gatherElements() {
     if (!this.rootElem) {
-      logger.error("AdminPanelController: rootElem is missing");
+      logger.error("AdminPanelController.gatherElements: no rootElem");
       return;
     }
 
     // Users
+    this.elements.usersTabBtn = {
+      elem: this.rootElem.querySelector('[data-js="admin-panel-tab-users"]'),
+      eventType: "click",
+      handler: (e) => this.showTab("users"),
+    };
+    this.elements.usersTab = {
+      elem: this.rootElem.querySelector('[data-js="admin-panel-users-tab"]'),
+    };
     this.elements.usersTableBody = {
       elem: this.rootElem.querySelector(
         '[data-js="admin-panel-users-table-body"]',
@@ -104,6 +119,14 @@ class AdminPanelController {
     };
 
     // Tickets
+    this.elements.ticketsTabBtn = {
+      elem: this.rootElem.querySelector('[data-js="admin-panel-tab-tickets"]'),
+      eventType: "click",
+      handler: (e) => this.showTab("tickets"),
+    };
+    this.elements.ticketsTab = {
+      elem: this.rootElem.querySelector('[data-js="admin-panel-tickets-tab"]'),
+    };
     this.elements.ticketsTableBody = {
       elem: this.rootElem.querySelector(
         '[data-js="admin-panel-tickets-table-body"]',
@@ -134,6 +157,18 @@ class AdminPanelController {
     };
 
     // Categories
+    this.elements.categoriesTabBtn = {
+      elem: this.rootElem.querySelector(
+        '[data-js="admin-panel-tab-categories"]',
+      ),
+      eventType: "click",
+      handler: (e) => this.showTab("categories"),
+    };
+    this.elements.categoriesTab = {
+      elem: this.rootElem.querySelector(
+        '[data-js="admin-panel-categories-tab"]',
+      ),
+    };
     this.elements.categoriesTableBody = {
       elem: this.rootElem.querySelector(
         '[data-js="admin-panel-categories-table-body"]',
@@ -167,9 +202,12 @@ class AdminPanelController {
       .filter(([k, v]) => !v.elem)
       .map(([k]) => k);
     if (missingElements.length) {
-      logger.warn("AdminPanelController: some DOM elements are missing", {
-        missing: missingElements,
-      });
+      logger.warn(
+        "AdminPanelController.gatherElements: some DOM elements are missing",
+        {
+          missingElements,
+        },
+      );
     }
   }
 
@@ -177,7 +215,7 @@ class AdminPanelController {
     this.currentUser = await fetchCurrentUser();
 
     if (!this.currentUser) {
-      logger.warn("AdminPanelController: user not loaded");
+      logger.warn("AdminPanelController.loadUser: no current user");
       return;
     }
   }
@@ -244,14 +282,22 @@ class AdminPanelController {
 
   renderUsers() {
     if (!this.currentUser) {
-      logger.warn("AdminPanelController.renderUsers: no current user found", {
-        currentUser: this.currentUser,
-      });
+      logger.warn("AdminPanelController.renderUsers: no current user");
       return;
     }
 
     // Table injection
     if (!this.elements.usersTableBody?.elem) return;
+
+    this.elements.usersTableBody.elem.innerHTML = `
+      <div data-js="admin-panel-users-table-thead-tr" class="row header">
+        <div data-js="admin-panel-users-table-th-id" class="cell">ID</div>
+        <div data-js="admin-panel-users-table-th-username" class="cell">Username</div>
+        <div data-js="admin-panel-users-table-th-email" class="cell">Email</div>
+        <div data-js="admin-panel-users-table-th-role" class="cell hide-750">Role</div>
+        <div data-js="admin-panel-users-table-th-user-since" class="cell hide-900">User since</div>
+      </div>
+    `;
 
     this.users?.forEach((user) => {
       const row = document.createElement("div");
@@ -273,9 +319,7 @@ class AdminPanelController {
 
   renderTickets() {
     if (!this.currentUser) {
-      logger.warn("AdminPanelController.renderTickets: no current user found", {
-        currentUser: this.currentUser,
-      });
+      logger.warn("AdminPanelController.renderTickets: no current user");
       return;
     }
 
@@ -304,12 +348,7 @@ class AdminPanelController {
 
   renderCategories() {
     if (!this.currentUser) {
-      logger.warn(
-        "AdminPanelController.renderCategories: no current user found",
-        {
-          currentUser: this.currentUser,
-        },
-      );
+      logger.warn("AdminPanelController.renderCategories: no current user");
       return;
     }
 
@@ -373,9 +412,40 @@ class AdminPanelController {
     this.isInitialized = false;
   }
 
+  showTab(tabName) {
+    this.elements.usersTabBtn.elem.classList.remove("active");
+    this.elements.ticketsTabBtn.elem.classList.remove("active");
+    this.elements.categoriesTabBtn.elem.classList.remove("active");
+
+    this.elements.usersTab.elem.classList.add("hidden");
+    this.elements.ticketsTab.elem.classList.add("hidden");
+    this.elements.categoriesTab.elem.classList.add("hidden");
+
+    this.elements.usersTab.elem.classList.remove("active");
+    this.elements.ticketsTab.elem.classList.remove("active");
+    this.elements.categoriesTab.elem.classList.remove("active");
+
+    if (tabName === "users") {
+      this.elements.usersTabBtn.elem.classList.add("active");
+      this.elements.usersTab.elem.classList.remove("hidden");
+      this.elements.usersTab.elem.classList.add("active");
+    }
+
+    if (tabName === "tickets") {
+      this.elements.ticketsTabBtn.elem.classList.add("active");
+      this.elements.ticketsTab.elem.classList.remove("hidden");
+      this.elements.ticketsTab.elem.classList.add("active");
+    }
+
+    if (tabName === "categories") {
+      this.elements.categoriesTabBtn.elem.classList.add("active");
+      this.elements.categoriesTab.elem.classList.remove("hidden");
+      this.elements.categoriesTab.elem.classList.add("active");
+    }
+  }
+
   handleTableClick(e) {
     const table = e.target.closest(".table-body[data-name]");
-    console.log("table clicked:", table);
     if (!table) return;
     const tableName = table.dataset.name;
 
@@ -447,7 +517,7 @@ class AdminPanelController {
   async createUser() {
     const modal = getController("modal").getInstance();
     const content = await (
-      await fetch("/components/forms/user-create.form.html")
+      await fetch("../components/forms/user-create.form.html")
     ).text();
 
     modal.open({
@@ -464,35 +534,40 @@ class AdminPanelController {
           const username = data?.["modal-user-create-username"];
           const email = data?.["modal-user-create-email"];
           const password = data?.["modal-user-create-password"];
-          const role_id = Number(data?.["modal-user-create-role"]);
+          const role = data?.["modal-user-create-role"];
 
           // Fields data validation
-          if (!username || !email || !password || !role_id) {
+          if (!username || !email || !password || !role) {
             logger.warn(
               "AdminPanelController.createUser: missing required fields",
               {
                 username,
                 email,
                 password,
-                role_id,
+                role,
               },
             );
             return;
           }
-          if (!isValidUsername(cleanUsername(username))) {
-            logger.warn("AdminPanelController.createUser: invalid username");
+          if (!ENV.dev && !isValidUsername(cleanUsername(username))) {
+            logger.warn("AdminPanelController.createUser: invalid username", {
+              username,
+            });
+            modal.close();
             return;
           }
-          if (!isValidEmail(email)) {
-            logger.warn("AdminPanelController.createUser: invalid email");
+          if (!ENV.dev && !isValidEmail(email)) {
+            logger.warn("AdminPanelController.createUser: invalid email", {
+              email,
+            });
+            modal.close();
             return;
           }
-          if (!isValidPassword(password)) {
-            logger.warn("AdminPanelController.createUser: invalid password");
-            return;
-          }
-          if (![1, 2, 3].includes(role_id)) {
-            logger.warn("AdminPanelController.createUser: invalid role_id");
+          if (!ENV.dev && !isValidPassword(password)) {
+            logger.warn("AdminPanelController.createUser: invalid password", {
+              password,
+            });
+            modal.close();
             return;
           }
 
@@ -507,21 +582,18 @@ class AdminPanelController {
               username: cleanUsername(username),
               email,
               password,
-              role_id,
+              role,
             }),
           });
 
           modal.close();
 
           if (!res.ok) {
-            const errorData = await res.json();
-            logger.error(
-              `AdminPanelController.createUser: error creating user`,
-              {
-                status: res.status,
-                message: errorData.message,
-              },
-            );
+            const error = await res.json();
+            logger.error("AdminPanelController.createUser: server error", {
+              status: res.status,
+              message: error.message,
+            });
             return;
           }
 
@@ -536,9 +608,7 @@ class AdminPanelController {
 
   async updateUser() {
     if (!this.selectedUser) {
-      logger.warn("AdminPanelController.updateUser: no user selected", {
-        selectedUser: this.selectedUser,
-      });
+      logger.warn("AdminPanelController.updateUser: no selected user");
       return;
     }
 
@@ -560,15 +630,18 @@ class AdminPanelController {
 
           const username = data?.["modal-user-update-username"];
           const email = data?.["modal-user-update-email"];
-          let role_id = data?.["modal-user-update-role"];
+          let role = data?.["modal-user-update-role"];
 
           // Fields data validation
-          if (!username || !email || !role_id) {
-            logger.warn("AdminPanelController: missing required fields", {
-              username,
-              email,
-              role_id,
-            });
+          if (!username || !email || !role) {
+            logger.warn(
+              "AdminPanelController.updateUser: missing required fields",
+              {
+                username,
+                email,
+                role,
+              },
+            );
             return;
           }
 
@@ -584,16 +657,16 @@ class AdminPanelController {
               body: JSON.stringify({
                 username,
                 email,
-                role_id,
+                role,
               }),
             },
           );
 
           if (!res.ok) {
-            const errorData = await res.json();
-            logger.error(`AdminPanelController: ${errorData.message}`, {
+            const error = await res.json();
+            logger.error("AdminPanelController.updateUser: server error", {
               status: res.status,
-              message: errorData.message,
+              message: error.message,
             });
           }
 
@@ -607,31 +680,29 @@ class AdminPanelController {
 
     // User data injection
     const modalElem = document.querySelector('[data-js="modal-container"]');
+
     modalElem.querySelector('[data-js="modal-user-update-username"]').value =
       this.selectedUser.username;
     modalElem.querySelector('[data-js="modal-user-update-email"]').value =
       this.selectedUser.email;
+
     const roleInputs = modalElem.querySelectorAll(
       '[data-js="modal-user-update-role"]',
     );
 
     roleInputs.forEach((input) => {
-      input.checked = Number(input.value) === this.selectedUser.role_id;
+      console.log("input:", input);
+      input.checked = input.value === this.selectedUser.role;
     });
   }
 
   async deleteUser() {
     if (!this.selectedUser) {
-      logger.warn("AdminPanelController: no user selected", {
-        selectedUser: this.selectedUser,
-      });
+      logger.warn("AdminPanelController: no selected user");
       return;
     }
 
     const modal = getController("modal").getInstance();
-    const content = await (
-      await fetch("/components/forms/user-update.form.html")
-    ).text();
 
     modal.open({
       title: "Delete user",
@@ -646,13 +717,155 @@ class AdminPanelController {
       `,
       actions: {
         confirm: async () => {
-          const id = this.selectedUser?.id;
+          const userId = this.selectedUser?.id;
 
           // Fields data validation
-          if (!id) {
-            logger.warn("AdminPanelController: missing user id", {
-              selectedUserId: this.selectedUser?.id,
+          if (!userId) {
+            logger.warn("AdminPanelController.deleteUser: no user id");
+            return;
+          }
+
+          const token = localStorage.getItem("auth_token");
+          const res = await fetch(`${API_BASE_URL}/users/${userId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          modal.close();
+
+          if (!res.ok) {
+            const error = await res.json();
+            logger.error("AdminPanelController.deleteUser: server error", {
+              status: res.status,
+              message: error.message,
             });
+            return;
+          }
+
+          await this.loadUsers();
+          this.renderUsers();
+        },
+        cancel: () => modal.close(),
+      },
+    });
+  }
+
+  async createTicket() {
+    const modal = getController("modal").getInstance();
+    const content = await (
+      await fetch("../components/forms/ticket-create.form.html")
+    ).text();
+
+    modal.open({
+      title: "New Ticket",
+      content,
+      footer: `
+        <button class="btn btn-primary btn-wider-lg" data-action="save">Save</button>
+        <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
+      `,
+      actions: {
+        save: async () => {
+          const data = modal.getFormData();
+
+          const title = data?.["modal-ticket-create-title"];
+          const description = data?.["modal-ticket-create-description"];
+          const priority = data?.["modal-ticket-create-priority"];
+
+          // Fields data validation
+          if (!title || !priority) {
+            logger.warn(
+              "AdminPanelController.createUser: missing required fields",
+              {
+                title,
+                priority,
+              },
+            );
+            return;
+          }
+
+          const token = localStorage.getItem("auth_token");
+          const res = await fetch(`${API_BASE_URL}/users`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              title,
+              description,
+              priority,
+            }),
+          });
+
+          modal.close();
+
+          if (!res.ok) {
+            const error = await res.json();
+            logger.error("AdminPanelController.createTicket: server error", {
+              status: res.status,
+              message: error.message,
+            });
+            return;
+          }
+
+          await this.loadTickets();
+          this.renderTickets();
+        },
+
+        cancel: () => modal.close(),
+      },
+    });
+
+    // Ticket data injection
+    const modalElem = document.querySelector('[data-js="modal-container"]');
+
+    const slider = modalElem.querySelector(
+      '[data-js="modal-ticket-create-priority"]',
+    );
+    modalElem.querySelector(
+      '[data-js="modal-ticket-create-priority-span"]',
+    ).textContent = slider.value;
+  }
+
+  async updateTicket() {
+    if (!this.selectedUser) {
+      logger.warn("AdminPanelController.updateUser: no selected user");
+      return;
+    }
+
+    const modal = getController("modal").getInstance();
+    const content = await (
+      await fetch("/components/forms/user-update.form.html")
+    ).text();
+
+    modal.open({
+      title: "Edit user",
+      content,
+      footer: `
+        <button class="btn btn-primary btn-wider-lg" data-action="save">Save</button>
+        <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
+      `,
+      actions: {
+        save: async () => {
+          const data = modal.getFormData();
+
+          const username = data?.["modal-user-update-username"];
+          const email = data?.["modal-user-update-email"];
+          let role = data?.["modal-user-update-role"];
+
+          // Fields data validation
+          if (!username || !email || !role) {
+            logger.warn(
+              "AdminPanelController.updateUser: missing required fields",
+              {
+                username,
+                email,
+                role,
+              },
+            );
             return;
           }
 
@@ -660,23 +873,103 @@ class AdminPanelController {
           const res = await fetch(
             `${API_BASE_URL}/users/${this.selectedUser?.id}`,
             {
-              method: "DELETE",
+              method: "PATCH",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
               },
+              body: JSON.stringify({
+                username,
+                email,
+                role,
+              }),
             },
           );
 
           if (!res.ok) {
-            const errorData = await res.json();
-            logger.error(`AdminPanelController: ${errorData.message}`, {
+            const error = await res.json();
+            logger.error("AdminPanelController.updateUser: server error", {
               status: res.status,
-              message: errorData.message,
+              message: error.message,
             });
           }
 
           modal.close();
+          await this.loadUsers();
+          this.renderUsers();
+        },
+        cancel: () => modal.close(),
+      },
+    });
+
+    // User data injection
+    const modalElem = document.querySelector('[data-js="modal-container"]');
+
+    modalElem.querySelector('[data-js="modal-user-update-username"]').value =
+      this.selectedUser.username;
+    modalElem.querySelector('[data-js="modal-user-update-email"]').value =
+      this.selectedUser.email;
+
+    const roleInputs = modalElem.querySelectorAll(
+      '[data-js="modal-user-update-role"]',
+    );
+    console.log("roleInputs:", roleInputs);
+
+    roleInputs.forEach((input) => {
+      console.log("input:", input);
+      input.checked = input.value === this.selectedUser.role;
+    });
+  }
+
+  async deleteTicket() {
+    if (!this.selectedUser) {
+      logger.warn("AdminPanelController: no selected user");
+      return;
+    }
+
+    const modal = getController("modal").getInstance();
+
+    modal.open({
+      title: "Delete user",
+      content: `
+        <div class="modal-body-user">
+          <div>${this.selectedUser?.username}</div>
+          <div class="modal-body-user-email">(${this.selectedUser?.email})</div>
+        </div>`,
+      footer: `
+        <button class="btn btn-primary btn-wider-lg" data-action="confirm">Confirm</button>
+        <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
+      `,
+      actions: {
+        confirm: async () => {
+          const userId = this.selectedUser?.id;
+
+          // Fields data validation
+          if (!userId) {
+            logger.warn("AdminPanelController.deleteUser: no user id");
+            return;
+          }
+
+          const token = localStorage.getItem("auth_token");
+          const res = await fetch(`${API_BASE_URL}/users/${userId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          modal.close();
+
+          if (!res.ok) {
+            const error = await res.json();
+            logger.error("AdminPanelController.deleteUser: server error", {
+              status: res.status,
+              message: error.message,
+            });
+            return;
+          }
+
           await this.loadUsers();
           this.renderUsers();
         },

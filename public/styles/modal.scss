@@ -9,6 +9,12 @@
   display: none;
 }
 
+.btn-clean {
+  &:hover {
+    background: transparent;
+  }
+}
+
 .modal {
   @include full-overlay;
   display: flex;
@@ -68,7 +74,7 @@
 
   &-body {
     @include flex();
-    padding: $spacing-xl $spacing-xl * 3;
+    padding: $spacing-xl $spacing-xl * 2.5;
     color: $text;
     user-select: none;
 
@@ -86,6 +92,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacing-md;
+    width: 100%;
     cursor: default;
 
     &-group {
@@ -127,18 +134,31 @@
         cursor: not-allowed;
         pointer-events: none;
       }
+
+      &-slider {
+        &:focus {
+          outline: none;
+        }
+
+        &-label {
+          background-color: $primary;
+          color: $text-inverse;
+        }
+      }
     }
 
-    &-radio-container {
-      display: flex;
-      justify-content: space-between;
-      margin: $spacing-sm 0;
+    &-radio {
+      &-container {
+        @include flex(row);
+        gap: 50px;
+        margin: $spacing-sm 0;
 
-      & label {
-        font-size: $size-sm;
+        & label {
+          font-size: $size-sm;
 
-        input[type="radio"] {
-          accent-color: $primary;
+          input[type="radio"] {
+            accent-color: $primary;
+          }
         }
       }
     }
@@ -173,5 +193,28 @@
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .modal {
+    &-content {
+      max-width: 300px;
+    }
+
+    &-body {
+      padding: 24px 32px;
+    }
+
+    &-form {
+      &-radio-container {
+        gap: 30px;
+      }
+    }
+  }
+
+  .btn-wider-lg {
+    padding-left: 30px;
+    padding-right: 30px;
   }
 }

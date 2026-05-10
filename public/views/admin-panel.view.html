@@ -1,17 +1,17 @@
 <div class="main-container">
   <h2>Admin Panel</h3>
 
-  <div class="admin-panel-tabs">
+  <div class="admin-panel-tab-btn-container">
     <button
       data-js="admin-panel-tab-users"
-      class="btn btn-secondary active"
+      class="btn btn-secondary"
     >
       Users
     </button>
 
     <button
       data-js="admin-panel-tab-tickets"
-      class="btn btn-secondary"
+      class="btn btn-secondary active"
     >
       Tickets
     </button>
@@ -25,9 +25,9 @@
 </div>
 
   <!-- Users -->
-  <div data-js="admin-panel-users-section" class="table-container">
+  <div data-js="admin-panel-users-tab" class="table-container">
     <div class="table-header">
-      <h4>Users table</h4>
+      <h4>All users</h4>
       <div class="table-actions">
         <button data-js="admin-panel-user-update-btn" class="btn btn-clean btn-mini">
           <img src="../assets/update.png" alt="update-icon">
@@ -41,20 +41,13 @@
       </div>
     </div>
     <div data-js="admin-panel-users-table-body" data-name="users" class="table-body">
-      <div data-js="admin-panel-users-table-thead-tr" class="row header">
-        <div data-js="admin-panel-users-table-th-id" class="cell">ID</div>
-        <div data-js="admin-panel-users-table-th-username" class="cell">Username</div>
-        <div data-js="admin-panel-users-table-th-email" class="cell">Email</div>
-        <div data-js="admin-panel-users-table-th-role" class="cell hide-750">Role</div>
-        <div data-js="admin-panel-users-table-th-user-since" class="cell hide-900">User since</div>
-      </div>
     </div>
   </div>
 
   <!-- Tickets -->
-  <div data-js="admin-panel-tickets-section" class="table-container">
+  <div data-js="admin-panel-tickets-tab" class="table-container hidden">
     <div class="table-header">
-      <h4>Tickets table</h4>
+      <h4>All tickets</h4>
       <div class="table-actions">
         <button data-js="admin-panel-ticket-update-btn" class="btn btn-clean btn-mini">
           <img src="../assets/update.png" alt="update-icon">
@@ -81,9 +74,9 @@
   </div>
 
   <!-- Categories -->
-  <div data-js="admin-panel-categories-section" class="table-container">
+  <div data-js="admin-panel-categories-tab" class="table-container hidden">
     <div class="table-header">
-      <h4>Categories table</h4>
+      <h4>All categories</h4>
       <div class="table-actions">
         <button data-js="admin-panel-category-update-btn" class="btn btn-clean btn-mini">
           <img src="../assets/update.png" alt="update-icon">

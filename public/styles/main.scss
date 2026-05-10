@@ -13,6 +13,10 @@
   user-select: none;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   background-color: $bg;
   color: $text;
@@ -69,10 +73,14 @@ body.modal-open {
   border: 1px solid $border-dark;
   border-radius: $radius-md;
 
-  box-shadow: $shadow-sm;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
 }
 
 .table {
+  &-container {
+    width: 800px;
+  }
+
   &-header {
     position: relative;
     @include flex();
@@ -92,6 +100,7 @@ body.modal-open {
     // @include flex(column);
     display: table;
     width: 100%;
+    // width: 750px;
     border-collapse: collapse;
 
     & .header {
@@ -145,6 +154,7 @@ body.modal-open {
   transition: 0.2s;
 
   &:hover {
+    color: $primary;
     background-color: $primary-hover;
     box-shadow: $shadow-sm;
 
@@ -286,13 +296,22 @@ body.modal-open {
 }
 
 @media (max-width: 900px) {
-  .table-body .row .cell.hide-900 {
-    display: none;
+  .table {
+    &-container {
+      width: 690px;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    &-body .row .cell.hide-900 {
+      display: none;
+    }
   }
 }
 
 @media (max-width: 750px) {
   .table-container {
+    width: 590px;
     margin-left: 0;
     margin-right: 0;
   }
@@ -302,54 +321,58 @@ body.modal-open {
 }
 
 @media (max-width: 650px) {
-  .table-body {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  .table {
+    &-container {
+      width: 430px;
+    }
 
-    & .row {
+    &-body {
       display: flex;
       flex-direction: column;
-      background: $surface;
-      border-radius: $radius-md;
-      overflow: hidden;
-      box-shadow: $shadow-sm;
-      padding: 8px 12px;
+      gap: 16px;
 
-      &.header {
-        display: none;
-      }
+      & .row {
+        display: flex;
+        flex-direction: column;
+        background: $surface;
+        border-radius: $radius-md;
+        overflow: hidden;
+        box-shadow: $shadow-sm;
+        padding: 8px 12px;
 
-      & .cell {
-        display: grid;
-        grid-template-columns: 90px minmax(0, 1fr);
-        align-items: baseline;
-        gap: 50px;
-
-        padding: 10px 0;
-        border-bottom: 1px solid $border-dark;
-        word-break: break-word;
-        overflow-x: anywhere;
-
-        &:last-child {
-          border-bottom: none;
+        &.header {
+          display: none;
         }
 
-        &::before {
-          content: attr(data-label);
-
-          min-width: 110px;
-
-          font-size: $size-sm;
-          font-weight: 600;
-          opacity: 0.7;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        &.hide-900,
-        &.hide-750 {
+        & .cell {
           display: grid;
+          grid-template-columns: 90px minmax(0, 1fr);
+          align-items: baseline;
+          gap: 50px;
+
+          padding: 10px 0;
+          border-bottom: 1px solid $border-dark;
+          word-break: break-word;
+          overflow-x: anywhere;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &::before {
+            content: attr(data-label);
+            padding-left: 5px;
+            font-size: $size-sm;
+            font-weight: 600;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          &.hide-900,
+          &.hide-750 {
+            display: grid;
+          }
         }
       }
     }
@@ -357,10 +380,21 @@ body.modal-open {
 }
 
 @media (max-width: 500px) {
-  .table-body {
-    & .row {
-      & .cell {
-        gap: 24px;
+  .table {
+    &-container {
+      width: 300px;
+    }
+
+    &-header {
+      @include flex(row, start);
+      padding-left: 10px;
+    }
+
+    &-body {
+      & .row {
+        & .cell {
+          gap: 24px;
+        }
       }
     }
   }
@@ -386,21 +420,23 @@ body.modal-open {
 }
 
 @media (max-width: 380px) {
-  .table-header {
-    @include flex(row, start);
-  }
-  .table-body {
-    & .row {
-      padding: 6px 8px;
+  .table {
+    &-container {
+      width: 280px;
+    }
+    &-body {
+      & .row {
+        padding: 6px 8px;
 
-      & .cell {
-        grid-template-columns: 70px 1fr;
-        padding: 6px 0;
-        font-size: 0.6rem;
-        gap: 8px;
+        & .cell {
+          grid-template-columns: 70px 1fr;
+          padding: 6px 0;
+          font-size: 0.6rem;
+          gap: 8px;
 
-        &::before {
-          font-size: $size-xs;
+          &::before {
+            font-size: $size-xs;
+          }
         }
       }
     }

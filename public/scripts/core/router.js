@@ -1,3 +1,4 @@
+import { fetchCurrentUser } from "../auth/user.js";
 import { ROUTES } from "../config.js";
 import { checkAccess } from "./guards.js";
 import { logger } from "./logger.js";
@@ -8,37 +9,41 @@ import { render } from "./render.js";
  * Handles route validation, access control, history state, and view rendering.
  */
 async function goTo(routeKey) {
-  const routeConfig = ROUTES[routeKey];
+  if (!routeKey) {
+    logger.error("Router.goTo: no route key");
+  }
+
+  // (dev) Quitar cuando implemente la página de errores
+  if (routeKey === "error") return;
+
+  const routeConfig = ROUTES?.[routeKey];
   if (!routeConfig) {
-    if (routeKey === "error") {
-      logger.error("Critical: error route is missing.");
-      return;
-    }
-    logger.error("Route is not defined.", { route: routeKey });
-
-    if (!ROUTES.error) {
-      logger.error("Error route is not defined.");
-      return;
-    }
-
+    logger.error("Router.goTo: no route with that key", { routeKey });
     return goTo("error");
   }
 
-  const accessResult = await checkAccess(routeConfig);
+  const currentUser = await fetchCurrentUser();
+  if (!currentUser) {
+    logger.error("Router.goTo: no current user fetched");
+    return;
+  }
+
+  const accessResult = checkAccess(routeConfig, currentUser);
 
   if (!accessResult.ok) {
     // return goTo("error", accessResult.errorCode || ERROR_CODES.NOT_FOUND);
-    logger.warn("Access to route invalid.", {
+    logger.warn("Router.goTo: no access to route", {
       errorCode: accessResult.errorCode,
-      route: routeKey,
+      routeKey,
     });
     return goTo("error");
   }
 
-  logger.info(`Enrouting to: ${routeKey}`, {
-    route: routeKey,
+  logger.info(`Router.goTo: enrouting to: ${routeKey}`, {
+    routeKey,
     routeConfig,
   });
+
   history.pushState({ route: routeKey }, "", routeConfig.url);
 
   render(routeConfig.views);

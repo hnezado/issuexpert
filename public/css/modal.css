@@ -8,6 +8,10 @@
   display: none;
 }
 
+.btn-clean:hover {
+  background: transparent;
+}
+
 .modal {
   position: fixed;
   inset: 0;
@@ -68,7 +72,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 24px 72px;
+  padding: 24px 60px;
   color: #0f172a;
   user-select: none;
 }
@@ -87,6 +91,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
   cursor: default;
 }
 .modal-form-group {
@@ -113,8 +118,8 @@
 }
 .modal-form-input:focus, .modal-form-select:focus, .modal-form-textarea:focus {
   outline: none;
-  border-color: #4579e9;
-  box-shadow: 0 0 0 2px rgba(69, 121, 233, 0.2);
+  border-color: #7a9de9;
+  box-shadow: 0 0 0 2px rgba(122, 157, 233, 0.2);
 }
 .modal-form-input:hover, .modal-form-select:hover, .modal-form-textarea:hover {
   border-color: #cbd5e1;
@@ -124,16 +129,26 @@
   cursor: not-allowed;
   pointer-events: none;
 }
+.modal-form-input-slider:focus, .modal-form-select-slider:focus, .modal-form-textarea-slider:focus {
+  outline: none;
+}
+.modal-form-input-slider-label, .modal-form-select-slider-label, .modal-form-textarea-slider-label {
+  background-color: #7a9de9;
+  color: #f8fafc;
+}
 .modal-form-radio-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
   margin: 10px 0;
 }
 .modal-form-radio-container label {
   font-size: 0.8rem;
 }
 .modal-form-radio-container label input[type=radio] {
-  accent-color: #4579e9;
+  accent-color: #7a9de9;
 }
 .modal-form-select {
   cursor: pointer;
@@ -159,6 +174,21 @@
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+@media (max-width: 500px) {
+  .modal-content {
+    max-width: 300px;
+  }
+  .modal-body {
+    padding: 24px 32px;
+  }
+  .modal-form-radio-container {
+    gap: 30px;
+  }
+  .btn-wider-lg {
+    padding-left: 30px;
+    padding-right: 30px;
   }
 }
 

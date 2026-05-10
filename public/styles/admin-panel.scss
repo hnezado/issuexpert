@@ -2,4 +2,66 @@
 
 h2 {
   @include flex();
+  margin: 20px 0 40px;
+}
+
+.btn-mini {
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
+.admin-panel-tab-btn-container {
+  @include flex();
+  margin: 0 16px;
+
+  button {
+    flex: 1;
+    height: 3rem;
+    border-radius: 12px 12px 0 0;
+    border: 1px solid $border-dark;
+    border-bottom: 0;
+    // border-bottom: 1px solid $border-dark;
+    box-shadow: $shadow-sm;
+    background-color: $surface-hover;
+    transform: translateY(5px);
+    transition: transform 0.15s ease;
+    color: rgba($text-muted, 0.5);
+
+    &:hover {
+      background-color: $primary-hover;
+    }
+
+    &.active {
+      transform: translateY(0);
+      color: rgba($primary, 1);
+      background-color: $surface;
+
+      &:hover {
+        background-color: $surface;
+      }
+    }
+  }
+}
+
+.table {
+  &-container {
+    position: relative;
+    margin-top: 0;
+    border-radius: 0 0 $radius-md $radius-md;
+    border-top: 0;
+    box-shadow: 0 0 $shadow-sm $shadow-sm;
+    z-index: 20;
+
+    &.hidden {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-panel-tab-btn-container {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
