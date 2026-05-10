@@ -127,7 +127,7 @@ class LoginController {
       if (!res.ok) {
         logger.warn("LoginController.login: server error", {
           status: res.status,
-          message: data.message,
+          message: data,
         });
         return;
       }

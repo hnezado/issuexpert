@@ -58,7 +58,7 @@ async function verifyAuthToken(authToken) {
       const error = await res.json();
       logger.error("Index.verifyAuthToken: server error", {
         status: res.status,
-        message: error.message,
+        message: error,
       });
       return false;
     }

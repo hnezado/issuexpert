@@ -7,7 +7,7 @@ const formatDate = (dateString, fullDate = false) => {
   const day = String(date.getDate()).padStart(2, "0");
 
   if (!fullDate) {
-    return `${year}/${month}/${day}`;
+    return `${day}/${month}/${year}`;
   }
 
   const hours = String(date.getHours()).padStart(2, "0");

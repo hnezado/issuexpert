@@ -34,7 +34,7 @@ async function fetchCurrentUser() {
       const error = await res.json();
       logger.error("User.fetchCurrentUser: server error", {
         status: res.status,
-        message: error.message,
+        message: error,
       });
       clearCurrentUser();
       return null;
