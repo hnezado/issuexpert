@@ -10,6 +10,12 @@
   align-items: $align;
 }
 
+@mixin grid($columns: 1fr, $gap: 0) {
+  display: grid;
+  grid-template-columns: $columns;
+  gap: $gap;
+}
+
 @mixin full-overlay {
   position: fixed;
   inset: 0;

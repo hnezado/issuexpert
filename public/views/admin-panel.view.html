@@ -1,98 +1,106 @@
 <div class="main-container">
   <h2>Admin Panel</h3>
 
+  <div class="admin-panel-tabs">
+    <button
+      data-js="admin-panel-tab-users"
+      class="btn btn-secondary active"
+    >
+      Users
+    </button>
+
+    <button
+      data-js="admin-panel-tab-tickets"
+      class="btn btn-secondary"
+    >
+      Tickets
+    </button>
+
+    <button
+      data-js="admin-panel-tab-categories"
+      class="btn btn-secondary"
+    >
+    Categories
+  </button>
+</div>
+
   <!-- Users -->
-  <div class="table-container">
-    <table data-js="admin-panel-users-table" class="table">
-      <caption>
-        Users
-      </caption>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>User since</th>
-        </tr>
-      </thead>
-      <tbody data-js="admin-panel-users-tbody"></tbody>
-    </table>
-    <div class="table-actions">
-      <button data-js="admin-panel-btn-create-user" class="btn btn-primary">
-        + Create user
-      </button>
-      <button data-js="admin-panel-btn-update-user" class="btn btn-primary">
-        ✎ Update user
-      </button>
-      <button data-js="admin-panel-btn-delete-user" class="btn btn-primary">
-        🗑️ Delete user
-      </button>
+  <div data-js="admin-panel-users-section" class="table-container">
+    <div class="table-header">
+      <h4>Users table</h4>
+      <div class="table-actions">
+        <button data-js="admin-panel-user-update-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/update.png" alt="update-icon">
+        </button>
+        <button data-js="admin-panel-user-delete-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/delete.png" alt="delete-icon">
+        </button>
+        <button data-js="admin-panel-user-create-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/add.png" alt="add-icon">
+        </button>
+      </div>
+    </div>
+    <div data-js="admin-panel-users-table-body" data-name="users" class="table-body">
+      <div data-js="admin-panel-users-table-thead-tr" class="row header">
+        <div data-js="admin-panel-users-table-th-id" class="cell">ID</div>
+        <div data-js="admin-panel-users-table-th-username" class="cell">Username</div>
+        <div data-js="admin-panel-users-table-th-email" class="cell">Email</div>
+        <div data-js="admin-panel-users-table-th-role" class="cell hide-750">Role</div>
+        <div data-js="admin-panel-users-table-th-user-since" class="cell hide-900">User since</div>
+      </div>
     </div>
   </div>
-
-  <hr />
 
   <!-- Tickets -->
-  <div class="table-container">
-    <table data-js="admin-panel-tickets-table" class="table">
-      <caption>
-        Tickets
-      </caption>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Priority</th>
-          <th>Status</th>
-          <th>Assigned to</th>
-          <th>Issued by</th>
-          <th>Issued at</th>
-          <th>Last modified at</th>
-        </tr>
-      </thead>
-      <tbody data-js="admin-panel-tickets-tbody"></tbody>
-    </table>
-    <div class="table-actions">
-      <button data-js="admin-panel-btn-create-ticket" class="btn btn-primary">
-        + Create ticket
-      </button>
-      <button data-js="admin-panel-btn-update-ticket" class="btn btn-primary">
-        ✎ Update ticket
-      </button>
-      <button data-js="admin-panel-btn-delete-ticket" class="btn btn-primary">
-        🗑️ Delete ticket
-      </button>
+  <div data-js="admin-panel-tickets-section" class="table-container">
+    <div class="table-header">
+      <h4>Tickets table</h4>
+      <div class="table-actions">
+        <button data-js="admin-panel-ticket-update-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/update.png" alt="update-icon">
+        </button>
+        <button data-js="admin-panel-ticket-delete-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/delete.png" alt="delete-icon">
+        </button>
+        <button data-js="admin-panel-ticket-create-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/add.png" alt="add-icon">
+        </button>
+      </div>
+    </div>
+    <div data-js="admin-panel-tickets-table-body" data-name="tickets" class="table-body">
+      <div data-js="admin-panel-tickets-table-thead-tr" class="row header">
+        <div data-js="admin-panel-tickets-table-th-id" class="cell">ID</div>
+        <div data-js="admin-panel-tickets-table-th-title" class="cell">Title</div>
+        <div data-js="admin-panel-tickets-table-th-description" class="cell hide-750">Description</div>
+        <div data-js="admin-panel-tickets-table-th-priority" class="cell hide-500">Priority</div>
+        <div data-js="admin-panel-tickets-table-th-status" class="cell hide-600">Status</div>
+        <div data-js="admin-panel-tickets-table-th-created-by" class="cell">Created by</div>
+        <div data-js="admin-panel-tickets-table-th-updated-at" class="cell hide-900">Last modified</div>
+      </div>
     </div>
   </div>
 
-  <hr />
-
   <!-- Categories -->
-  <div class="table-container">
-    <table data-js="admin-panel-categories-table" class="table">
-      <caption>
-        Ticket categories
-      </caption>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody data-js="admin-panel-categories-tbody"></tbody>
-    </table>
-    <div class="table-actions">
-      <button data-js="admin-panel-btn-create-category" class="btn btn-primary">
-        + Create category
-      </button>
-      <button data-js="admin-panel-btn-update-category" class="btn btn-primary">
-        ✎ Update category
-      </button>
-      <button data-js="admin-panel-btn-delete-category" class="btn btn-primary">
-        🗑️ Delete category
-      </button>
+  <div data-js="admin-panel-categories-section" class="table-container">
+    <div class="table-header">
+      <h4>Categories table</h4>
+      <div class="table-actions">
+        <button data-js="admin-panel-category-update-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/update.png" alt="update-icon">
+        </button>
+        <button data-js="admin-panel-category-delete-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/delete.png" alt="delete-icon">
+        </button>
+        <button data-js="admin-panel-category-create-btn" class="btn btn-clean btn-mini">
+          <img src="../assets/add.png" alt="add-icon">
+        </button>
+      </div>
+    </div>
+    <div data-js="admin-panel-categories-table-body" data-name="categories" class="table-body">
+      <div data-js="admin-panel-categories-table-thead-tr" class="row header">
+        <div data-js="admin-panel-categories-table-th-id" class="cell">ID</div>
+        <div data-js="admin-panel-categories-table-th-name" class="cell">Name</div>
+      </div>
     </div>
   </div>
 </div>
