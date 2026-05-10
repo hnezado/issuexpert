@@ -46,7 +46,7 @@ class LoginController {
 
   gatherElements() {
     if (!this.rootElem) {
-      logger.error("ModalController: rootElem is missing");
+      logger.error("ModalController.gatherElements: no rootElem");
       return;
     }
 
@@ -70,7 +70,7 @@ class LoginController {
       !this.passwordInput ||
       !this.loginBtn
     ) {
-      logger.warn("LoginController: missing elements", {
+      logger.warn("LoginController.gatherElements: missing elements", {
         rootContainer: this.loginViewContainer,
         identifier: this.identifierInput,
         password: this.passwordInput,
@@ -95,7 +95,7 @@ class LoginController {
     const password = this.passwordInput.value;
 
     if (!identifier || !password) {
-      logger.warn("LoginController: missing credentials", {
+      logger.warn("LoginController.login: missing credentials", {
         identifier,
         password,
       });
@@ -125,15 +125,18 @@ class LoginController {
       const data = await res.json();
 
       if (!res.ok) {
-        logger.warn("LoginController: login error", { data: data.message });
+        logger.warn("LoginController.login: server error", {
+          status: res.status,
+          message: data.message,
+        });
         return;
       }
 
       localStorage.setItem("auth_token", data.token);
 
       goTo("dashboard");
-    } catch (err) {
-      logger.error("LoginController: login server error", { err });
+    } catch (error) {
+      logger.error("LoginController: login server error", { error });
     }
   }
 

@@ -4,7 +4,7 @@ import { logout } from "../auth/logout.js";
 import { logger } from "../core/logger.js";
 import { registerController } from "../core/controller-registry.js";
 import { formatText } from "../../utils/general.js";
-import { getUserAvatar, ROLES } from "../../utils/user.js";
+import { getUserAvatar } from "../../utils/user.js";
 
 /**
  * HeaderController (singleton)
@@ -49,7 +49,7 @@ class HeaderController {
 
   gatherElements() {
     if (!this.rootElem) {
-      logger.error("HeaderController: rootElem is missing");
+      logger.error("HeaderController.gatherElements: no rootElem");
       return;
     }
 
@@ -85,32 +85,31 @@ class HeaderController {
       .filter(([k, v]) => !v.elem)
       .map(([k]) => k);
     if (missingElements.length) {
-      logger.warn("HeaderController: some DOM elements are missing", {
-        missing: missingElements,
-      });
+      logger.warn(
+        "HeaderController.gatherElements: some DOM elements are missing",
+        {
+          missingElements,
+        },
+      );
     }
   }
 
   async loadUser() {
     this.currentUser = await fetchCurrentUser();
-
     if (!this.currentUser) {
-      logger.warn("HeaderController: user not loaded");
+      logger.warn("HeaderController.loadUser: no current user");
       return;
     }
   }
 
   renderElements() {
     if (!this.currentUser) {
-      logger.warn("HeaderController: render skipped, no user");
+      logger.warn("HeaderController.renderElements: no current user");
       return;
     }
 
     // Admin button injection
-    if (
-      this.elements.adminBtn?.elem &&
-      ROLES?.[this.currentUser.role_id] !== "admin"
-    ) {
+    if (this.elements.adminBtn?.elem && this.currentUser.role !== "admin") {
       this.elements.adminBtn.elem.style.display = "none";
     }
 
@@ -131,11 +130,9 @@ class HeaderController {
       this.elements.email.elem.textContent = this.currentUser.email;
 
     // Role injection
-    const role = ROLES?.[this.currentUser.role_id];
+    const role = this.currentUser.role;
     if (!role) {
-      logger.warn("HeaderController: role not found", {
-        role_id: this.currentUser.role_id,
-      });
+      logger.warn("HeaderController.renderElements: no role");
     } else {
       if (this.elements.role?.elem) {
         this.elements.role.elem.textContent = formatText(role);

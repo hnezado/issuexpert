@@ -16,8 +16,8 @@ async function render(viewKeys) {
     try {
       const res = await fetch(`/views/${viewKey}.view.html`);
       html += await res.text();
-    } catch (err) {
-      logger.error("Render: error loading view: ", viewKey, err);
+    } catch (error) {
+      logger.error("Render.render: error rendering", { error });
     }
   }
 
@@ -43,8 +43,11 @@ async function render(viewKeys) {
   for (const viewKey of viewKeys) {
     try {
       await import(`/scripts/controllers/${viewKey}.controller.js`);
-    } catch (err) {
-      logger.warn("Render: no controller for view.", { viewKey, err });
+    } catch (error) {
+      logger.warn("Render.render: no controller", {
+        error,
+        controllerName: viewKey,
+      });
     }
   }
 
@@ -56,7 +59,7 @@ async function render(viewKeys) {
     if (Controller) {
       controllerInstance = Controller.getInstance();
     } else {
-      logger.warn("Render: missing controller", {
+      logger.warn("Render.render: missing controller", {
         viewKey,
       });
       continue;
@@ -65,7 +68,10 @@ async function render(viewKeys) {
     try {
       await controllerInstance.init(app);
     } catch (err) {
-      logger.error("Render: error initializing controllers.", { viewKey, err });
+      logger.error("Render.render: error initializing controllers.", {
+        viewKey,
+        err,
+      });
     }
   }
 }

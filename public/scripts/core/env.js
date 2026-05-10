@@ -1,6 +1,6 @@
 const ENV = {
-  dev: window.ENV?.dev ?? false,
-  prod: window.ENV?.prod ?? false,
+  dev: location.hostname === "localhost",
+  prod: location.hostname !== "localhost",
 };
 
 export default ENV;

@@ -1,12 +1,5 @@
 import { logger } from "../scripts/core/logger.js";
 
-const STATUSES = {
-  1: "open",
-  2: "in progress",
-  3: "resolved",
-  4: "closed",
-};
-
 const PRIORITIES = {
   low: { label: "Low", icon: "🟢" },
   medium: { label: "Medium", icon: "🔵" },
@@ -18,7 +11,7 @@ const PRIORITIES = {
 // Returns corresponding priority label
 function getPriorityStr(priority = 5) {
   if (typeof priority !== "number" || priority < 1 || priority > 9) {
-    logger.warn("FormatPriority: invalid priority.", { priority });
+    logger.warn("UtilsTickets.getPriorityStr: invalid priority.", { priority });
     return "invalid";
   }
 
@@ -38,7 +31,9 @@ function formatPriority(priority = 5, showIcon = false) {
   const priorityData = PRIORITIES[priorityKey];
 
   if (!priorityData) {
-    logger.warn("FormatPriority: priority key not found", { priorityKey });
+    logger.warn("UtilsTickets.formatPriority: no priority data", {
+      priorityKey,
+    });
     return "";
   }
 
@@ -49,4 +44,4 @@ function formatPriority(priority = 5, showIcon = false) {
     : `${label} (${priority})`;
 }
 
-export { STATUSES, getPriorityStr, formatPriority };
+export { getPriorityStr, formatPriority };

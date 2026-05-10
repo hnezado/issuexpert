@@ -31,7 +31,11 @@ async function fetchCurrentUser() {
     });
 
     if (!res.ok) {
-      logger.error("Error retrieving user data");
+      const error = await res.json();
+      logger.error("User.fetchCurrentUser: server error", {
+        status: res.status,
+        message: error.message,
+      });
       clearCurrentUser();
       return null;
     }
@@ -42,9 +46,9 @@ async function fetchCurrentUser() {
     sessionStorage.setItem("current_user", JSON.stringify(cachedUser));
 
     return cachedUser;
-  } catch (err) {
-    logger.error("User.fetchCurrentUser: error retrieving user data", {
-      resStatus: res.status,
+  } catch (error) {
+    logger.error("User.fetchCurrentUser: error fetching user", {
+      error,
     });
     return null;
   }

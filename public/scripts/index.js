@@ -55,15 +55,17 @@ async function verifyAuthToken(authToken) {
 
     // Undefined error
     if (!res.ok) {
-      logger.error("VerifyAuthToken: unexpected response", {
+      const error = await res.json();
+      logger.error("Index.verifyAuthToken: server error", {
         status: res.status,
+        message: error.message,
       });
       return false;
     }
 
     return true;
-  } catch (err) {
-    logger.error("VerifyAuthToken: error validating token: ", { err });
+  } catch (error) {
+    logger.error("Index.verifyAuthToken: error validating token: ", { error });
     localStorage.removeItem("auth_token");
     goTo("login");
     return false;

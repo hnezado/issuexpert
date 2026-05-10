@@ -7,7 +7,7 @@ import { logger } from "../scripts/core/logger.js";
 // Cannot contain two or more consecutive special characters ('.', '-', '_')
 function isValidUsername(username) {
   if (!username) {
-    logger.warn("Utils.User.isValidUsername: username not provided");
+    logger.warn("UtilsUser.isValidUsername: no username");
     return false;
   }
 
@@ -26,7 +26,7 @@ function isValidUsername(username) {
 // Prevents invalid placements like starting/ending with special characters
 function isValidEmail(email) {
   if (!email) {
-    logger.warn("Utils.User.isValidUsername: email not provided");
+    logger.warn("UtilsUser.isValidEmail: no email");
     return false;
   }
 
@@ -44,7 +44,7 @@ function isValidEmail(email) {
 // Must contain at least one special character
 function isValidPassword(password) {
   if (!password) {
-    logger.warn("Utils.User.isValidPassword: password not provided");
+    logger.warn("UtilsUser.isValidPassword: no password");
     return false;
   }
 
@@ -69,7 +69,7 @@ function isValidPassword(password) {
 // Spaces " " become periods "."
 function cleanUsername(username) {
   if (!username) {
-    logger.warn("Utils.User.cleanUsername: username not provided");
+    logger.warn("UtilsUser.cleanUsername: no username");
     return;
   }
 

@@ -40,7 +40,7 @@ class ModalController {
 
   gatherElements() {
     if (!this.rootElem) {
-      logger.error("ModalController: rootElem is missing");
+      logger.error("ModalController.gatherElements: no rootElem");
       return;
     }
 
@@ -72,12 +72,14 @@ class ModalController {
       elem: this.rootElem.querySelector('[data-js="modal-footer"]'),
     };
 
-    const missing = Object.entries(this.elements)
+    const missingElements = Object.entries(this.elements)
       .filter(([_, v]) => !v.elem)
       .map(([k]) => k);
 
-    if (missing.length) {
-      logger.warn("ModalController: missing elements", { missing });
+    if (missingElements.length) {
+      logger.warn("ModalController.gatherElements: missing elements", {
+        missingElements,
+      });
     }
   }
 

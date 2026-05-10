@@ -4,8 +4,8 @@ const controllers = new Map();
 
 const registerController = (name, controller) => {
   if (controllers.has(name)) {
-    logger.warn("ControllerRegistry: Duplicate controller", {
-      controllerName: name,
+    logger.warn("ControllerRegistry.registerController: duplicate controller", {
+      name,
     });
     return;
   }
