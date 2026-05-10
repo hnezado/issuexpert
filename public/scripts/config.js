@@ -1,5 +1,3 @@
-// Works in dev and prod
-const ENV = "dev";
 const API_BASE_URL = window.location.origin + "/api";
 
 const ERROR_CODES = {
@@ -37,9 +35,9 @@ const ROUTES = {
   "admin-panel": {
     url: "/admin-panel",
     requireAuth: true,
-    allowedRoles: [1],
-    views: ["header", "admin-panel"],
+    allowedRoles: ["admin"],
+    views: ["admin-panel"],
   },
 };
 
-export { ENV, API_BASE_URL, ERROR_CODES, ROUTES };
+export { API_BASE_URL, ERROR_CODES, ROUTES };

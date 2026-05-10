@@ -1,4 +1,4 @@
-import { ENV } from "../config.js";
+import ENV from "./env.js";
 
 /**
  * Simple environment-based logger utility.
@@ -7,10 +7,10 @@ import { ENV } from "../config.js";
  */
 const logger = {
   info: (message, context = {}) => {
-    if (ENV === "dev") console.info(`[INFO] ${message}`, context);
+    if (ENV.dev) console.info(`[INFO] ${message}`, context);
   },
   warn: (message, context = {}) => {
-    if (ENV === "dev") console.warn(`[WARN] ${message}`, context);
+    if (ENV.dev) console.warn(`[WARN] ${message}`, context);
   },
   error: (message, context = {}) => {
     console.error(`[ERROR] ${message}`, context);

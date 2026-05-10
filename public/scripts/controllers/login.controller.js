@@ -1,4 +1,10 @@
-import { fetchCurrentUser, clearCurrentUser } from "../auth/user.js";
+import {
+  isValidUsername,
+  isValidEmail,
+  isValidPassword,
+  cleanUsername,
+} from "../../utils/user.js";
+import ENV from "../core/env.js";
 import { API_BASE_URL } from "../config.js";
 import { registerController } from "../core/controller-registry.js";
 import { logger } from "../core/logger.js";
@@ -96,6 +102,19 @@ class LoginController {
       return;
     }
 
+    if (
+      !isValidUsername(cleanUsername(identifier)) &&
+      !isValidEmail(identifier)
+    ) {
+      logger.warn("LoginController.login: invalid identifier", { identifier });
+      return;
+    }
+
+    if (ENV.prod && !isValidPassword(password)) {
+      logger.warn("LoginController.login: invalid password", { password });
+      return;
+    }
+
     try {
       const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
@@ -111,9 +130,6 @@ class LoginController {
       }
 
       localStorage.setItem("auth_token", data.token);
-
-      clearCurrentUser();
-      await fetchCurrentUser();
 
       goTo("dashboard");
     } catch (err) {

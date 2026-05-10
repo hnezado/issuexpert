@@ -10,8 +10,12 @@ async function fetchCurrentUser() {
   // Session storage cache
   const storedUser = sessionStorage.getItem("current_user");
   if (storedUser) {
-    cachedUser = JSON.parse(storedUser);
-    return cachedUser;
+    try {
+      cachedUser = JSON.parse(storedUser);
+      return cachedUser;
+    } catch {
+      clearCurrentUser();
+    }
   }
 
   // Backend user retrieving
@@ -28,6 +32,7 @@ async function fetchCurrentUser() {
 
     if (!res.ok) {
       logger.error("Error retrieving user data");
+      clearCurrentUser();
       return null;
     }
 
@@ -38,7 +43,9 @@ async function fetchCurrentUser() {
 
     return cachedUser;
   } catch (err) {
-    logger.error(err);
+    logger.error("User.fetchCurrentUser: error retrieving user data", {
+      resStatus: res.status,
+    });
     return null;
   }
 }
@@ -46,6 +53,7 @@ async function fetchCurrentUser() {
 function clearCurrentUser() {
   cachedUser = null;
   sessionStorage.removeItem("current_user");
+  localStorage.removeItem("auth_token");
 }
 
 export { fetchCurrentUser, clearCurrentUser };
