@@ -65,22 +65,22 @@ router.get(
 // );
 
 // // Any authenticated account can create new tickets
-// router.post(
-//   "/",
-//   authMiddleware,
-//   roleMiddleware([1, 2, 3]),
-//   ticketController.createTicket,
-// );
+router.post(
+  "/",
+  authMiddleware,
+  roleMiddleware([1, 2, 3]),
+  ticketController.createTicket,
+);
 
 // // Only admins can update any ticket
 // // Technicians can update tickets they created or are assigned to
 // // Users can only update tickets they created
-// router.patch(
-//   "/",
-//   authMiddleware,
-//   roleMiddleware([1, 2, 3]),
-//   ticketController.updateTicket,
-// );
+router.patch(
+  "/:id",
+  authMiddleware,
+  roleMiddleware([1, 2, 3]),
+  ticketController.updateTicket,
+);
 
 // // Only admins can modify any ticket status
 // // Technicians can modify the status of tickets they created or are assigned to
@@ -112,11 +112,11 @@ router.get(
 // // Only admins can delete any ticket
 // // Technicians can delete tickets they created
 // // Users can delete tickets they created
-// router.delete(
-//   "/",
-//   authMiddleware,
-//   roleMiddleware([1, 2, 3]),
-//   ticketController.deleteTicket,
-// );
+router.delete(
+  "/:id",
+  authMiddleware,
+  roleMiddleware([1, 2, 3]),
+  ticketController.deleteTicket,
+);
 
 export default router;

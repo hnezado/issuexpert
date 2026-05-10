@@ -207,6 +207,9 @@ async function deleteTicket(id) {
 
 export {
   getAllTickets,
+  findById,
+  getAllAssignedTickets,
+  getAllUnassignedTickets,
   getTicketsCreatedByUser,
   getTicketsAssignedToUser,
   createTicket,

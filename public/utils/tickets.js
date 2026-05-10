@@ -9,17 +9,25 @@ const PRIORITIES = {
 };
 
 // Returns corresponding priority label
-function getPriorityStr(priority = 5) {
+function getPriorityKey(priority = 5) {
   if (typeof priority !== "number" || priority < 1 || priority > 9) {
-    logger.warn("UtilsTickets.getPriorityStr: invalid priority.", { priority });
-    return "invalid";
+    return null;
   }
 
-  let key;
-  if (priority <= 2) key = "low";
-  else if (priority <= 5) key = "medium";
-  else if (priority <= 7) key = "high";
-  else key = "critical";
+  if (priority <= 2) return "low";
+  if (priority <= 5) return "medium";
+  if (priority <= 7) return "high";
+  return "critical";
+}
+
+// Links corresponding priority label to its data
+function getPriorityStr(priority = 5) {
+  const key = getPriorityKey(priority);
+
+  if (!key) {
+    // logger.warn("invalid priority", { priority });
+    return "invalid";
+  }
 
   return key;
 }
