@@ -37,19 +37,6 @@ app.get("/api", (req, res) => {
   });
 });
 
-app.get("/config.js", (req, res) => {
-  res.setHeader("Content-Type", "application/javascript");
-
-  const env = process.env.NODE_ENV;
-
-  res.send(`
-    window.ENV = {
-      dev: ${env === "development"},
-      prod: ${env === "production"}
-    };
-  `);
-});
-
 // =======================
 // SPA FALLBACK
 // =======================

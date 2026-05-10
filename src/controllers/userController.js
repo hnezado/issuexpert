@@ -1,5 +1,6 @@
 import * as userModel from "../models/userModel.js";
 import logger from "../utils/logger.js";
+import { getRoleId } from "../utils/roles.js";
 import { hashPassword } from "../utils/password.js";
 
 // Get all users excluding soft deleted ones
@@ -18,7 +19,7 @@ async function getAllUsers(req, res) {
 // Get a single user by id
 async function getUserById(req, res) {
   const id = Number(req.params.id);
-  const requesterRoleId = req.user.role_id;
+  const requesterRole = req.user.role;
 
   if (!id) {
     logger.warn("UserController.getUserById: missing user id");
@@ -34,7 +35,7 @@ async function getUserById(req, res) {
     }
 
     // Role restriction
-    if (requesterRoleId === 2 && user.role !== "user") {
+    if (requesterRole === "technician" && user.role !== "user") {
       logger.warn("UserController.getUserById: forbidden access");
       return res.status(403).json({ message: "Forbidden" });
     }
@@ -51,7 +52,7 @@ async function getUserById(req, res) {
 // Get a single user by username
 async function getUserByUsername(req, res) {
   const username = req.params.username;
-  const requesterRoleId = req.user.role_id;
+  const requesterRole = req.user.role;
 
   if (!username) {
     logger.warn("UserController.getUserByUsername: missing username");
@@ -67,7 +68,7 @@ async function getUserByUsername(req, res) {
     }
 
     // Role restriction
-    if (requesterRoleId === 2 && user.role !== "user") {
+    if (requesterRole === "technician" && user.role !== "user") {
       logger.warn("UserController.getUserByUsername: forbidden access");
       return res.status(403).json({ message: "Forbidden" });
     }
@@ -84,7 +85,7 @@ async function getUserByUsername(req, res) {
 // Get a single user by email
 async function getUserByEmail(req, res) {
   const email = req.params.email;
-  const requesterRoleId = req.user.role;
+  const requesterRole = req.user.role;
 
   if (!email) {
     logger.warn("UserController.getUserByEmail: missing email");
@@ -100,7 +101,7 @@ async function getUserByEmail(req, res) {
     }
 
     // Role restriction
-    if (requesterRoleId === 2 && user.role !== "user") {
+    if (requesterRole === "technician" && user.role !== "user") {
       logger.warn("UserController.getUserByEmail: forbidden access");
       return res.status(403).json({ message: "Forbidden" });
     }
@@ -116,7 +117,7 @@ async function getUserByEmail(req, res) {
 
 async function createUser(req, res) {
   try {
-    const { username, email, password, role_id } = req.body;
+    const { username, email, password, role } = req.body;
 
     // Checking required fields
     if (!username || !email || !password) {
@@ -136,7 +137,7 @@ async function createUser(req, res) {
       username,
       email,
       hashedPassword,
-      role_id || 3,
+      getRoleId(role) || getRoleId("user"),
     );
 
     res.status(201).json({
@@ -167,7 +168,7 @@ async function updateUser(req, res) {
       return res.status(400).json({ message: "Missing user id" });
     }
 
-    const { username, email, role_id } = req.body;
+    const { username, email, role } = req.body;
 
     const user = await userModel.getUserById(id);
 
@@ -188,9 +189,9 @@ async function updateUser(req, res) {
       fields.push("email = ?");
       values.push(email);
     }
-    if (role_id !== undefined && role_id !== user.role_id) {
+    if (role !== undefined && role !== user.role) {
       fields.push("role_id = ?");
-      values.push(role_id);
+      values.push(getRoleId(role));
     }
     if (fields.length === 0) {
       logger.info(

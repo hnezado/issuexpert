@@ -8,7 +8,7 @@ async function getMessagesByTicket(ticketId) {
       sender_id,
       content,
       created_at
-    FROM Messages
+    FROM messages
     WHERE ticket_id = ? AND is_deleted = 0
     ORDER BY created_at ASC
     `;
@@ -25,7 +25,7 @@ async function getMessagesBySender(senderId) {
       sender_id,
       content,
       created_at
-    FROM Messages
+    FROM messages
     WHERE sender_id = ? AND is_deleted = 0
     ORDER BY created_at ASC
   `;
@@ -36,7 +36,7 @@ async function getMessagesBySender(senderId) {
 
 async function createMessage(ticketId, senderId, content) {
   const sql = `
-    INSERT INTO Messages (ticket_id, sender_id, content)
+    INSERT INTO messages (ticket_id, sender_id, content)
     VALUES (?, ?, ?)
     `;
 
@@ -44,20 +44,22 @@ async function createMessage(ticketId, senderId, content) {
   return result;
 }
 
-async function updateMessage(id, content) {
+async function updateMessage(fields, values) {
+  // Updates a ticket dynamically based on provided fields
+  // Using safe parameter placeholders (?) to avoid SQL injection
   const sql = `
-    UPDATE Messages
-    SET content = ?
+    UPDATE messages
+    SET ${fields.join(", ")}
     WHERE id = ? AND is_deleted = 0
   `;
 
-  const [result] = await db.execute(sql, [content, id]);
+  const [result] = await db.execute(sql, values);
   return result;
 }
 
 async function deleteMessage(id) {
   const sql = `
-    UPDATE Messages
+    UPDATE messages
     SET is_deleted = 1
     WHERE id = ? AND is_deleted = 0
   `;
@@ -69,7 +71,6 @@ async function deleteMessage(id) {
 export {
   getMessagesByTicket,
   getMessagesBySender,
-  getMessageById,
   createMessage,
   updateMessage,
   deleteMessage,

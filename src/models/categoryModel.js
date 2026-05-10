@@ -1,3 +1,5 @@
+import db from "../config/db.js";
+
 async function getAllCategories() {
   const sql = `
     SELECT 
@@ -32,19 +34,19 @@ async function createCategory(name) {
   `;
 
   const [result] = await db.execute(sql, [name]);
-
   return result;
 }
 
 async function updateCategory(fields, values) {
+  // Updates a ticket dynamically based on provided fields
+  // Using safe parameter placeholders (?) to avoid SQL injection
   const sql = `
     UPDATE categories
     SET ${fields.join(", ")}
-    WHERE id = ?
+    WHERE id = ? AND is_deleted = 0
   `;
 
   const [result] = await db.execute(sql, values);
-
   return result;
 }
 
@@ -56,7 +58,6 @@ async function deleteCategory(id) {
   `;
 
   const [result] = await db.execute(sql, [id]);
-
   return result;
 }
 

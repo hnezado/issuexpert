@@ -5,44 +5,118 @@ import * as ticketController from "../controllers/ticketController.js";
 
 const router = express.Router();
 
-// Only admins and technicians are able to get all the tickets
+// // Only admins can get all tickets (middleware)
 router.get(
   "/",
   authMiddleware,
-  roleMiddleware([1, 2]),
+  roleMiddleware([1]),
   ticketController.getAllTickets,
 );
 
-// Anyone authenticated can obtain their created tickets
-router.get("/me", authMiddleware, ticketController.getMyTickets);
+// // Only admins can get all assigned tickets (middleware)
+// router.get(
+//   "/assigned",
+//   authMiddleware,
+//   roleMiddleware([1]),
+//   ticketController.getAllAssignedTickets,
+// );
 
-// Only technicians can obtain their assigned tickets
-router.get(
-  "/me/assigned",
-  authMiddleware,
-  roleMiddleware([2]),
-  ticketController.getAssignedTickets,
-);
+// // Only admins and technicians can all unassigned tickets (middleware)
+// router.get(
+//   "/unassigned",
+//   authMiddleware,
+//   roleMiddleware([1, 2]),
+//   ticketController.getAllUnassignedTickets,
+// );
 
-// Only admins and technicians are able to assign tickets
-router.patch(
-  "/:id/assign",
-  authMiddleware,
-  roleMiddleware([1, 2]),
-  ticketController.assignTicket,
-);
+// // Any authenticated user can get tickets they created (middleware)
+// router.get(
+//   "/created",
+//   authMiddleware,
+//   roleMiddleware([1, 2, 3]),
+//   ticketController.getTicketsCreatedByCurrentUser,
+// );
 
-// Only admins and technicians are able to modify tickets statuses
-router.patch(
-  "/:id/status",
-  authMiddleware,
-  roleMiddleware([1, 2]),
-  ticketController.updateStatus,
-);
+// // Admins and technicians can get tickets assigned to themselves (middleware)
+// router.get(
+//   "/assigned",
+//   authMiddleware,
+//   roleMiddleware([1, 2]),
+//   ticketController.getTicketsAssignedToCurrentUser,
+// );
 
-// Anyone authenticated can manage their tickets
-router.post("/", authMiddleware, ticketController.createTicket);
-router.patch("/:id", authMiddleware, ticketController.updateTicket);
-router.delete("/:id", authMiddleware, ticketController.deleteTicket);
+// // Only admins can get tickets created by any account (controller)
+// // Technicians can only get tickets created by themselves and users (controller)
+// // Users can only get tickets they created (controller)
+// router.get(
+//   "/created-by/:user_id",
+//   authMiddleware,
+//   roleMiddleware([1, 2, 3]),
+//   ticketController.getTicketsCreatedByUser,
+// );
+
+// // Only admins can get tickets assigned to any account (middleware)
+// // Technicians can only get tickets assigned to themselves or other technicians (controller)
+// router.get(
+//   "/assigned-to/:user_id",
+//   authMiddleware,
+//   roleMiddleware([1, 2]),
+//   ticketController.getTicketsAssignedToUser,
+// );
+
+// // Any authenticated account can create new tickets
+// router.post(
+//   "/",
+//   authMiddleware,
+//   roleMiddleware([1, 2, 3]),
+//   ticketController.createTicket,
+// );
+
+// // Only admins can update any ticket
+// // Technicians can update tickets they created or are assigned to
+// // Users can only update tickets they created
+// router.patch(
+//   "/",
+//   authMiddleware,
+//   roleMiddleware([1, 2, 3]),
+//   ticketController.updateTicket,
+// );
+
+// // Only admins can modify any ticket status
+// // Technicians can modify the status of tickets they created or are assigned to
+// router.patch(
+//   "/status",
+//   authMiddleware,
+//   roleMiddleware([1, 2]),
+//   ticketController.updateStatus,
+// );
+
+// // Only admins can assign tickets to any account
+// // Technicians can only assign tickets to themselves
+// router.patch(
+//   "/assign",
+//   authMiddleware,
+//   roleMiddleware([1, 2]),
+//   ticketController.assignTicket,
+// );
+
+// // Only admins can unassign tickets from any account
+// // Technicians can only unassign their own tickets
+// router.patch(
+//   "/unassign",
+//   authMiddleware,
+//   roleMiddleware([1, 2]),
+//   ticketController.unassignTicket,
+// );
+
+// // Only admins can delete any ticket
+// // Technicians can delete tickets they created
+// // Users can delete tickets they created
+// router.delete(
+//   "/",
+//   authMiddleware,
+//   roleMiddleware([1, 2, 3]),
+//   ticketController.deleteTicket,
+// );
 
 export default router;

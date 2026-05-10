@@ -2,17 +2,17 @@ import db from "../config/db.js";
 
 async function getAllUsers() {
   const sql = `
-      SELECT 
-        u.id,
-        u.username,
-        u.email,
-        r.name AS role,
-        u.created_at,
-        u.active
-      FROM users u
-      LEFT JOIN roles r ON u.role_id = r.id
-      WHERE u.is_deleted = 0;
-    `;
+    SELECT 
+      u.id,
+      u.username,
+      u.email,
+      r.name AS role,
+      u.created_at,
+      u.active
+    FROM users u
+    LEFT JOIN roles r ON u.role_id = r.id
+    WHERE u.is_deleted = 0;
+  `;
 
   const [result] = await db.execute(sql);
   return result;
@@ -69,6 +69,19 @@ async function getUserByEmail(email) {
   `;
 
   const [result] = await db.execute(sql, [email]);
+  return result[0];
+}
+
+async function getUserPassword(id) {
+  const sql = `
+    SELECT
+      id,
+      password
+    FROM users
+    WHERE id = ? AND is_deleted = 0
+  `;
+
+  const [result] = await db.execute(sql, [id]);
   return result[0];
 }
 
@@ -134,6 +147,7 @@ export {
   getUserById,
   getUserByUsername,
   getUserByEmail,
+  getUserPassword,
   createUser,
   updateUser,
   activateUser,

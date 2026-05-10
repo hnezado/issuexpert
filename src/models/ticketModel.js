@@ -13,7 +13,7 @@ async function getAllTickets() {
       t.created_at,
       t.updated_at
     FROM Tickets t
-    LEFT JOIN status s ON t.status_id = s.id
+    LEFT JOIN TicketStatuses s ON t.status_id = s.id
     WHERE t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
@@ -22,7 +22,73 @@ async function getAllTickets() {
   return result;
 }
 
-async function getTicketsByUser(userId) {
+async function findById(ticketId) {
+  const sql = `
+    SELECT 
+      t.id,
+      t.title,
+      t.description,
+      t.priority,
+      t.status_id,
+      t.created_by,
+      t.assigned_to,
+      t.created_at,
+      t.updated_at,
+      t.is_deleted
+    FROM Tickets t
+    WHERE t.id = ? AND t.is_deleted = 0
+    LIMIT 1;
+  `;
+
+  const [result] = await db.execute(sql, [ticketId]);
+  return result[0];
+}
+
+async function getAllAssignedTickets() {
+  const sql = `
+    SELECT 
+      t.id,
+      t.title,
+      t.description,
+      t.priority,
+      s.name AS status,
+      t.created_by,
+      t.assigned_to,
+      t.created_at,
+      t.updated_at
+    FROM Tickets t
+    LEFT JOIN status s ON t.status_id = s.id
+    WHERE t.assigned_to IS NOT NULL AND t.is_deleted = 0
+    ORDER BY t.created_at DESC;
+  `;
+
+  const [result] = await db.execute(sql);
+  return result;
+}
+
+async function getAllUnassignedTickets() {
+  const sql = `
+    SELECT 
+      t.id,
+      t.title,
+      t.description,
+      t.priority,
+      s.name AS status,
+      t.created_by,
+      t.assigned_to,
+      t.created_at,
+      t.updated_at
+    FROM Tickets t
+    LEFT JOIN status s ON t.status_id = s.id
+    WHERE t.assigned_to IS NULL AND t.is_deleted = 0
+    ORDER BY t.created_at DESC;
+  `;
+
+  const [result] = await db.execute(sql);
+  return result;
+}
+
+async function getTicketsCreatedByUser(userId) {
   const sql = `
     SELECT 
       t.id,
@@ -44,7 +110,7 @@ async function getTicketsByUser(userId) {
   return result;
 }
 
-async function getTicketsAssigned(userId) {
+async function getTicketsAssignedToUser(userId) {
   const sql = `
     SELECT 
       t.id,
@@ -66,30 +132,24 @@ async function getTicketsAssigned(userId) {
   return result;
 }
 
-async function createTicket(
-  title,
-  description,
-  priority,
-  status_id,
-  created_by,
-) {
+async function createTicket(title, description, priority, created_by) {
   const sql = `
-    INSERT INTO Tickets (title, description, priority, status_id, created_by)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO Tickets (title, description, priority, created_by)
+    VALUES (?, ?, ?, ?)
     `;
 
   const [result] = await db.execute(sql, [
     title,
     description,
     priority,
-    status_id,
     created_by,
   ]);
   return result;
 }
 
-// Updates a ticket dynamically based on provided fields
 async function updateTicket(fields, values) {
+  // Updates a ticket dynamically based on provided fields
+  // Using safe parameter placeholders (?) to avoid SQL injection
   const sql = `
     UPDATE Tickets
     SET ${fields.join(", ")}
@@ -111,14 +171,26 @@ async function updateTicketStatus(ticketId, statusId) {
   return result;
 }
 
-async function assignTicket(ticketId, technicianId) {
+async function assignTicket(ticketId, assignTo) {
   const sql = `
     UPDATE Tickets
     SET assigned_to = ?
     WHERE id = ? AND is_deleted = 0
+    AND (assigned_to IS NULL OR assigned_to != ?)
     `;
 
-  const [result] = await db.execute(sql, [technicianId, ticketId]);
+  const [result] = await db.execute(sql, [assignTo, ticketId, assignTo]);
+  return result;
+}
+
+async function unassignTicket(ticketId) {
+  const sql = `
+    UPDATE Tickets
+    SET assigned_to = NULL
+    WHERE id = ? AND is_deleted = 0 AND assigned_to IS NOT NULL
+    `;
+
+  const [result] = await db.execute(sql, [ticketId]);
   return result;
 }
 
@@ -135,11 +207,12 @@ async function deleteTicket(id) {
 
 export {
   getAllTickets,
-  getTicketsByUser,
-  getTicketsAssigned,
+  getTicketsCreatedByUser,
+  getTicketsAssignedToUser,
   createTicket,
   updateTicket,
   updateTicketStatus,
   assignTicket,
+  unassignTicket,
   deleteTicket,
 };

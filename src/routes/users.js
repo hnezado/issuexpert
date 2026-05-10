@@ -56,22 +56,6 @@ router.patch(
   userController.updateUser,
 );
 
-// Only admins can activate any account (middleware)
-router.patch(
-  "/:id/activate",
-  authMiddleware,
-  roleMiddleware([1]),
-  userController.activateUser,
-);
-
-// Only admins can deactivate any account (middleware)
-router.patch(
-  "/:id/deactivate",
-  authMiddleware,
-  roleMiddleware([1]),
-  userController.deactivateUser,
-);
-
 // Only admins can delete any account (middleware)
 router.delete(
   "/:id",

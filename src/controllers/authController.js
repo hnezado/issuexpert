@@ -16,17 +16,23 @@ async function login(req, res) {
     }
 
     // Checking if user exists
-    let user = await userModel.findByUsername(identifier.toLowerCase());
+    let user = await userModel.getUserByUsername(identifier.toLowerCase());
     if (!user) {
-      user = await userModel.findByEmail(identifier.toLowerCase());
+      user = await userModel.getUserByEmail(identifier.toLowerCase());
     }
     if (!user) {
       logger.warn("AuthController.login: invalid user identifier");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    let dbPassword = (await userModel.getUserPassword(user.id)).password;
+    if (!dbPassword) {
+      logger.warn("AuthController.login: no password retrieved");
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
     // Validating password
-    const validPassword = await comparePassword(password, user.password);
+    const validPassword = await comparePassword(password, dbPassword);
     if (!validPassword) {
       logger.warn("AuthController.login: invalid user password");
       return res.status(400).json({ message: "Invalid credentials" });
@@ -40,7 +46,7 @@ async function login(req, res) {
       token,
     });
   } catch (error) {
-    logger.error("AuthController.login: error logging in");
+    logger.error("AuthController.login: error logging in", { error });
     return res.status(500).json({ message: error.message });
   }
 }
@@ -67,7 +73,8 @@ async function getUserInfo(req, res) {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
-    const user = await userModel.findById(req.user.id);
+    const user = await userModel.getUserById(req.user.id);
+
     if (!user) {
       logger.warn("AuthController.getUserInfo: user not found");
       return res.status(404).json({ message: "User not found" });
