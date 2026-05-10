@@ -5,7 +5,7 @@ import { ERROR_CODES } from "../config.js";
  * Checks route access (auth + roles).
  * Returns { ok, [errorCode] }.
  */
-async function checkAccess(routeConfig) {
+function checkAccess(routeConfig, currentUser) {
   if (!routeConfig) {
     return { ok: false, errorCode: ERROR_CODES.NOT_FOUND };
   }
@@ -14,7 +14,6 @@ async function checkAccess(routeConfig) {
     return { ok: true };
   }
 
-  const currentUser = await fetchCurrentUser();
   if (!currentUser) {
     return { ok: false, errorCode: ERROR_CODES.NOT_AUTHENTICATED };
   }
@@ -23,7 +22,7 @@ async function checkAccess(routeConfig) {
     return { ok: true };
   }
 
-  if (!routeConfig.allowedRoles.includes(currentUser.role_id)) {
+  if (!routeConfig.allowedRoles.includes(currentUser.role)) {
     return { ok: false, errorCode: ERROR_CODES.NO_PERMISSIONS };
   }
 

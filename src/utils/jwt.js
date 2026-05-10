@@ -4,7 +4,7 @@ function generateToken(user) {
   return jwt.sign(
     {
       id: user.id,
-      role_id: user.role_id,
+      role: user.role,
     },
     process.env.JWT_SECRET,
     { expiresIn: "1d" },
