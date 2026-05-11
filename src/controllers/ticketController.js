@@ -1,6 +1,7 @@
 import * as ticketModel from "../models/ticketModel.js";
 import * as userModel from "../models/userModel.js";
 import logger from "../utils/logger.js";
+import { getStatusId } from "../utils/statuses.js";
 
 // Get all users excluding soft deleted ones
 async function getAllTickets(req, res) {
@@ -221,7 +222,7 @@ async function createTicket(req, res) {
 
 async function updateTicket(req, res) {
   try {
-    const ticketId = Number(req.params.ticket_id);
+    const ticketId = Number(req.params.id);
     const requesterId = req.user.id;
     const requesterRole = req.user.role;
 
@@ -255,6 +256,8 @@ async function updateTicket(req, res) {
     }
 
     const { title, description, priority } = req.body;
+    const status_id = getStatusId(req.body.status);
+    getStatusId;
 
     if (!title) {
       logger.warn("TicketController.createTicket: missing title");
@@ -278,6 +281,11 @@ async function updateTicket(req, res) {
     if (priority !== undefined && priority !== ticket.priority) {
       fields.push("priority = ?");
       values.push(priority);
+    }
+
+    if (status_id !== undefined && status_id !== ticket.status_id) {
+      fields.push("status_id = ?");
+      values.push(status_id);
     }
 
     if (fields.length === 0) {

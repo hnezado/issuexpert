@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import ticketRoutes from "./routes/tickets.js";
+import statusesRoutes from "./routes/statuses.js";
 import categoryRoutes from "./routes/categories.js";
 import messageRoutes from "./routes/messages.js";
 
@@ -25,6 +26,7 @@ app.use(express.static("public"));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/statuses", statusesRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/messages", messageRoutes);
 
