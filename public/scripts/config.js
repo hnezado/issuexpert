@@ -36,7 +36,7 @@ const ROUTES = {
     url: "/admin-panel",
     requireAuth: true,
     allowedRoles: ["admin"],
-    views: ["admin-panel"],
+    views: ["header", "admin-panel"],
   },
 };
 

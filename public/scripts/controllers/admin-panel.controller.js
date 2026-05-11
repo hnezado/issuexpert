@@ -710,7 +710,6 @@ class AdminPanelController {
     );
 
     roleInputs.forEach((input) => {
-      console.log("input:", input);
       input.checked = input.value === this.selectedUser.role;
     });
   }
@@ -789,7 +788,7 @@ class AdminPanelController {
         save: async () => {
           const data = modal.getFormData();
 
-          const title = data?.["modal-ticket-create-title"];
+          const title = data?.["modal-form-ticket-create-title"];
           const description = data?.["modal-ticket-create-description"];
           const priority = data?.["modal-ticket-create-priority-slider"];
 
@@ -888,17 +887,17 @@ class AdminPanelController {
       actions: {
         save: async () => {
           const data = modal.getFormData();
-
-          const ticket = data?.["modal-ticket-update-title"];
-          const description = data?.["modal-ticket-update-description"];
-          const priority = data?.["modal-ticket-update-priority"];
+          const title = data?.["modal-form-ticket-update-title"];
+          const description = data?.["modal-form-ticket-update-description"];
+          const priority = data?.["modal-form-ticket-update-priority-slider"];
+          const status = data?.["modal-form-ticket-status"];
 
           // Fields data validation
-          if (!ticket || !priority) {
+          if (!title || !priority) {
             logger.warn(
-              "AdminPanelController.updateUser: missing required fields",
+              "AdminPanelController.updateTicket: missing required fields",
               {
-                ticket,
+                title,
                 priority,
               },
             );
@@ -918,6 +917,7 @@ class AdminPanelController {
                 title,
                 description,
                 priority,
+                status,
               }),
             },
           );
@@ -941,13 +941,76 @@ class AdminPanelController {
     // Ticket data injection
     const modalElem = document.querySelector('[data-js="modal-container"]');
 
-    modalElem.querySelector('[data-js="modal-ticket-update-title"]').value =
-      this.selectedTicket.title;
     modalElem.querySelector(
-      '[data-js="modal-ticket-update-description"]',
+      '[data-js="modal-form-ticket-update-title"]',
+    ).value = this.selectedTicket.title;
+    modalElem.querySelector(
+      '[data-js="modal-form-ticket-update-description"]',
     ).value = this.selectedTicket.description;
-    modalElem.querySelector('[data-js="modal-ticket-update-priority"]').value =
-      this.selectedTicket.priority;
+    const slider = modalElem.querySelector(
+      '[data-js="modal-form-ticket-update-priority-slider"]',
+    );
+    const bubble = modalElem.querySelector(
+      '[data-js="modal-form-ticket-update-priority-slider-bubble"]',
+    );
+    const selectOptionStatus = modalElem.querySelector(
+      '[data-js="modal-form-ticket-status"]',
+    );
+
+    // Statuses dynamic select options build
+    const token = localStorage.getItem("auth_token");
+    if (!token) return null;
+
+    const res = await fetch(`${API_BASE_URL}/statuses`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const statuses = await res.json();
+
+    if (!res.ok) {
+      const error = await res.json();
+      logger.error(
+        "AdminPanelController.updateTicket: error fetching statuses",
+        {
+          status: res.status,
+          message: error,
+        },
+      );
+    }
+
+    statuses.forEach((status) => {
+      const option = document.createElement("option");
+      option.value = status.name;
+      option.textContent = formatStatus(status.name);
+      selectOptionStatus.append(option);
+    });
+    selectOptionStatus.value = this.selectedTicket.status;
+
+    // Priority bubble update and positioning
+    const updateBubble = () => {
+      const value = Number(slider.value);
+      const min = Number(slider.min);
+      const max = Number(slider.max);
+
+      const percent = (value - min) / (max - min);
+
+      const sliderWidth = slider.offsetWidth;
+      const offset = percent * (sliderWidth - 14) + 7;
+
+      bubble.textContent = value;
+      bubble.style.left = `${offset}px`;
+    };
+
+    slider.value = this.selectedTicket.priority;
+    bubble.textContent = this.selectedTicket.priority;
+
+    slider.addEventListener("input", updateBubble);
+
+    updateBubble();
   }
 
   async deleteTicket() {
