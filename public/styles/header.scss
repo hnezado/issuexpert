@@ -11,6 +11,7 @@
   border-bottom: 1px solid $border;
   box-shadow: $shadow-sm;
   width: 100%;
+  height: 80px;
 
   &-logo {
     @include flex(row);
@@ -92,8 +93,13 @@
 
         &-content {
           font-size: 0.9rem;
-          margin-right: 5px;
+          margin-right: 8px;
           color: $text;
+        }
+
+        & .btn-anim-content-rotate {
+          position: relative;
+          top: 3px;
         }
       }
     }

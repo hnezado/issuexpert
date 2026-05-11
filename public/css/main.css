@@ -226,6 +226,9 @@ body.modal-open {
   transition: transform 0.4s ease;
   transform-origin: center;
 }
+.btn-anim-content-rotate img {
+  width: 18px;
+}
 .btn-anim-content-rotate:hover {
   transform: rotate(270deg);
 }

@@ -12,6 +12,7 @@
   border-bottom: 1px solid #e2e8f0;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   width: 100%;
+  height: 80px;
 }
 .header-logo {
   display: flex;
@@ -100,8 +101,12 @@
 }
 .header-user-details-role-content {
   font-size: 0.9rem;
-  margin-right: 5px;
+  margin-right: 8px;
   color: #0f172a;
+}
+.header-user-details-role .btn-anim-content-rotate {
+  position: relative;
+  top: 3px;
 }
 
 @media (max-width: 650px) {

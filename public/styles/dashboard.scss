@@ -1,7 +1,7 @@
 @use "core" as *;
 
 .debug-error-buttons {
-  @include flex(column);
+  @include flex(column, center, flex-start);
   gap: $spacing-sm;
 
   position: fixed;
