@@ -2,43 +2,49 @@
   <div class="modal-form-group">
     <label for="modal-form-ticket-title" class="modal-form-label">Title</label>
     <input
-      placeholder="Brief issue summary"
       id="modal-form-ticket-title"
-      data-js="modal-form-ticket-create-title"
+      data-js="modal-form-ticket-update-title"
       class="modal-form-input"
-      required
+      disabled
     />
   </div>
   <div class="modal-form-group">
     <label for="modal-form-ticket-description" class="modal-form-label"
-      >Description</label
+      >Email</label
     >
     <textarea
-      placeholder="Describe the issue in detail"
       id="modal-form-ticket-description"
-      data-js="modal-ticket-create-description"
+      data-js="modal-form-ticket-update-description"
       class="modal-form-textarea"
     ></textarea>
   </div>
   <div class="modal-form-group">
     <label class="modal-form-label">Priority</label>
     <div class="modal-form-slider-wrapper">
-      <!-- <span
-        data-js="modal-ticket-create-priority-span"
-        class="modal-form-input-slider-label"
-        >0</span
-      > -->
       <input
         value="5"
         type="range"
         min="1"
         max="9"
         id="modal-form-ticket-priority"
-        data-js="modal-ticket-create-priority-slider"
+        data-js="modal-form-ticket-update-priority-slider"
         class="modal-form-slider"
         data-slider
       />
-      <span class="modal-form-slider-bubble" data-slider-value>5</span>
+      <span
+        class="modal-form-slider-bubble"
+        data-js="modal-form-ticket-update-priority-slider-bubble"
+        data-slider-value
+        >5</span
+      >
     </div>
+  </div>
+  <div class="modal-form-group">
+    <label class="modal-form-label">Status</label>
+    <select
+      name="status"
+      data-js="modal-form-ticket-status"
+      class="form-select"
+    ></select>
   </div>
 </div>
