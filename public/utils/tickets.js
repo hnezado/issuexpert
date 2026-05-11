@@ -52,4 +52,17 @@ function formatPriority(priority = 5, showIcon = false) {
     : `${label} (${priority})`;
 }
 
-export { getPriorityStr, formatPriority };
+// Formats status
+function formatStatus(status) {
+  if (!status) {
+    logger.warn("UtilsTickets.formatStatus: no status");
+    return;
+  }
+
+  let formattedStatus = status.trim().replaceAll("_", " ");
+  formattedStatus = `${formattedStatus[0]?.toUpperCase()}${formattedStatus.slice(1)}`;
+
+  return formattedStatus;
+}
+
+export { getPriorityStr, formatPriority, formatStatus };

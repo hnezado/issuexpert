@@ -9,7 +9,11 @@ import {
 } from "../core/controller-registry.js";
 import { formatText } from "../../utils/general.js";
 import { formatDate } from "../../utils/date.js";
-import { getPriorityStr, formatPriority } from "../../utils/tickets.js";
+import {
+  getPriorityStr,
+  formatPriority,
+  formatStatus,
+} from "../../utils/tickets.js";
 import {
   cleanUsername,
   isValidUsername,
@@ -350,7 +354,7 @@ class AdminPanelController {
         <div class="cell" data-label="Title">${ticket.title}</div>
         <div class="cell hide-750" data-label="Description">${ticket.description}</div>
         <div class="cell hide-500 priority-${getPriorityStr(ticket.priority)}" data-label="Priority">${formatPriority(ticket.priority)}</div>
-        <div class="cell hide-600" data-label="Status">${ticket.status}</div>
+        <div class="cell hide-600" data-label="Status">${formatStatus(ticket.status)}</div>
         <div class="cell" data-label="Created by">${ticket.created_by}</div>
         <div class="cell hide-900" data-label="Last modified">${formatDate(ticket.updated_at, true)}</div>
       `;
@@ -798,6 +802,7 @@ class AdminPanelController {
                 priority,
               },
             );
+            modal.close();
             return;
           }
 
