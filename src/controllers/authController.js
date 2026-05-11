@@ -83,6 +83,7 @@ async function getUserInfo(req, res) {
     return res.json({
       message: "User found successfully",
       user: {
+        id: user.id,
         username: user.username,
         email: user.email,
         role: user.role,
