@@ -158,6 +158,10 @@ body.modal-open {
     background-color: $primary-hover;
     box-shadow: $shadow-sm;
 
+    & .icon {
+      stroke: $primary;
+    }
+
     .btn-anim-content-grow {
       &-sm {
         transform: scale(1.05);
@@ -279,7 +283,7 @@ body.modal-open {
         transition: transform 0.2s ease;
 
         .icon {
-          color: $text-inverse;
+          stroke: $text-inverse;
           width: 24px;
           height: 24px;
           flex-shrink: 0;

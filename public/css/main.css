@@ -141,6 +141,9 @@ body.modal-open {
   background-color: #eaf2fb;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+.btn:hover .icon {
+  stroke: #7a9de9;
+}
 .btn:hover .btn-anim-content-grow-sm {
   transform: scale(1.05);
 }
@@ -235,7 +238,7 @@ body.modal-open {
   transition: transform 0.2s ease;
 }
 .btn-anim-content-grow-sm .icon, .btn-anim-content-grow-md .icon {
-  color: #f8fafc;
+  stroke: #f8fafc;
   width: 24px;
   height: 24px;
   flex-shrink: 0;

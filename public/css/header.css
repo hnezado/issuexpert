@@ -104,4 +104,59 @@
   color: #0f172a;
 }
 
+@media (max-width: 650px) {
+  .header-user {
+    position: relative;
+  }
+  .header-user-avatar-content {
+    width: 35px;
+    height: 35px;
+    font-size: 0.75rem;
+  }
+  .header-user-details {
+    width: 100%;
+  }
+  .header-user-details-name {
+    font-size: 0.95rem;
+  }
+  .header-user-details-email {
+    font-size: 0.75rem;
+  }
+  .header-user-details-role-content {
+    font-size: 0.85rem;
+  }
+  .header-user .btn[data-js=header-btn-logout] {
+    position: absolute;
+    top: 19px;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    transform: translateY(-50%);
+    border: none;
+  }
+  .header-user .btn[data-js=header-btn-logout] .btn-anim-content-grow-md .icon {
+    width: 12px;
+    height: 12px;
+  }
+}
+@media (max-width: 500px) {
+  .header {
+    padding-right: 0;
+  }
+  .header-logo-title-container {
+    display: none;
+  }
+}
+@media (max-width: 380px) {
+  .header-user-avatar {
+    display: none;
+  }
+  .header-user-details {
+    padding-right: 40px;
+  }
+  .header-user-details-email {
+    display: none;
+  }
+}
+
 /*# sourceMappingURL=header.css.map */
