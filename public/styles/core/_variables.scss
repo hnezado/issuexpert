@@ -24,7 +24,7 @@ $text-inverse: #f8fafc; // text on dark elements (badges, etc)
 $primary: #7a9de9; // main buttons / links (slightly darker than dark mode)
 // $primary-hover: #70a3f4; // hover state
 $primary-hover: #eaf2fb;
-$primary-active: #5c7edb; // active/pressed state
+$primary-active: #6f8ad5; // active/pressed state
 
 // Status system (tickets)
 $success: #16a34a; // resolved / done
@@ -36,8 +36,9 @@ $warning-hover: #f59e0b;
 $warning-active: #b45309;
 
 $danger: #dc2626; // blocked / error
-$danger-hover: #ef4444;
-$danger-active: #b91c1c;
+$danger-hover: #f05060;
+$danger-active: #881818;
+$danger-dark: #3a1018;
 
 $info: #0891b2; // informational
 $info-hover: #06b6d4;

@@ -12,6 +12,7 @@
   box-shadow: $shadow-sm;
   width: 100%;
   height: 80px;
+  transition: 0.3s ease;
 
   &-logo {
     @include flex(row);
@@ -62,6 +63,7 @@
   }
 
   &-user {
+    position: relative;
     @include flex(row, center, center);
 
     &-avatar {
@@ -79,6 +81,7 @@
     }
 
     &-details {
+      position: relative;
       @include flex(column, space-between, flex-start);
       gap: 5px;
       padding: $spacing-sm $spacing-md;
@@ -96,10 +99,19 @@
           margin-right: 8px;
           color: $text;
         }
+      }
 
-        & .btn-anim-content-rotate {
-          position: relative;
-          top: 3px;
+      & .btn-anim-content-rotate {
+        position: absolute;
+        bottom: 0px;
+        right: 16px;
+        width: 20px;
+        height: 20px;
+        transform: translateY(-50%);
+
+        svg {
+          width: 24px;
+          height: 24px;
         }
       }
     }
@@ -109,8 +121,6 @@
 @media (max-width: 650px) {
   .header {
     &-user {
-      position: relative;
-
       &-avatar {
         &-content {
           width: 35px;

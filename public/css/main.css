@@ -134,7 +134,7 @@ body.modal-open {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   user-select: none;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 .btn:hover {
   color: #7a9de9;
@@ -172,6 +172,10 @@ body.modal-open {
   font-size: 1.2rem;
   padding: 5px;
 }
+.btn-mini svg {
+  width: 16px;
+  height: 16px;
+}
 .btn-mini img {
   width: 16px;
   height: 16px;
@@ -200,11 +204,17 @@ body.modal-open {
 .btn-clean:hover {
   background-color: #c3c8ce;
 }
+.btn-clean:hover svg {
+  stroke: #7a9de9;
+}
+.btn-clean:hover svg:not([fill=none]) {
+  fill: #7a9de9;
+}
 .btn-clean:disabled {
   cursor: not-allowed;
   pointer-events: none;
 }
-.btn-clean:disabled img {
+.btn-clean:disabled svg {
   opacity: 0.2;
 }
 .btn.btn-sm {
@@ -223,29 +233,29 @@ body.modal-open {
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: transform 0.4s ease;
+}
+.btn-anim-content-rotate svg {
+  width: 18px;
+  transition: transform 0.3s ease;
   transform-origin: center;
 }
-.btn-anim-content-rotate img {
-  width: 18px;
-}
-.btn-anim-content-rotate:hover {
+.btn-anim-content-rotate:hover svg {
   transform: rotate(270deg);
-}
-.btn-anim-content-rotate:not(:hover) {
-  transform: rotate(0deg);
 }
 .btn-anim-content-grow-sm, .btn-anim-content-grow-md {
   display: inline-block;
   transform-origin: center;
   transition: transform 0.2s ease;
 }
-.btn-anim-content-grow-sm .icon, .btn-anim-content-grow-md .icon {
+.btn-anim-content-grow-sm svg, .btn-anim-content-grow-md svg {
   stroke: #f8fafc;
   width: 24px;
   height: 24px;
   flex-shrink: 0;
   display: block;
+}
+.btn-anim-content-grow-sm:hover svg, .btn-anim-content-grow-md:hover svg {
+  stroke: #7a9de9;
 }
 .btn-anim-letter-spacing {
   display: inline-block;
@@ -336,14 +346,6 @@ body.modal-open {
   .btn-mini {
     width: 24px;
     height: 24px;
-  }
-  .btn-mini img {
-    width: 16px;
-    height: 16px;
-  }
-  .btn-mini:hover img {
-    width: 20px;
-    height: 20px;
   }
 }
 @media (max-width: 380px) {
