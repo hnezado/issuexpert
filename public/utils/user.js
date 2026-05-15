@@ -69,12 +69,26 @@ function isValidPassword(password) {
 // Spaces " " become periods "."
 function cleanUsername(username) {
   if (!username) {
-    logger.warn("UtilsUser.cleanUsername: no username");
     return;
   }
+  // Replace globally one or more spaces with dot
+  return username.trim().replace(/\s+/g, ".");
+}
 
-  const cleanedUsername = username.trim().replace(/\s+/g, "."); // replace globally one or more spaces with dot
-  return cleanedUsername;
+// Beautify the username before displaying it in the UI
+// Periods "." become spaces " "
+function beautifyUsername(username) {
+  if (!username) return;
+  // Replace globally one or more periods with space
+  return username
+    .trim()
+    .split(".")
+    .filter(Boolean)
+    .map((word) => {
+      const cleaned = word.trim().toLowerCase();
+      return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+    })
+    .join(" ");
 }
 
 // Generates avatar (username initials)
@@ -98,5 +112,6 @@ export {
   isValidEmail,
   isValidPassword,
   cleanUsername,
+  beautifyUsername,
   getUserAvatar,
 };
