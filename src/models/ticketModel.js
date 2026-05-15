@@ -57,7 +57,7 @@ async function getAllAssignedTickets() {
       t.created_at,
       t.updated_at
     FROM Tickets t
-    LEFT JOIN status s ON t.status_id = s.id
+    LEFT JOIN ticketstatuses s ON t.status_id = s.id
     WHERE t.assigned_to IS NOT NULL AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
@@ -79,7 +79,7 @@ async function getAllUnassignedTickets() {
       t.created_at,
       t.updated_at
     FROM Tickets t
-    LEFT JOIN status s ON t.status_id = s.id
+    LEFT JOIN ticketstatuses s ON t.status_id = s.id
     WHERE t.assigned_to IS NULL AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
@@ -101,7 +101,7 @@ async function getTicketsCreatedByUser(userId) {
       t.created_at,
       t.updated_at
     FROM Tickets t
-    LEFT JOIN status s ON t.status_id = s.id
+    LEFT JOIN ticketstatuses s ON t.status_id = s.id
     WHERE t.created_by = ? AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
@@ -123,7 +123,7 @@ async function getTicketsAssignedToUser(userId) {
       t.created_at,
       t.updated_at
     FROM Tickets t
-    LEFT JOIN status s ON t.status_id = s.id
+    LEFT JOIN ticketstatuses s ON t.status_id = s.id
     WHERE t.assigned_to = ? AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;

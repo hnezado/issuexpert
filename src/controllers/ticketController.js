@@ -74,7 +74,7 @@ async function getTicketsCreatedByUser(req, res) {
   try {
     const requesterId = req.user.id;
     const requesterRole = req.user.role;
-    const targetId = Number(req.params.user_id);
+    const targetId = Number(req.params.id);
     const target = await userModel.getUserById(targetId);
 
     if (!target) {
@@ -118,6 +118,7 @@ async function getTicketsCreatedByUser(req, res) {
   }
 }
 
+// DO NOT USE (REDUNDANT)
 async function getTicketsAssignedToCurrentUser(req, res) {
   try {
     const requesterId = req.user.id;
@@ -142,7 +143,7 @@ async function getTicketsAssignedToUser(req, res) {
     const requesterId = req.user.id;
     const requesterRole = req.user.role;
 
-    const targetId = Number(req.params.user_id);
+    const targetId = Number(req.params.id);
 
     const target = await userModel.getUserById(targetId);
 
