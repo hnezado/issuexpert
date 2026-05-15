@@ -24,6 +24,10 @@ async function goTo(routeKey) {
 
   const currentUser = await fetchCurrentUser();
 
+  if (currentUser && routeKey === "login") {
+    return goTo("dashboard");
+  }
+
   if (!currentUser && routeConfig.requireAuth) {
     logger.warn("Router.goTo: auth required but no user");
     return goTo("login");

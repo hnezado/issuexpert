@@ -18,8 +18,19 @@ async function init() {
   const isValidAuth = await verifyAuthToken(authToken);
   if (isValidAuth === false) return;
 
-  // Token is correct > redirect to current page
-  const initialRoute = resolveInitialRoute();
+  // Determine initial route based on auth state and current URL
+  const path = window.location.pathname;
+
+  let initialRoute;
+
+  if (!authToken) {
+    initialRoute = "login";
+  } else if (path === "/") {
+    initialRoute = "dashboard";
+  } else {
+    initialRoute = resolveInitialRoute();
+  }
+
   goTo(initialRoute);
 }
 
