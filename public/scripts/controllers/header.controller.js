@@ -1,6 +1,5 @@
 import { goTo } from "../core/router.js";
-import { fetchCurrentUser } from "../auth/user.js";
-import { logout } from "../auth/logout.js";
+import { fetchCurrentUser, logout } from "../auth/user.js";
 import { logger } from "../core/logger.js";
 import { registerController } from "../core/controller-registry.js";
 import { formatText } from "../../utils/general.js";
