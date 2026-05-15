@@ -1,11 +1,17 @@
 import { getController } from "./controller-registry.js";
 import { logger } from "./logger.js";
 
+let activeControllers = [];
+
 /**
  * Renders views and initializes their controllers
  */
 async function render(viewKeys) {
   if (!viewKeys) return;
+
+  // Cleanup previous controllers before rendering new view
+  activeControllers.forEach((c) => c.destroy?.());
+  activeControllers = [];
 
   const app = document.getElementById("app");
 
@@ -26,7 +32,7 @@ async function render(viewKeys) {
 
   // Load CSS
   for (const viewKey of viewKeys) {
-    // Avoid duplicates (unique id)
+    // Avoid css duplicates (unique id)
     const cssId = `view-css-${viewKey}`;
 
     if (document.getElementById(cssId)) continue;
@@ -44,7 +50,7 @@ async function render(viewKeys) {
     try {
       await import(`/scripts/controllers/${viewKey}.controller.js`);
     } catch (error) {
-      logger.warn("Render.render: no controller", {
+      logger.error("Render.render: no controller", {
         error,
         controllerName: viewKey,
       });
@@ -59,7 +65,7 @@ async function render(viewKeys) {
     if (Controller) {
       controllerInstance = Controller.getInstance();
     } else {
-      logger.warn("Render.render: missing controller", {
+      logger.error("Render.render: missing controller", {
         viewKey,
       });
       continue;
@@ -72,6 +78,10 @@ async function render(viewKeys) {
         viewKey,
         err,
       });
+    }
+
+    if (!activeControllers.includes(controllerInstance)) {
+      activeControllers.push(controllerInstance);
     }
   }
 }
