@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../config.js";
 import { logger } from "../core/logger.js";
+import { goTo } from "../core/router.js";
 
 let cachedUser = null;
 
@@ -60,4 +61,9 @@ function clearCurrentUser() {
   localStorage.removeItem("auth_token");
 }
 
-export { fetchCurrentUser, clearCurrentUser };
+function logout() {
+  clearCurrentUser();
+  goTo("login");
+}
+
+export { fetchCurrentUser, logout };

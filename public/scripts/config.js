@@ -22,15 +22,11 @@ const ROUTES = {
     requireAuth: false,
     views: ["login"],
   },
-  logout: {
-    url: "/logout",
-    requireAuth: true,
-  },
   dashboard: {
     url: "/dashboard",
     requireAuth: true,
     // views: ["header", "tickets-table", "footer"],
-    views: ["header", "dashboard"],
+    views: ["header-sidebar", "dashboard"],
   },
   "admin-panel": {
     url: "/admin-panel",
