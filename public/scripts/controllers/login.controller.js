@@ -91,7 +91,7 @@ class LoginController {
   async login(e) {
     if (e) e.preventDefault();
 
-    const identifier = this.identifierInput.value;
+    let identifier = this.identifierInput.value;
     const password = this.passwordInput.value;
 
     if (!identifier || !password) {
@@ -102,10 +102,9 @@ class LoginController {
       return;
     }
 
-    if (
-      !isValidUsername(cleanUsername(identifier)) &&
-      !isValidEmail(identifier)
-    ) {
+    identifier = cleanUsername(identifier);
+
+    if (!isValidUsername(identifier) && !isValidEmail(identifier)) {
       logger.warn("LoginController.login: invalid identifier", { identifier });
       return;
     }
