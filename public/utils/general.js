@@ -1,5 +1,7 @@
 // Format text capitalizing every word
 function formatText(text = "") {
+  if (!text) return;
+
   const formatted = text
     .trim()
     .split(/\s+/) // One or more spaces

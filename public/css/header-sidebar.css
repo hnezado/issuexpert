@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 300px;
+  width: 180px;
   height: 100vh;
   background: #ffffff;
   border-right: 1px solid #c3c8ce;
@@ -81,16 +81,15 @@
   width: 100%;
 }
 
-.header-filters-container {
+.header-list-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
   gap: 6px;
   width: 100%;
-  padding: 16px 0 16px 8px;
 }
-.header-filters-item {
+.header-list-item {
   position: relative;
   all: unset;
   display: flex;
@@ -98,45 +97,46 @@
   justify-content: flex-end;
   align-items: center;
   gap: 20px;
-  width: 40%;
+  width: 120px;
   padding: 10px 12px;
   border-radius: 8px 0 0 8px;
   font-size: 13px;
   color: #475569;
   white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.header-filters-item-text {
+.header-list-item-text {
   width: 70px;
 }
-.header-filters-item svg {
+.header-list-item svg {
   width: 30px;
   height: 30px;
 }
-.header-filters-item.active {
+.header-list-item.active {
   background: #6f8ad5;
   font-weight: 500;
   padding-right: 22px;
 }
-.header-filters-item.active .header-filters-item-text {
+.header-list-item.active .header-list-item-text {
   color: #f8fafc;
 }
-.header-filters-item.active svg {
+.header-list-item.active svg {
   stroke: #f8fafc;
 }
-.header-filters-item.inactive {
+.header-list-item.inactive {
   opacity: 0.3;
   cursor: not-allowed;
 }
-.header-filters-item:hover:not(.active):not(.inactive) {
+.header-list-item:hover:not(.active):not(.inactive) {
   background: #f1f5f9;
   padding-right: 16px;
 }
-.header-filters-item:hover:not(.active):not(.inactive) .header-filters-item-text {
+.header-list-item:hover:not(.active):not(.inactive) .header-list-item-text {
   color: #7a9de9;
 }
-.header-filters-item:hover:not(.active):not(.inactive) svg {
+.header-list-item:hover:not(.active):not(.inactive) svg {
   stroke: #7a9de9;
 }
 

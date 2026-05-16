@@ -35,18 +35,16 @@ class HeaderSidebarController {
     if (!this.isInitialized) this.destroy();
 
     this.rootElem = rootElem;
-    this.dashboardControllerInstance =
-      getController("dashboard")?.getInstance();
 
     this.gatherElements();
     await this.loadUser();
-    this.renderElements();
     this.bindEvents();
 
-    // Gives enough time to dashboard to initialize
+    this.renderElements();
+
     setTimeout(() => {
-      this.setActiveFilter("owned-tickets");
-    }, 1000);
+      this.setActiveList("owned-tickets");
+    }, 100);
 
     this.isInitialized = true;
   }
@@ -55,7 +53,7 @@ class HeaderSidebarController {
     if (!this.rootElem) return;
 
     this.elements = {
-      filterButtons: this.rootElem.querySelectorAll("[data-filter]"),
+      listButtons: this.rootElem.querySelectorAll("[data-list]"),
       userUsername: this.rootElem.querySelector(
         '[data-js="header-user-username"]',
       ),
@@ -91,20 +89,20 @@ class HeaderSidebarController {
     }
 
     // Filter buttons state
-    const allTicketsBtn = Array.from(this.elements.filterButtons)?.find(
-      (b) => b.dataset.filter === "all-tickets",
+    const allTicketsBtn = Array.from(this.elements.listButtons)?.find(
+      (b) => b.dataset.list === "all-tickets",
     );
-    const assignedTicketsBtn = Array.from(this.elements.filterButtons)?.find(
-      (b) => b.dataset.filter === "assigned-tickets",
+    const assignedTicketsBtn = Array.from(this.elements.listButtons)?.find(
+      (b) => b.dataset.list === "assigned-tickets",
     );
-    const myTicketsBtn = Array.from(this.elements.filterButtons)?.find(
-      (b) => b.dataset.filter === "owned-tickets",
+    const myTicketsBtn = Array.from(this.elements.listButtons)?.find(
+      (b) => b.dataset.list === "owned-tickets",
     );
     const isAdmin = this.currentUser.role === "admin";
     const isTech = this.currentUser.role === "technician";
     const isUser = this.currentUser.role === "user";
 
-    // Reset all filter buttons
+    // Reset all list buttons
     allTicketsBtn.classList.remove("active", "inactive");
     assignedTicketsBtn.classList.remove("active", "inactive");
     myTicketsBtn.classList.remove("active", "inactive");
@@ -122,20 +120,20 @@ class HeaderSidebarController {
   }
 
   bindEvents() {
-    this.handlers.filter = (event) => {
-      const btn = event.target.closest("[data-filter]");
+    this.handlers.list = (event) => {
+      const btn = event.target.closest("[data-list]");
       if (!btn) return;
 
-      const filter = btn.dataset.filter;
-      if (filter === "all-tickets" && this.currentUser.role !== "admin") return;
-      if (filter === "assigned-tickets" && this.currentUser.role === "user")
+      const list = btn.dataset.list;
+      if (list === "all-tickets" && this.currentUser.role !== "admin") return;
+      if (list === "assigned-tickets" && this.currentUser.role === "user")
         return;
 
-      this.setActiveFilter(filter);
+      this.setActiveList(list);
     };
 
-    this.elements.filterButtons?.forEach((btn) => {
-      btn.addEventListener("click", this.handlers.filter);
+    this.elements.listButtons?.forEach((btn) => {
+      btn.addEventListener("click", this.handlers.list);
     });
 
     this.elements.adminBtn?.addEventListener("click", () =>
@@ -145,8 +143,8 @@ class HeaderSidebarController {
   }
 
   destroy() {
-    this.elements.filterButtons?.forEach((btn) => {
-      btn.removeEventListener("click", this.handlers.filter);
+    this.elements.listButtons?.forEach((btn) => {
+      btn.removeEventListener("click", this.handlers.list);
     });
 
     this.elements.logoutBtn?.removeEventListener("click", this.handlers.logout);
@@ -157,13 +155,14 @@ class HeaderSidebarController {
     this.isInitialized = false;
   }
 
-  setActiveFilter(filter) {
-    const dashboardController = getController("dashboard")?.getInstance();
-    this.elements.filterButtons?.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.filter === filter);
+  setActiveList(list) {
+    this.dashboardControllerInstance =
+      getController("dashboard")?.getInstance();
+    this.elements.listButtons?.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.list === list);
     });
 
-    this.dashboardControllerInstance.setActiveFilter(filter);
+    this.dashboardControllerInstance.setActiveList(list);
   }
 }
 

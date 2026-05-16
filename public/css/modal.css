@@ -98,12 +98,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
 }
 .modal-form-label {
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #0f172a;
 }
 .modal-form-input, .modal-form-select, .modal-form-textarea {
@@ -170,7 +170,7 @@
 .modal-form-slider-wrapper {
   position: relative;
   width: 100%;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 .modal-form-slider-bubble {
   position: absolute;
@@ -210,7 +210,34 @@
   accent-color: #7a9de9;
 }
 .modal-form-select {
+  all: unset;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100px;
+  height: 20px;
+  padding: 0 12px;
+  background: #ffffff;
+  border: 1px solid #c3c8ce;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-size: 0.8rem;
+  color: #0f172a;
+  transition: all 0.25s ease;
   cursor: pointer;
+}
+.modal-form-select option {
+  background: #ffffff;
+  color: #0f172a;
+}
+.modal-form-select:hover {
+  background: #f1f5f9;
+  border-color: rgba(122, 157, 233, 0.4);
+}
+.modal-form-select:focus {
+  border-color: #7a9de9;
+  box-shadow: 0 0 0 3px rgba(122, 157, 233, 0.12);
 }
 .modal-form-textarea {
   min-height: 100px;

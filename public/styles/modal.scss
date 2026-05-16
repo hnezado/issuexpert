@@ -96,13 +96,13 @@
     cursor: default;
 
     &-group {
-      @include flex(column);
+      @include flex(column, center, flex-start);
       gap: $spacing-xs;
     }
 
     &-label {
       font-size: 0.9rem;
-      font-weight: 500;
+      font-weight: 600;
       color: $text;
     }
 
@@ -183,7 +183,7 @@
       &-wrapper {
         position: relative;
         width: 100%;
-        margin-top: 30px;
+        margin-top: 20px;
       }
 
       &-bubble {
@@ -229,7 +229,34 @@
     }
 
     &-select {
+      all: unset;
+      @include flex(row, flex-start);
+      width: 100px;
+      height: 20px;
+      padding: 0 12px;
+      background: $surface;
+      border: 1px solid $border-dark;
+      border-radius: 8px;
+      box-shadow: $shadow-sm;
+      font-size: 0.8rem;
+      color: $text;
+      transition: all 0.25s ease;
       cursor: pointer;
+
+      option {
+        background: $surface;
+        color: $text;
+      }
+
+      &:hover {
+        background: $surface-hover;
+        border-color: rgba($primary, 0.4);
+      }
+
+      &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.12);
+      }
     }
 
     &-textarea {

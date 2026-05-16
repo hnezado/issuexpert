@@ -8,6 +8,13 @@ const PRIORITIES = {
   invalid: { label: "Invalid priority" },
 };
 
+const STATUSES = {
+  open: "open",
+  in_progress: "in_progress",
+  resolved: "resolved",
+  closed: "closed",
+};
+
 // Returns corresponding priority label
 function getPriorityKey(priority = 5) {
   if (typeof priority !== "number" || priority < 1 || priority > 9) {
@@ -65,4 +72,29 @@ function formatStatus(status) {
   return formattedStatus;
 }
 
-export { getPriorityStr, formatPriority, formatStatus };
+// Formats tickets list name
+function formatTicketListName(name) {
+  if (!name) return "";
+
+  const parts = name.trim().split("-").filter(Boolean);
+
+  if (parts.length === 0) return "";
+
+  const [first, ...rest] = parts;
+
+  return (
+    first.charAt(0).toUpperCase() +
+    first.slice(1) +
+    (rest.length ? " " + rest.join(" ") : "")
+  );
+}
+
+export {
+  PRIORITIES,
+  STATUSES,
+  getPriorityKey,
+  getPriorityStr,
+  formatPriority,
+  formatStatus,
+  formatTicketListName,
+};

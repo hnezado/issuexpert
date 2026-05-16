@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 300px;
+  width: 180px;
   height: 100vh;
 
   background: $surface;
@@ -39,7 +39,6 @@
   height: 70px;
   cursor: pointer;
   user-select: none;
-  //   box-shadow: $shadow-md;
   border-bottom: 1px solid $border-dark;
 
   &-img {
@@ -79,12 +78,11 @@
   }
 }
 
-.header-filters {
+.header-list {
   &-container {
     @include flex(column, center, flex-end);
     gap: 6px;
     width: 100%;
-    padding: 16px 0 16px 8px;
   }
 
   &-item {
@@ -92,12 +90,13 @@
     all: unset; // Erases any existing style
     @include flex(row, flex-end);
     gap: 20px;
-    width: 40%;
+    width: 120px;
     padding: 10px 12px;
     border-radius: 8px 0 0 8px;
     font-size: 13px;
     color: $text-muted;
     white-space: nowrap;
+    box-shadow: $shadow-sm;
     cursor: pointer;
     transition: all 0.3s ease; // Any animation
 
@@ -115,7 +114,7 @@
       font-weight: 500;
       padding-right: 22px;
 
-      & .header-filters-item-text {
+      & .header-list-item-text {
         color: $text-inverse;
       }
 
@@ -133,7 +132,7 @@
       background: $surface-hover;
       padding-right: 16px;
 
-      & .header-filters-item-text {
+      & .header-list-item-text {
         color: $primary;
       }
 

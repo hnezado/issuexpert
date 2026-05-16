@@ -1,12 +1,375 @@
 @use "core" as *;
 
-.debug-error-buttons {
-  @include flex(column, center, flex-start);
-  gap: $spacing-sm;
+.dashboard {
+  width: 100%;
+  padding: 40px 40px 40px calc(180px + 40px);
 
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
+  &-header {
+    &-title {
+      @include flex();
+      margin: 20px 0 40px;
+    }
 
-  z-index: 5555;
+    &-actions {
+      &-container {
+        @include flex(row, space-between, center);
+        gap: 20px;
+        flex-wrap: nowrap;
+        width: 100%;
+      }
+
+      &-filters {
+        @include flex(row, flex-start);
+        gap: 24px;
+        // flex: 1;
+        min-width: 0;
+        padding: 20px 0;
+
+        &-search {
+          &-container {
+            position: relative;
+
+            svg {
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              right: 16px;
+              width: 16px;
+              height: 16px;
+              pointer-events: none;
+            }
+
+            &:hover {
+              input {
+                background: $surface-hover;
+                border-color: rgba($primary, 0.4);
+                color: $primary;
+
+                &::placeholder {
+                  color: $primary;
+                }
+              }
+
+              svg {
+                stroke: $primary;
+              }
+            }
+
+            &:focus-within {
+              input {
+                background: $surface-hover;
+                border-color: rgba($primary, 0.4);
+                color: $primary;
+
+                &::placeholder {
+                  color: $primary;
+                }
+              }
+
+              svg {
+                stroke: $primary;
+              }
+            }
+          }
+
+          &-input {
+            width: 250px;
+            height: 40px;
+            padding: 0 40px 0 12px;
+            flex: 1;
+
+            background: $surface;
+            border: 1px solid $border-dark;
+            border-radius: 8px;
+
+            box-shadow: $shadow-sm;
+
+            font-size: 13px;
+            color: $text;
+            outline: none;
+
+            transition: all 0.25s ease;
+
+            &::placeholder {
+              color: $text-muted;
+            }
+
+            // &:hover {
+            //   background: $surface-hover;
+            //   border-color: rgba($primary, 0.4);
+            //   color: $primary;
+
+            //   &::placeholder {
+            //     color: $primary;
+            //   }
+            // }
+
+            // &:focus {
+            //   background: $surface-hover;
+            //   border-color: $primary;
+            //   color: $primary;
+            //   box-shadow: 0 0 0 3px rgba($primary, 0.12);
+
+            //   &::placeholder {
+            //     color: $primary;
+            //   }
+            // }
+          }
+        }
+
+        &-status {
+          &-container {
+            position: relative;
+
+            svg {
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              right: 10px;
+              width: 16px;
+              height: 16px;
+              pointer-events: none;
+            }
+
+            &:hover {
+              select {
+                background: $surface-hover;
+                border-color: rgba($primary, 0.4);
+                color: $primary;
+              }
+
+              svg {
+                stroke: $primary;
+                fill: $primary;
+              }
+            }
+
+            &:focus-within {
+              select {
+                background: $surface-hover;
+                border-color: rgba($primary, 0.4);
+                color: $primary;
+              }
+
+              svg {
+                stroke: $primary;
+                fill: $primary;
+              }
+            }
+          }
+
+          &-select {
+            all: unset;
+            @include flex(row, flex-start);
+            width: 100px;
+            height: 40px;
+            padding: 0 12px;
+            background: $surface;
+            border: 1px solid $border-dark;
+            border-radius: 8px;
+            box-shadow: $shadow-sm;
+            font-size: 0.8rem;
+            color: $text;
+            transition: all 0.25s ease;
+            cursor: pointer;
+
+            option {
+              background: $surface;
+              color: $text;
+            }
+
+            &:hover {
+              background: $surface-hover;
+              border-color: rgba($primary, 0.4);
+
+              .dashboard-header-actions-filters-priority-container svg {
+                stroke: $primary;
+                fill: $primary;
+              }
+            }
+
+            &:focus {
+              border-color: $primary;
+              box-shadow: 0 0 0 3px rgba($primary, 0.12);
+            }
+          }
+        }
+
+        &-priority {
+          &-container {
+            position: relative;
+
+            svg {
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              right: 10px;
+              width: 16px;
+              height: 16px;
+              pointer-events: none;
+            }
+
+            &:hover {
+              select {
+                background: $surface-hover;
+                border-color: rgba($primary, 0.4);
+                color: $primary;
+              }
+
+              svg {
+                stroke: $primary;
+                fill: $primary;
+              }
+            }
+
+            &:focus-within {
+              select {
+                background: $surface-hover;
+                border-color: rgba($primary, 0.4);
+                color: $primary;
+              }
+
+              svg {
+                stroke: $primary;
+                fill: $primary;
+              }
+            }
+          }
+
+          &-select {
+            all: unset;
+            @include flex(row, flex-start);
+            width: 100px;
+            height: 40px;
+            padding: 0 12px;
+            background: $surface;
+            border: 1px solid $border-dark;
+            border-radius: 8px;
+            box-shadow: $shadow-sm;
+            font-size: 0.8rem;
+            color: $text;
+            transition: all 0.25s ease;
+            cursor: pointer;
+
+            option {
+              background: $surface;
+              color: $text;
+            }
+
+            &:focus {
+              border-color: $primary;
+              box-shadow: 0 0 0 3px rgba($primary, 0.12);
+            }
+          }
+        }
+      }
+
+      &-crud {
+        @include flex();
+        gap: 5px;
+      }
+    }
+  }
+
+  &-ticket {
+    &-list {
+      @include flex(column, flex-start, stretch);
+      gap: 20px;
+    }
+
+    &-card {
+      @include flex(column, center, stretch);
+      background: $surface;
+      border: 1px solid $border-dark;
+      border-radius: $radius-md;
+      padding: $spacing-md;
+      box-shadow: $shadow-sm;
+      gap: $spacing-sm;
+
+      &[data-selected="true"] {
+        background: $surface-hover;
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.12);
+      }
+
+      &-top {
+        position: relative;
+        @include flex(row, space-between);
+      }
+
+      &-bottom {
+        @include flex(row, space-between);
+      }
+
+      .badge-new {
+        position: absolute;
+        top: -25px;
+        background: #22c55e;
+        color: $surface;
+        font-size: 0.7rem;
+        padding: 2px 6px;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+
+      &-title {
+        font-size: $size-md;
+        font-weight: 600;
+      }
+
+      &-status {
+        background: $surface-hover;
+        color: $text;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: $size-xs;
+        font-weight: 600;
+      }
+
+      &-priority {
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: $size-xs;
+        font-weight: 600;
+      }
+
+      &-assigned {
+        font-size: 0.7rem;
+        color: $text-muted;
+      }
+
+      &-created {
+        font-size: 0.7rem;
+        color: $text-muted;
+      }
+
+      &-updated {
+        font-size: 0.8rem;
+        color: $text-muted;
+      }
+    }
+  }
+}
+
+// Statuses
+.status {
+  &-open {
+    background-color: $primary;
+    color: $text-inverse;
+  }
+
+  &-in-progress {
+    background-color: $priority-medium;
+    color: $text-inverse;
+  }
+
+  &-resolved {
+    background-color: $priority-low;
+    color: $text-inverse;
+  }
+
+  &-closed {
+    background-color: $border-dark;
+    color: $text-inverse;
+  }
 }
