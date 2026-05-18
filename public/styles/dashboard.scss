@@ -1,10 +1,19 @@
 @use "core" as *;
 
 .dashboard {
+  @include flex();
   width: 100%;
-  padding: 40px 40px 40px calc(180px + 40px);
+  padding: 40px 40px 40px calc(200px + 40px);
+
+  &-container {
+    @include flex(column);
+    width: 100%;
+    max-width: 800px;
+  }
 
   &-header {
+    width: 100%;
+
     &-title {
       @include flex();
       margin: 20px 0 40px;
@@ -21,7 +30,6 @@
       &-filters {
         @include flex(row, flex-start);
         gap: 24px;
-        // flex: 1;
         min-width: 0;
         padding: 20px 0;
 
@@ -33,49 +41,17 @@
               position: absolute;
               top: 50%;
               transform: translateY(-50%);
-              right: 16px;
+              left: 14px;
               width: 16px;
               height: 16px;
               pointer-events: none;
             }
-
-            &:hover {
-              input {
-                background: $surface-hover;
-                border-color: rgba($primary, 0.4);
-                color: $primary;
-
-                &::placeholder {
-                  color: $primary;
-                }
-              }
-
-              svg {
-                stroke: $primary;
-              }
-            }
-
-            &:focus-within {
-              input {
-                background: $surface-hover;
-                border-color: rgba($primary, 0.4);
-                color: $primary;
-
-                &::placeholder {
-                  color: $primary;
-                }
-              }
-
-              svg {
-                stroke: $primary;
-              }
-            }
           }
 
           &-input {
-            width: 250px;
+            width: 230px;
             height: 40px;
-            padding: 0 40px 0 12px;
+            padding: 0 12px 0 38px;
             flex: 1;
 
             background: $surface;
@@ -84,7 +60,7 @@
 
             box-shadow: $shadow-sm;
 
-            font-size: 13px;
+            font-size: 0.8rem;
             color: $text;
             outline: none;
 
@@ -94,27 +70,27 @@
               color: $text-muted;
             }
 
-            // &:hover {
-            //   background: $surface-hover;
-            //   border-color: rgba($primary, 0.4);
-            //   color: $primary;
+            &:hover,
+            &:focus,
+            &.active {
+              background: $surface-hover;
+              border-color: rgba($primary, 0.4);
+              color: $primary;
 
-            //   &::placeholder {
-            //     color: $primary;
-            //   }
-            // }
+              &::placeholder {
+                color: $primary;
+              }
 
-            // &:focus {
-            //   background: $surface-hover;
-            //   border-color: $primary;
-            //   color: $primary;
-            //   box-shadow: 0 0 0 3px rgba($primary, 0.12);
-
-            //   &::placeholder {
-            //     color: $primary;
-            //   }
-            // }
+              + svg {
+                stroke: $primary;
+              }
+            }
           }
+        }
+
+        &-subrow {
+          @include flex();
+          gap: 24px;
         }
 
         &-status {
@@ -130,38 +106,12 @@
               height: 16px;
               pointer-events: none;
             }
-
-            &:hover {
-              select {
-                background: $surface-hover;
-                border-color: rgba($primary, 0.4);
-                color: $primary;
-              }
-
-              svg {
-                stroke: $primary;
-                fill: $primary;
-              }
-            }
-
-            &:focus-within {
-              select {
-                background: $surface-hover;
-                border-color: rgba($primary, 0.4);
-                color: $primary;
-              }
-
-              svg {
-                stroke: $primary;
-                fill: $primary;
-              }
-            }
           }
 
           &-select {
             all: unset;
             @include flex(row, flex-start);
-            width: 100px;
+            width: 85px;
             height: 40px;
             padding: 0 12px;
             background: $surface;
@@ -178,19 +128,21 @@
               color: $text;
             }
 
-            &:hover {
+            &:hover,
+            &:focus,
+            &.active {
               background: $surface-hover;
               border-color: rgba($primary, 0.4);
+              color: $primary;
 
-              .dashboard-header-actions-filters-priority-container svg {
+              &::placeholder {
+                color: $primary;
+              }
+
+              + svg {
                 stroke: $primary;
                 fill: $primary;
               }
-            }
-
-            &:focus {
-              border-color: $primary;
-              box-shadow: 0 0 0 3px rgba($primary, 0.12);
             }
           }
         }
@@ -208,38 +160,12 @@
               height: 16px;
               pointer-events: none;
             }
-
-            &:hover {
-              select {
-                background: $surface-hover;
-                border-color: rgba($primary, 0.4);
-                color: $primary;
-              }
-
-              svg {
-                stroke: $primary;
-                fill: $primary;
-              }
-            }
-
-            &:focus-within {
-              select {
-                background: $surface-hover;
-                border-color: rgba($primary, 0.4);
-                color: $primary;
-              }
-
-              svg {
-                stroke: $primary;
-                fill: $primary;
-              }
-            }
           }
 
           &-select {
             all: unset;
             @include flex(row, flex-start);
-            width: 100px;
+            width: 85px;
             height: 40px;
             padding: 0 12px;
             background: $surface;
@@ -256,9 +182,21 @@
               color: $text;
             }
 
-            &:focus {
-              border-color: $primary;
-              box-shadow: 0 0 0 3px rgba($primary, 0.12);
+            &:hover,
+            &:focus,
+            &.active {
+              background: $surface-hover;
+              border-color: rgba($primary, 0.4);
+              color: $primary;
+
+              &::placeholder {
+                color: $primary;
+              }
+
+              + svg {
+                stroke: $primary;
+                fill: $primary;
+              }
             }
           }
         }
@@ -275,6 +213,7 @@
     &-list {
       @include flex(column, flex-start, stretch);
       gap: 20px;
+      width: 100%;
     }
 
     &-card {
@@ -292,60 +231,124 @@
         box-shadow: 0 0 0 3px rgba($primary, 0.12);
       }
 
-      &-top {
+      &-header {
         position: relative;
         @include flex(row, space-between);
+
+        &-badge-new {
+          position: absolute;
+          top: -25px;
+          background: #22c55e;
+          color: $surface;
+          font-size: 0.7rem;
+          padding: 2px 6px;
+          border-radius: 999px;
+          font-weight: 600;
+        }
+
+        &-id {
+          font-size: 0.7rem;
+          color: $text-muted;
+        }
+
+        &-priority {
+          position: absolute;
+          top: -2px;
+          left: 30px;
+
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+
+          &.priority {
+            &-low {
+              svg {
+                stroke: $priority-low;
+              }
+            }
+
+            &-medium {
+              svg {
+                stroke: $priority-medium;
+              }
+            }
+
+            &-high {
+              svg {
+                stroke: $priority-high;
+              }
+            }
+
+            &-critical {
+              svg {
+                stroke: $priority-critical;
+              }
+            }
+          }
+        }
+
+        &-status {
+          background: $surface-hover;
+          color: $text;
+          padding: 2px 8px;
+          border-radius: 999px;
+          font-size: 0.7rem;
+          font-weight: 600;
+        }
       }
 
-      &-bottom {
-        @include flex(row, space-between);
+      &-body {
+        @include flex(column, flex-start);
+        gap: 10px;
+        padding: 0 10px;
+
+        &-title {
+          align-self: flex-start;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+
+        &-description {
+          align-self: flex-start;
+          font-size: 0.75rem;
+        }
       }
 
-      .badge-new {
-        position: absolute;
-        top: -25px;
-        background: #22c55e;
-        color: $surface;
-        font-size: 0.7rem;
-        padding: 2px 6px;
-        border-radius: 999px;
-        font-weight: 600;
-      }
+      &-footer {
+        @include flex(column);
+        gap: 5px;
 
-      &-title {
-        font-size: $size-md;
-        font-weight: 600;
-      }
+        &-date {
+          align-self: flex-end;
 
-      &-status {
-        background: $surface-hover;
-        color: $text;
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: $size-xs;
-        font-weight: 600;
-      }
+          &-updated {
+            font-size: 0.55rem;
+            color: $text-muted;
 
-      &-priority {
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: $size-xs;
-        font-weight: 600;
-      }
+            &-value {
+              padding-left: 5px;
+              font-size: 0.7rem;
+              font-weight: bold;
+            }
+          }
+        }
 
-      &-assigned {
-        font-size: 0.7rem;
-        color: $text-muted;
-      }
+        &-users {
+          @include flex(row, space-between);
+          width: 100%;
 
-      &-created {
-        font-size: 0.7rem;
-        color: $text-muted;
-      }
+          &-created,
+          &-assigned {
+            font-size: 0.55rem;
+            color: $text-muted;
 
-      &-updated {
-        font-size: 0.8rem;
-        color: $text-muted;
+            &-value {
+              font-size: 0.7rem;
+              font-weight: bold;
+            }
+          }
+        }
       }
     }
   }
@@ -354,22 +357,132 @@
 // Statuses
 .status {
   &-open {
-    background-color: $primary;
+    background-color: $status-open;
     color: $text-inverse;
   }
 
   &-in-progress {
-    background-color: $priority-medium;
-    color: $text-inverse;
+    background-color: $status-in-progress;
+    color: $text;
   }
 
   &-resolved {
-    background-color: $priority-low;
+    background-color: $status-resolved;
     color: $text-inverse;
   }
 
   &-closed {
-    background-color: $border-dark;
+    background-color: $status-closed;
     color: $text-inverse;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard {
+    &-header {
+      &-actions {
+        &-container {
+          @include flex(column, center, flex-start);
+        }
+
+        &-filters {
+          // @include flex(column, center, flex-start);
+          gap: 8px;
+          padding: 0;
+
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+
+          &-subrow {
+            @include flex(row, flex-start);
+            gap: 8px;
+          }
+
+          &-search {
+            &-input {
+              width: 200px;
+              height: 34px;
+            }
+
+            &::placeholder {
+              font-size: 0.7rem;
+            }
+          }
+
+          &-status,
+          &-priority {
+            &-select {
+              width: 80px;
+              height: 32px;
+              padding: 0 7px;
+              font-size: 0.7rem;
+            }
+          }
+        }
+
+        &-crud {
+          gap: 1px;
+          align-self: flex-end;
+          padding-bottom: 20px;
+          // padding-bottom: 15px;
+
+          button {
+            transform: scale(0.85);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .dashboard {
+    padding-left: 90px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  .dashboard {
+    &-header {
+      &-actions {
+        &-container {
+          @include flex(row, space-between);
+        }
+
+        &-filters {
+          @include flex(column);
+          padding-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard {
+    padding-left: calc(20px + 50px);
+    padding-right: 20px;
+
+    &-header {
+      &-actions {
+        &-crud {
+          @include flex(column);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .dashboard {
+    &-header {
+      &-actions {
+        &-filters {
+        }
+      }
+    }
   }
 }

@@ -1,156 +1,166 @@
 <div class="dashboard">
-  <div class="dashboard-header">
-    <h2 class="dashboard-header-title" data-js="dashboard-header-title">...</h2>
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h2 class="dashboard-header-title" data-js="dashboard-header-title">
+        ...
+      </h2>
 
-    <div class="dashboard-header-actions-container">
-      <div class="dashboard-header-actions-filters">
-        <!-- Search filter -->
-        <div class="dashboard-header-actions-filters-search-container">
-          <input
-            type="text"
-            placeholder="Search ticket..."
-            class="dashboard-header-actions-filters-search-input"
-            data-js="dashboard-header-actions-filters-search-input"
-          />
-          <svg
-            width="256px"
-            height="256px"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="black"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+      <div class="dashboard-header-actions-container">
+        <div class="dashboard-header-actions-filters">
+          <!-- Search filter -->
+          <div class="dashboard-header-actions-filters-search-container">
+            <input
+              type="text"
+              placeholder="Search tickets..."
+              class="dashboard-header-actions-filters-search-input"
+              data-js="dashboard-header-actions-filters-search-input"
             />
-          </svg>
-        </div>
+            <svg
+              width="256px"
+              height="256px"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+              />
+            </svg>
+          </div>
+          <div class="dashboard-header-actions-filters-subrow">
+            <!-- Status filter -->
+            <div class="dashboard-header-actions-filters-status-container">
+              <select
+                class="dashboard-header-actions-filters-status-select"
+                data-js="dashboard-header-actions-filters-status-select"
+              ></select>
+              <svg
+                width="256px"
+                height="256px"
+                viewBox="0 0 24 24"
+                fill="black"
+                stroke="black"
+                stroke-width="0.001"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.2673 6.24223C2.20553 4.40955 3.50184 1 6.26039 1H17.7396C20.4981 1 21.7945 4.40955 19.7327 6.24223L15.3356 10.1507C15.1221 10.3405 15 10.6125 15 10.8981V21.0858C15 22.8676 12.8457 23.7599 11.5858 22.5L9.58578 20.5C9.21071 20.1249 8.99999 19.6162 8.99999 19.0858V10.8981C8.99999 10.6125 8.87785 10.3405 8.66436 10.1507L4.2673 6.24223ZM6.26039 3C5.34088 3 4.90877 4.13652 5.59603 4.74741L9.99309 8.6559C10.6336 9.22521 11 10.0412 11 10.8981V19.0858L13 21.0858V10.8981C13 10.0412 13.3664 9.22521 14.0069 8.6559L18.404 4.74741C19.0912 4.13652 18.6591 3 17.7396 3H6.26039Z"
+                />
+              </svg>
+            </div>
 
-        <!-- Status filter -->
-        <div class="dashboard-header-actions-filters-status-container">
-          <select
-            class="dashboard-header-actions-filters-status-select"
-            data-js="dashboard-header-actions-filters-status-select"
-          ></select>
-          <svg
-            width="256px"
-            height="256px"
-            viewBox="0 0 24 24"
-            fill="black"
-            stroke="black"
-            stroke-width="0.001"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M4.2673 6.24223C2.20553 4.40955 3.50184 1 6.26039 1H17.7396C20.4981 1 21.7945 4.40955 19.7327 6.24223L15.3356 10.1507C15.1221 10.3405 15 10.6125 15 10.8981V21.0858C15 22.8676 12.8457 23.7599 11.5858 22.5L9.58578 20.5C9.21071 20.1249 8.99999 19.6162 8.99999 19.0858V10.8981C8.99999 10.6125 8.87785 10.3405 8.66436 10.1507L4.2673 6.24223ZM6.26039 3C5.34088 3 4.90877 4.13652 5.59603 4.74741L9.99309 8.6559C10.6336 9.22521 11 10.0412 11 10.8981V19.0858L13 21.0858V10.8981C13 10.0412 13.3664 9.22521 14.0069 8.6559L18.404 4.74741C19.0912 4.13652 18.6591 3 17.7396 3H6.26039Z"
-            />
-          </svg>
+            <!-- Priority filter -->
+            <div class="dashboard-header-actions-filters-priority-container">
+              <select
+                class="dashboard-header-actions-filters-priority-select"
+                data-js="dashboard-header-actions-filters-priority-select"
+              ></select>
+              <svg
+                width="256px"
+                height="256px"
+                viewBox="0 0 24 24"
+                fill="black"
+                stroke="black"
+                stroke-width="0.001"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.2673 6.24223C2.20553 4.40955 3.50184 1 6.26039 1H17.7396C20.4981 1 21.7945 4.40955 19.7327 6.24223L15.3356 10.1507C15.1221 10.3405 15 10.6125 15 10.8981V21.0858C15 22.8676 12.8457 23.7599 11.5858 22.5L9.58578 20.5C9.21071 20.1249 8.99999 19.6162 8.99999 19.0858V10.8981C8.99999 10.6125 8.87785 10.3405 8.66436 10.1507L4.2673 6.24223ZM6.26039 3C5.34088 3 4.90877 4.13652 5.59603 4.74741L9.99309 8.6559C10.6336 9.22521 11 10.0412 11 10.8981V19.0858L13 21.0858V10.8981C13 10.0412 13.3664 9.22521 14.0069 8.6559L18.404 4.74741C19.0912 4.13652 18.6591 3 17.7396 3H6.26039Z"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
-
-        <!-- Priority filter -->
-        <div class="dashboard-header-actions-filters-priority-container">
-          <select
-            class="dashboard-header-actions-filters-priority-select"
-            data-js="dashboard-header-actions-filters-priority-select"
-          ></select>
-          <svg
-            width="256px"
-            height="256px"
-            viewBox="0 0 24 24"
-            fill="black"
-            stroke="black"
-            stroke-width="0.001"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            xmlns="http://www.w3.org/2000/svg"
+        <div class="dashboard-header-actions-crud">
+          <button
+            data-js="dashboard-header-actions-btn-update"
+            class="btn btn-clean btn-mini"
+            title="Edit selected ticket"
           >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M4.2673 6.24223C2.20553 4.40955 3.50184 1 6.26039 1H17.7396C20.4981 1 21.7945 4.40955 19.7327 6.24223L15.3356 10.1507C15.1221 10.3405 15 10.6125 15 10.8981V21.0858C15 22.8676 12.8457 23.7599 11.5858 22.5L9.58578 20.5C9.21071 20.1249 8.99999 19.6162 8.99999 19.0858V10.8981C8.99999 10.6125 8.87785 10.3405 8.66436 10.1507L4.2673 6.24223ZM6.26039 3C5.34088 3 4.90877 4.13652 5.59603 4.74741L9.99309 8.6559C10.6336 9.22521 11 10.0412 11 10.8981V19.0858L13 21.0858V10.8981C13 10.0412 13.3664 9.22521 14.0069 8.6559L18.404 4.74741C19.0912 4.13652 18.6591 3 17.7396 3H6.26039Z"
-            />
-          </svg>
+            <svg
+              width="256px"
+              height="256px"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="black"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8"
+              />
+              <polygon
+                points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8"
+              />
+            </svg>
+          </button>
+          <button
+            data-js="dashboard-header-actions-btn-delete"
+            class="btn btn-clean btn-mini"
+            title="Delete selected ticket"
+          >
+            <svg
+              width="256px"
+              height="256px"
+              viewBox="3 1 18 22"
+              fill="none"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 7V18C6 19.1046 6.89543 20 8 20H16C17.1046 20 18 19.1046 18 18V7M6 7H5M6 7H8M18 7H19M18 7H16M10 11V16M14 11V16M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7M8 7H16"
+              />
+            </svg>
+          </button>
+          <button
+            data-js="dashboard-header-actions-btn-create"
+            class="btn btn-clean btn-mini"
+            title="Create new ticket"
+          >
+            <svg
+              width="256px"
+              height="256px"
+              viewBox="0 0 24 24"
+              fill="black"
+              stroke="black"
+              stroke-width="0.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8V11H16C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13H13V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V13H8C7.44771 13 7 12.5523 7 12C7 11.4477 7.44772 11 8 11H11V8Z"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z"
+              />
+            </svg>
+          </button>
         </div>
-      </div>
-      <div class="dashboard-header-actions-crud">
-        <button
-          data-js="dashboard-header-actions-btn-update"
-          class="btn btn-clean btn-mini"
-        >
-          <svg
-            width="256px"
-            height="256px"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="black"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8"
-            />
-            <polygon points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8" />
-          </svg>
-        </button>
-        <button
-          data-js="dashboard-header-actions-btn-delete"
-          class="btn btn-clean btn-mini"
-        >
-          <svg
-            width="256px"
-            height="256px"
-            viewBox="3 1 18 22"
-            fill="none"
-            stroke="black"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 7V18C6 19.1046 6.89543 20 8 20H16C17.1046 20 18 19.1046 18 18V7M6 7H5M6 7H8M18 7H19M18 7H16M10 11V16M14 11V16M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7M8 7H16"
-            />
-          </svg>
-        </button>
-        <button
-          data-js="dashboard-header-actions-btn-create"
-          class="btn btn-clean btn-mini"
-        >
-          <svg
-            width="256px"
-            height="256px"
-            viewBox="0 0 24 24"
-            fill="black"
-            stroke="black"
-            stroke-width="0.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11 8C11 7.44772 11.4477 7 12 7C12.5523 7 13 7.44772 13 8V11H16C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13H13V16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16V13H8C7.44771 13 7 12.5523 7 12C7 11.4477 7.44772 11 8 11H11V8Z"
-            />
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12ZM3.00683 12C3.00683 16.9668 7.03321 20.9932 12 20.9932C16.9668 20.9932 20.9932 16.9668 20.9932 12C20.9932 7.03321 16.9668 3.00683 12 3.00683C7.03321 3.00683 3.00683 7.03321 3.00683 12Z"
-            />
-          </svg>
-        </button>
       </div>
     </div>
-  </div>
 
-  <div class="dashboard-ticket-list" data-js="dashboard-ticket-list">
-    <div class="spinner"></div>
+    <div class="dashboard-ticket-list" data-js="dashboard-ticket-list">
+      <div class="spinner"></div>
+    </div>
   </div>
 </div>

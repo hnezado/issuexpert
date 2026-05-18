@@ -1,5 +1,4 @@
 @use "core" as *;
-@use "vendors/tabulator";
 
 // =========================
 // Reset
@@ -35,6 +34,10 @@ body {
   padding: $spacing-lg;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 // Prevent scroll when modal is open
 body.modal-open {
   overflow: hidden;
@@ -44,21 +47,21 @@ body.modal-open {
 // Priorities
 // =========================
 .priority {
-  &-low {
-    background-color: $priority-low;
-  }
+  // &-low {
+  //   background-color: $priority-low;
+  // }
 
-  &-medium {
-    background-color: $priority-medium;
-  }
+  // &-medium {
+  //   background-color: $priority-medium;
+  // }
 
-  &-high {
-    background-color: $priority-high;
-  }
+  // &-high {
+  //   background-color: $priority-high;
+  // }
 
-  &-critical {
-    background-color: $priority-critical;
-  }
+  // &-critical {
+  //   background-color: $priority-critical;
+  // }
 }
 
 // =========================
@@ -100,7 +103,6 @@ body.modal-open {
     // @include flex(column);
     display: table;
     width: 100%;
-    // width: 750px;
     border-collapse: collapse;
 
     & .header {
@@ -418,13 +420,6 @@ body.modal-open {
           gap: 24px;
         }
       }
-    }
-  }
-
-  .btn {
-    &-mini {
-      width: 24px;
-      height: 24px;
     }
   }
 }

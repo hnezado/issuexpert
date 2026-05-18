@@ -1,10 +1,6 @@
 @use "core" as *;
 
-#header-view-container {
-  width: 100%;
-}
-
-.header {
+.header-topbar {
   @include flex(row, space-between, stretch);
   padding-right: $spacing-md;
   background-color: $surface;
@@ -115,12 +111,31 @@
         }
       }
     }
+
+    & > button {
+      border: 0;
+      box-shadow: none;
+      background-color: transparent;
+
+      & svg {
+        stroke: $text;
+      }
+
+      &:hover {
+        background: rgba($danger-hover, 0.1);
+
+        svg {
+          stroke: $danger-hover;
+        }
+      }
+    }
   }
 }
 
 @media (max-width: 650px) {
-  .header {
+  .header-topbar {
     &-user {
+      padding-left: 10px;
       &-avatar {
         &-content {
           width: 35px;
@@ -131,13 +146,15 @@
 
       &-details {
         width: 100%;
+        padding-right: calc($spacing-md + 30px);
 
         &-name {
           font-size: 0.95rem;
         }
 
         &-email {
-          font-size: 0.75rem;
+          display: none;
+          // font-size: 0.7rem;
         }
 
         &-role {
@@ -149,17 +166,29 @@
 
       .btn[data-js="header-btn-logout"] {
         position: absolute;
-        top: 19px;
-        right: 16px;
-        width: 20px;
-        height: 20px;
+        top: 20px;
+        right: 14px;
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        color: $text;
         transform: translateY(-50%);
         border: none;
+        box-shadow: none;
 
         & .btn-anim-content-grow-md {
-          & .icon {
-            width: 12px;
-            height: 12px;
+          svg {
+            width: 16px;
+            height: 16px;
+            stroke: $text;
+          }
+        }
+
+        &:hover {
+          background: rgba($danger-hover, 0.1);
+
+          svg {
+            stroke: $danger-hover;
           }
         }
       }
@@ -168,7 +197,7 @@
 }
 
 @media (max-width: 500px) {
-  .header {
+  .header-topbar {
     padding-right: 0;
 
     &-logo {
@@ -182,17 +211,23 @@
 }
 
 @media (max-width: 380px) {
-  .header {
+  .header-topbar {
     &-user {
-      &-avatar {
-        display: none;
-      }
-
       &-details {
         padding-right: 40px;
 
-        &-email {
-          display: none;
+        &-name {
+          font-size: 0.85rem;
+        }
+
+        // &-email {
+        //   display: none;
+        // }
+
+        &-role {
+          &-content {
+            font-size: 0.75rem;
+          }
         }
       }
     }

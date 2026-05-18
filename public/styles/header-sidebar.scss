@@ -12,8 +12,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 180px;
-  height: 100vh;
+  width: 200px;
+  height: 100dvh;
+  flex-shrink: 0;
+  // overflow: hidden;
 
   background: $surface;
   border-right: 1px solid $border-dark;
@@ -26,145 +28,283 @@
   }
 
   &-bottom {
+    position: relative;
     @include flex(row, space-between);
     width: 100%;
-    height: 100px;
+    height: 80px;
     border-top: 1px solid $border-dark;
   }
-}
 
-.header-logo {
-  @include flex();
-  width: 100%;
-  height: 70px;
-  cursor: pointer;
-  user-select: none;
-  border-bottom: 1px solid $border-dark;
-
-  &-img {
-    height: 100%;
-    object-fit: contain;
-  }
-
-  &-title-container {
-    @include flex(row, flex-start);
+  &-logo {
+    @include flex();
     width: 100%;
-    height: 100%;
-    position: relative;
-    padding: 0 10px;
-    z-index: 1;
+    height: 70px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid $border-dark;
 
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      width: 0%;
-      background-color: $surface-hover;
-      z-index: -1;
-      transition: width 0.3s ease;
+    &-img {
+      height: 100%;
+      object-fit: contain;
+    }
+
+    &-title-container {
+      @include flex(row, flex-start);
+      width: 100%;
+      height: 100%;
+      position: relative;
+      padding: 0 10px;
+      z-index: 1;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 0%;
+        background-color: $surface-hover;
+        z-index: -1;
+        transition: width 0.3s ease;
+      }
+    }
+
+    &-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: $text;
+    }
+
+    &:hover {
+      .header-sidebar-logo-title-container::before {
+        width: 100%;
+      }
     }
   }
 
-  &-title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: $text;
-  }
-
-  &:hover {
-    .header-logo-title-container::before {
+  &-list {
+    &-container {
+      @include flex(column, center, flex-end);
+      gap: 6px;
       width: 100%;
     }
-  }
-}
 
-.header-list {
-  &-container {
-    @include flex(column, center, flex-end);
-    gap: 6px;
+    &-item {
+      position: relative;
+      all: unset; // Erases any existing style
+      @include flex();
+      gap: 20px;
+      width: 120px;
+      height: 50px;
+      padding: 0 12px;
+      border-radius: 8px 0 0 8px;
+      font-size: 13px;
+      color: $text-muted;
+      white-space: nowrap;
+      box-shadow: $shadow-sm;
+      cursor: pointer;
+      transition: all 0.3s ease; // Any animation
+
+      span {
+        width: 70px;
+      }
+
+      svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      &:hover:not(.active):not(.inactive) {
+        background: $surface-hover;
+        padding-right: calc(12px + 4px);
+
+        span {
+          color: $primary;
+        }
+
+        svg {
+          stroke: $primary;
+        }
+      }
+
+      &.active {
+        background: $primary-active;
+        font-weight: 500;
+        padding-right: calc(12px + 10px);
+
+        span {
+          color: $text-inverse;
+        }
+
+        svg {
+          stroke: $text-inverse;
+        }
+      }
+
+      &.inactive {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &-options {
+    position: absolute;
+    bottom: calc(100% - 34px);
+    left: 0;
     width: 100%;
+    z-index: 50;
+    transition: bottom 0.3s ease;
+
+    &-btn {
+      all: unset;
+      position: absolute;
+      bottom: 100%;
+      right: 50%;
+      transform: translateX(50%);
+      padding: 0 12px;
+      border-top: 1px solid $border-dark;
+      border-radius: 8px 8px 0 0;
+      font-size: 0.6rem;
+      cursor: pointer;
+      background-color: $surface;
+      z-index: 30;
+
+      &-up {
+        display: inline;
+      }
+
+      &-down {
+        display: none;
+      }
+
+      &:hover {
+        background-color: $surface-hover;
+        border-color: $primary;
+
+        span {
+          color: $primary;
+        }
+      }
+    }
+
+    &-panel {
+      position: relative;
+      @include flex(row, space-around);
+      width: 100%;
+      padding: 5px 20px;
+      background-color: $surface-hover;
+      border-top: 1px solid $border-dark;
+      border-bottom: 1px solid $border-dark;
+      z-index: 40;
+
+      &-btn {
+        @include flex();
+
+        &-password {
+          width: 24px;
+          height: 24px;
+
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        &-admin {
+          width: 24px;
+          height: 24px;
+
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        &-logout {
+          width: 24px;
+          height: 24px;
+          border: none;
+          padding: 2px;
+          background-color: transparent;
+          border-radius: $radius-sm;
+          transition: background-color 0.3s ease;
+          cursor: pointer;
+
+          svg {
+            width: 16px;
+            height: 16px;
+            transition:
+              stroke 0.3s ease,
+              transform 0.2s ease;
+          }
+
+          &:hover {
+            svg {
+              stroke: $danger-hover;
+              transform: translateX(1px);
+            }
+          }
+        }
+      }
+    }
+
+    &.opened {
+      bottom: 100%;
+
+      .header-sidebar-options-btn-up {
+        display: none;
+      }
+
+      .header-sidebar-options-btn-down {
+        display: inline;
+      }
+    }
   }
 
-  &-item {
-    position: relative;
-    all: unset; // Erases any existing style
-    @include flex(row, flex-end);
-    gap: 20px;
-    width: 120px;
-    padding: 10px 12px;
-    border-radius: 8px 0 0 8px;
-    font-size: 13px;
-    color: $text-muted;
-    white-space: nowrap;
-    box-shadow: $shadow-sm;
-    cursor: pointer;
-    transition: all 0.3s ease; // Any animation
-
-    &-text {
-      width: 70px;
-    }
-
-    svg {
-      width: 30px;
-      height: 30px;
-    }
-
-    &.active {
-      background: $primary-active;
-      font-weight: 500;
-      padding-right: 22px;
-
-      & .header-list-item-text {
-        color: $text-inverse;
-      }
-
-      svg {
-        stroke: $text-inverse;
-      }
-    }
-
-    &.inactive {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    &:hover:not(.active):not(.inactive) {
-      background: $surface-hover;
-      padding-right: 16px;
-
-      & .header-list-item-text {
-        color: $primary;
-      }
-
-      svg {
-        stroke: $primary;
-      }
-    }
-  }
-}
-
-.header {
   &-user {
-    position: relative;
     @include flex(row, space-between);
     gap: 16px;
     height: 100%;
-    margin: 0 20px;
+    padding: 0 20px;
     min-width: 0;
     width: 100%;
-    flex-shrink: 1;
+    background-color: $surface;
+    // border: 1px solid $border-dark;
+    z-index: 100;
 
     &-avatar {
-      @include flex();
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: $primary-hover;
-      border: 1px solid $primary;
-      color: $primary;
-      font-size: 11px;
-      font-weight: 600;
-      flex-shrink: 0;
+      position: relative;
+
+      &-role-icon {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        @include flex();
+        width: fit-content;
+        height: min-content;
+        z-index: 102;
+        pointer-events: none;
+
+        svg {
+          width: 18px;
+          height: 18px;
+          stroke: $surface;
+          fill: $primary-active;
+        }
+      }
+
+      &-content {
+        @include flex();
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: $primary-hover;
+        border: 1px solid $primary;
+        color: $primary;
+        font-size: 1rem;
+        font-weight: 600;
+        flex-shrink: 0;
+        z-index: 101;
+      }
     }
 
     &-details {
@@ -216,38 +356,139 @@
       }
     }
   }
+}
 
-  &-btn-logout {
-    width: 40px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-left: 1px solid $border-dark;
-    // border-radius: 6px;
-    background-color: transparent;
-    color: $text;
-    flex-shrink: 0;
-    // transform: translateY(-50%);
-    transition: background-color 0.3s ease;
-    cursor: pointer;
+@media (max-width: 900px) {
+}
 
-    svg {
-      width: 16px;
-      height: 16px;
-      transition:
-        stroke 0.3s ease,
-        transform 0.2s ease;
+@media (max-width: 750px) {
+  .header-sidebar {
+    width: 70px;
+
+    &-bottom {
+      @include flex(column);
     }
 
-    &:hover {
-      background: rgba($danger-hover, 0.1);
+    &-logo-title {
+      display: none;
+
+      &-container {
+        display: none;
+      }
+    }
+
+    &-list-item {
+      width: 30px;
+      padding: 0 6px;
 
       svg {
-        stroke: $danger-hover;
-        transform: translateX(2px);
+        width: 28px;
+      }
+
+      span {
+        display: none;
+      }
+
+      &:hover:not(.active):not(.inactive) {
+        padding-right: calc(6px + 4px);
+      }
+
+      &.active {
+        padding-right: calc(6px + 8px);
+      }
+    }
+
+    &-options {
+      bottom: 21px;
+
+      &-panel {
+        @include flex(column, space-around);
+        gap: 5px;
+      }
+    }
+
+    &-user {
+      @include flex();
+      margin: 0;
+
+      &-avatar {
+        &-role-icon {
+          width: 15px;
+          height: 15px;
+        }
+
+        &-content {
+          width: 40px;
+          height: 40px;
+          font-size: 0.8rem;
+        }
+      }
+
+      &-details {
+        display: none;
+      }
+    }
+
+    &-btn-logout {
+      width: 100%;
+      height: 30px;
+      border-left: 0;
+      border-top: 1px solid $border-dark;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+}
+
+@media (max-width: 500px) {
+  .header-sidebar {
+    width: 50px;
+
+    &-logo {
+      width: 50px;
+      height: 50px;
+    }
+
+    &-list-item {
+      width: 20px;
+      padding: 0 4px;
+
+      svg {
+        width: 26px;
+      }
+
+      span {
+        display: none;
+      }
+
+      &:hover:not(.active):not(.inactive) {
+        padding-right: calc(4px + 4px);
+      }
+
+      &.active {
+        padding-right: calc(4px + 8px);
+      }
+    }
+
+    &-user {
+      margin: 0;
+
+      &-avatar {
+        &-role-icon {
+          width: 12px;
+          height: 12px;
+        }
+
+        &-content {
+          width: 30px;
+          height: 30px;
+          font-size: 0.7rem;
+        }
       }
     }
   }
+}
+
+@media (max-width: 380px) {
 }

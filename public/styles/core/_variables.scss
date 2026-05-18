@@ -51,10 +51,20 @@ $border-hover: #cbd5e1; // hover/focus borders
 $divider: #f1f5f9; // section separators
 
 // Priorities
-$priority-low: #d1fae5;
-$priority-medium: #dbeafe;
-$priority-high: #fef3c7;
-$priority-critical: #fee2e2;
+$priority-low: #22c55e;
+$priority-medium: #3b82f6;
+$priority-high: #f59e0b;
+$priority-critical: #ef4444;
+$priority-bg-low: #d1fae5;
+$priority-bg-medium: #dbeafe;
+$priority-bg-high: #fef3c7;
+$priority-bg-critical: #fee2e2;
+
+// Statuses
+$status-open: #2563eb;
+$status-in-progress: #f59e0b;
+$status-resolved: #16a34a;
+$status-closed: #64748b;
 
 // =========================
 // Font sizes

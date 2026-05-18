@@ -1,10 +1,38 @@
 import { logger } from "../scripts/core/logger.js";
 
 const PRIORITIES = {
-  low: { label: "Low", icon: "🟢" },
-  medium: { label: "Medium", icon: "🔵" },
-  high: { label: "High", icon: "🟡" },
-  critical: { label: "Critical", icon: "🔴" },
+  low: {
+    label: "Low",
+    icon: `
+      <svg width="256px" height="256px" viewBox="0 0 24 24"  fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <title>Priority low (__priority__)</title>
+        <path d="M7 13L12 18L17 13M7 6L12 11L17 6"/>
+      </svg>`,
+  },
+  medium: {
+    label: "Medium",
+    icon: `
+      <svg width="256px" height="256px" viewBox="0 0 24 24"  fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <title>Priority medium (__priority__)</title>
+        <path d="M6 9L12 15L18 9"/>
+      </svg>`,
+  },
+  high: {
+    label: "High",
+    icon: `
+      <svg width="256px" height="256px" viewBox="0 0 24 24"  fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <title>Priority high (__priority__)</title>
+        <path d="M6 15L12 9L18 15"/>
+      </svg>`,
+  },
+  critical: {
+    label: "Critical",
+    icon: `
+      <svg width="256px" height="256px" viewBox="0 0 24 24"  fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <title>Priority critical (__priority__)</title>
+        <path d="M17 18L12 13L7 18M17 11L12 6L7 11"/>
+      </svg>`,
+  },
   invalid: { label: "Invalid priority" },
 };
 
@@ -40,7 +68,7 @@ function getPriorityStr(priority = 5) {
 }
 
 // Formats priority
-function formatPriority(priority = 5, showIcon = false) {
+function formatPriority(priority = 5, showIcon = false, labelFirst = true) {
   const priorityKey = getPriorityStr(priority);
 
   const priorityData = PRIORITIES[priorityKey];
@@ -52,11 +80,17 @@ function formatPriority(priority = 5, showIcon = false) {
     return "";
   }
 
-  const { label, icon } = priorityData;
+  let { label, icon } = priorityData;
 
-  return showIcon && icon
-    ? `${icon} ${label} (${priority})`
-    : `${label} (${priority})`;
+  if (icon) {
+    icon = icon.replace("__priority__", priority);
+  }
+
+  const priorityStr = labelFirst
+    ? `${label} (${priority})`
+    : `${priority} (${label.toLowerCase()})`;
+
+  return showIcon ? `${icon}` : `${priorityStr}`;
 }
 
 // Formats status

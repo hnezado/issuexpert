@@ -1,13 +1,13 @@
 import { API_BASE_URL } from "../config.js";
 import { logger } from "../core/logger.js";
-import { formatText } from "../../utils/general.js";
-import { formatDate } from "../../utils/date.js";
 import {
   getController,
   registerController,
 } from "../core/controller-registry.js";
 import { goTo } from "../core/router.js";
 import { fetchCurrentUser } from "../auth/user.js";
+import { formatText } from "../../utils/general.js";
+import { formatDate } from "../../utils/date.js";
 import {
   STATUSES,
   getPriorityStr,
@@ -47,7 +47,7 @@ class DashboardController {
     this.ticketsFiltered = [];
 
     this.activeTicketsListName;
-    this.filters = this.filters = {
+    this.filters = {
       search: "",
       status: "all",
       priority: "all",
@@ -120,11 +120,13 @@ class DashboardController {
     this.elements.filterStatusSelect?.addEventListener("change", () => {
       this.addFilter("status", this.elements.filterStatusSelect?.value);
       this.applyFilters();
+      this.elements.filterStatusSelect.blur();
     });
 
     this.elements.filterPrioritySelect?.addEventListener("change", () => {
       this.addFilter("priority", this.elements.filterPrioritySelect?.value);
       this.applyFilters();
+      this.elements.filterPrioritySelect.blur();
     });
 
     this.elements.createTicketBtn?.addEventListener("click", () =>
@@ -241,10 +243,31 @@ class DashboardController {
         this.elements.filterPrioritySelect;
       });
 
-    this.updateActionButtons();
+    this.updateButtons();
   }
 
-  updateActionButtons() {
+  updateButtons() {
+    // Filters
+    if (this.elements.filterSearchInput) {
+      this.elements.filterSearchInput.classList.toggle(
+        "active",
+        this.filters.search.length > 0,
+      );
+    }
+    if (this.elements.filterStatusSelect) {
+      this.elements.filterStatusSelect.classList.toggle(
+        "active",
+        this.filters.status !== "all",
+      );
+    }
+    if (this.elements.filterPrioritySelect) {
+      this.elements.filterPrioritySelect.classList.toggle(
+        "active",
+        this.filters.priority !== "all",
+      );
+    }
+
+    // CRUD
     if (this.elements.updateTicketBtn) {
       this.elements.updateTicketBtn.disabled = !this.selectedTicketElem;
     }
@@ -273,35 +296,64 @@ class DashboardController {
 
   getTicketCard(ticket) {
     return `
-      <div class="dashboard-ticket-card-top" data-js="ticket-card">
-        ${this.isNewTicket(ticket) ? `<span class="badge-new">NEW</span>` : ""}
-        <span class="dashboard-ticket-card-id" data-js="ticket-card-id">#${ticket.id}</span>
-        <span class="dashboard-ticket-card-status status-${ticket.status}">
-          ${ticket.status.toUpperCase()}
+      <!-- Ticket header -->
+      <div class="dashboard-ticket-card-header">
+        ${this.isNewTicket(ticket) ? `<span class="dashboard-ticket-card-header-badge-new">NEW</span>` : ""}
+        
+        <span class="dashboard-ticket-card-header-id">#${ticket.id}</span>
+
+        <span class="dashboard-ticket-card-header-priority priority-${getPriorityStr(ticket.priority)}">
+          ${formatPriority(ticket.priority, true)}
+        </span>
+
+        <span class="dashboard-ticket-card-header-status status-${ticket.status.replace("_", "-")}">
+          ${formatStatus(ticket.status).toUpperCase()}
         </span>
       </div>
 
-      <div class="dashboard-ticket-card-title">
-        ${ticket.title}
+      <!-- Ticket body -->
+      <div class="dashboard-ticket-card-body">
+        <div class="dashboard-ticket-card-body-title">
+          ${ticket.title}
+        </div>
+
+        <div class="dashboard-ticket-card-body-description">
+          ${ticket.description || ""}
+        </div>
       </div>
 
-      <div class="dashboard-ticket-card-description">
-        ${ticket.description || ""}
-      </div>
+      <!-- Ticket footer -->
+      <div class="dashboard-ticket-card-footer">
+        <div class="dashboard-ticket-card-footer-date">
+          <div class="dashboard-ticket-card-footer-date-updated">
+            <span class="dashboard-ticket-card-footer-date-updated-label">
+              Last modified:
+            </span>
+            <span class="dashboard-ticket-card-footer-date-updated-value">
+              ${formatDate(ticket.updated_at, true)}
+            </span>
+          </div>
+        </div>
 
-      <div class="dashboard-ticket-card-bottom">
-        <span class="dashboard-ticket-card-priority priority-${getPriorityStr(ticket.priority)}">
-          ${formatPriority(ticket.priority)}
-        </span>
-        <span class="dashboard-ticket-card-created">
-          Created by: #${ticket.created_by}
-        </span>
-        <span class="dashboard-ticket-card-assigned">
-          ${ticket.assigned_to ? "Assigned to: #" + ticket.assigned_to : "Unassigned"}
-        </span>
-        <span class="dashboard-ticket-card-updated">
-          ${formatDate(ticket.updated_at, true)}
-        </span>
+        <div class="dashboard-ticket-card-footer-users">
+          <div class="dashboard-ticket-card-footer-users-created">
+            <span class="dashboard-ticket-card-footer-users-created-label">
+              Author:
+            </span>
+            <span class="dashboard-ticket-card-footer-users-created-value">
+              #${ticket.created_by}
+            </span>
+          </div>
+
+          <div class="dashboard-ticket-card-footer-users-assigned">
+            <span class="dashboard-ticket-card-footer-users-assigned-label">
+              ${ticket.assigned_to ? "Assigned to:" : "Unassigned"}
+            </span>
+            <span class="dashboard-ticket-card-footer-users-assigned-value">
+              ${ticket.assigned_to ? "#" + ticket.assigned_to : ""}
+            </span>
+          </div>
+        </div>
       </div>
     `;
   }
@@ -379,6 +431,7 @@ class DashboardController {
 
     this.resetSelectedTicket();
     this.renderTickets();
+    this.updateButtons();
   }
 
   filterList(filter, value, filteredList) {
@@ -424,7 +477,7 @@ class DashboardController {
     this.selectedTicket = ticket;
     this.selectedTicketElem = cardElem;
 
-    this.updateActionButtons();
+    this.updateButtons();
   }
 
   resetSelectedTicket() {
@@ -435,7 +488,7 @@ class DashboardController {
     this.selectedTicket = null;
     this.selectedTicketElem = null;
 
-    this.updateActionButtons();
+    this.updateButtons();
   }
 
   async createTicket() {
