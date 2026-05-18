@@ -1,10 +1,16 @@
 import { formatText } from "../../utils/general.js";
-import { getUserAvatar, beautifyUsername } from "../../utils/user.js";
-import { fetchCurrentUser, logout } from "../auth/user.js";
+import {
+  getUserAvatar,
+  beautifyUsername,
+  beautifyRole,
+} from "../../utils/user.js";
+import { fetchCurrentUser, changePassword, logout } from "../auth/user.js";
+import { API_BASE_URL } from "../config.js";
 import {
   getController,
   registerController,
 } from "../core/controller-registry.js";
+import { logger } from "../core/logger.js";
 import { goTo } from "../core/router.js";
 
 class HeaderSidebarController {
@@ -54,14 +60,38 @@ class HeaderSidebarController {
 
     this.elements = {
       listButtons: this.rootElem.querySelectorAll("[data-list]"),
+      optionsPanelToggleBtn: this.rootElem.querySelector(
+        '[data-js="header-sidebar-options-btn"]',
+      ),
+      optionsPanel: this.rootElem.querySelector(
+        '[data-js="header-sidebar-options"]',
+      ),
+      passwordBtn: this.rootElem.querySelector(
+        '[data-js="header-sidebar-options-panel-btn-password"]',
+      ),
+      adminBtn: this.rootElem.querySelector(
+        '[data-js="header-sidebar-options-panel-btn-admin"]',
+      ),
+      logoutBtn: this.rootElem.querySelector(
+        '[data-js="header-sidebar-options-panel-btn-logout"]',
+      ),
+      userAvatar: this.rootElem.querySelector(
+        '[data-js="header-sidebar-user-avatar-content"]',
+      ),
+      userAvatarIconAdmin: this.rootElem.querySelector(
+        '[data-js="header-sidebar-user-avatar-icon-admin"]',
+      ),
+      userAvatarIconTech: this.rootElem.querySelector(
+        '[data-js="header-sidebar-user-avatar-icon-tech"]',
+      ),
+      userAvatarIconUser: this.rootElem.querySelector(
+        '[data-js="header-sidebar-user-avatar-icon-user"]',
+      ),
       userUsername: this.rootElem.querySelector(
-        '[data-js="header-user-username"]',
+        '[data-js="header-sidebar-user-username"]',
       ),
       userEmail: this.rootElem.querySelector('[data-js="header-user-email"]'),
       userRole: this.rootElem.querySelector('[data-js="header-user-role"]'),
-      userAvatar: this.rootElem.querySelector('[data-js="header-user-avatar"]'),
-      adminBtn: this.rootElem.querySelector('[data-js="header-btn-admin"]'),
-      logoutBtn: this.rootElem.querySelector('[data-js="header-btn-logout"]'),
     };
   }
 
@@ -70,7 +100,43 @@ class HeaderSidebarController {
     if (!this.currentUser) return;
   }
 
+  bindEvents() {
+    this.handlers.list = (event) => {
+      const btn = event.target.closest("[data-list]");
+      if (!btn) return;
+
+      const list = btn.dataset.list;
+      if (list === "all-tickets" && this.currentUser.role === "user") return;
+      if (list === "assigned-tickets" && this.currentUser.role === "user")
+        return;
+
+      this.setActiveList(list);
+    };
+
+    this.elements.listButtons?.forEach((btn) => {
+      btn.addEventListener("click", this.handlers.list);
+    });
+
+    this.elements.optionsPanelToggleBtn?.addEventListener("click", () =>
+      this.toggleOptionsPanel(),
+    );
+
+    this.elements.passwordBtn?.addEventListener("click", () =>
+      this.changePassword(),
+    );
+    this.elements.adminBtn?.addEventListener("click", () =>
+      goTo("admin-panel"),
+    );
+    this.elements.logoutBtn?.addEventListener("click", logout);
+  }
+
   renderElements() {
+    if (this.elements.userAvatar) {
+      this.elements.userAvatar.title = `${beautifyUsername(
+        this.currentUser.username,
+      )} - ${beautifyRole(this.currentUser.role)}`;
+    }
+
     if (this.elements.userUsername) {
       this.elements.userUsername.textContent = beautifyUsername(
         this.currentUser.username,
@@ -78,14 +144,31 @@ class HeaderSidebarController {
       this.elements.userUsername.title = this.currentUser.email;
     }
 
-    if (this.elements.userRole) {
-      this.elements.userRole.textContent = `Role: ${formatText(this.currentUser.role)}`;
-    }
+    // if (this.elements.userEmail) {
+    //   this.elements.userEmail.textContent = this.currentUser.email;
+    //   this.elements.userEmail.title = this.currentUser.email;
+    // }
+
+    // if (this.elements.userRole) {
+    //   this.elements.userRole.textContent = `${formatText(this.currentUser.role)}`;
+    // }
 
     if (this.elements.userAvatar) {
       this.elements.userAvatar.textContent = getUserAvatar(
         this.currentUser.username,
       );
+    }
+    if (this.elements.userAvatarIconAdmin) {
+      this.elements.userAvatarIconAdmin.hidden =
+        this.currentUser.role !== "admin";
+    }
+    if (this.elements.userAvatarIconTech) {
+      this.elements.userAvatarIconTech.hidden =
+        this.currentUser.role !== "technician";
+    }
+    if (this.elements.userAvatarIconUser) {
+      this.elements.userAvatarIconUser.hidden =
+        this.currentUser.role !== "user";
     }
 
     // Filter buttons state
@@ -98,8 +181,8 @@ class HeaderSidebarController {
     const myTicketsBtn = Array.from(this.elements.listButtons)?.find(
       (b) => b.dataset.list === "owned-tickets",
     );
+
     const isAdmin = this.currentUser.role === "admin";
-    const isTech = this.currentUser.role === "technician";
     const isUser = this.currentUser.role === "user";
 
     // Reset all list buttons
@@ -107,9 +190,7 @@ class HeaderSidebarController {
     assignedTicketsBtn.classList.remove("active", "inactive");
     myTicketsBtn.classList.remove("active", "inactive");
 
-    if (isTech) {
-      allTicketsBtn.classList.add("inactive");
-    } else if (isUser) {
+    if (isUser) {
       allTicketsBtn.classList.add("inactive");
       assignedTicketsBtn.classList.add("inactive");
     }
@@ -117,29 +198,6 @@ class HeaderSidebarController {
     myTicketsBtn.classList.add("active");
 
     this.elements.adminBtn.style.display = isAdmin ? "block" : "none";
-  }
-
-  bindEvents() {
-    this.handlers.list = (event) => {
-      const btn = event.target.closest("[data-list]");
-      if (!btn) return;
-
-      const list = btn.dataset.list;
-      if (list === "all-tickets" && this.currentUser.role !== "admin") return;
-      if (list === "assigned-tickets" && this.currentUser.role === "user")
-        return;
-
-      this.setActiveList(list);
-    };
-
-    this.elements.listButtons?.forEach((btn) => {
-      btn.addEventListener("click", this.handlers.list);
-    });
-
-    this.elements.adminBtn?.addEventListener("click", () =>
-      goTo("admin-panel"),
-    );
-    this.elements.logoutBtn?.addEventListener("click", logout);
   }
 
   destroy() {
@@ -163,6 +221,78 @@ class HeaderSidebarController {
     });
 
     this.dashboardControllerInstance.setActiveList(list);
+  }
+
+  toggleOptionsPanel() {
+    this.elements.optionsPanel.classList.toggle("opened");
+  }
+
+  async changePassword() {
+    const modal = getController("modal").getInstance();
+
+    const content = await (
+      await fetch("../components/forms/user-change-password.form.html")
+    ).text();
+
+    modal.open({
+      title: "Change password",
+      content,
+      footer: `
+      <button class="btn btn-primary btn-wider-lg" data-action="save">Save</button>
+      <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
+    `,
+      actions: {
+        save: async () => {
+          const data = modal.getFormData();
+
+          const currentPassword = data?.["modal-user-password-current"];
+          const newPassword = data?.["modal-user-password-new"];
+          const confirmPassword = data?.["modal-user-password-confirm"];
+
+          // Validation
+          if (!currentPassword || !newPassword || !confirmPassword) {
+            logger.warn("changePassword: missing fields", {
+              currentPassword,
+              newPassword,
+              confirmPassword,
+            });
+            return;
+          }
+
+          if (newPassword !== confirmPassword) {
+            logger.warn("changePassword: passwords do not match");
+            return;
+          }
+
+          const token = localStorage.getItem("auth_token");
+
+          const res = await fetch(`${API_BASE_URL}/users/change-password`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              currentPassword,
+              newPassword,
+            }),
+          });
+
+          modal.close();
+
+          if (!res.ok) {
+            const error = await res.json();
+            logger.error("changePassword: server error", {
+              status: res.status,
+              message: error,
+            });
+            return;
+          }
+        },
+
+        cancel: () => modal.close(),
+      },
+    });
   }
 }
 

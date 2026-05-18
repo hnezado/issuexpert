@@ -91,6 +91,12 @@ function beautifyUsername(username) {
     .join(" ");
 }
 
+function beautifyRole(role) {
+  if (!role) return;
+  if (role === "admin") role = "administrator";
+  return `${role.charAt(0).toUpperCase()}${role.slice(1)}`;
+}
+
 // Generates avatar (username initials)
 function getUserAvatar(username) {
   if (!username) return ":)";
@@ -113,5 +119,6 @@ export {
   isValidPassword,
   cleanUsername,
   beautifyUsername,
+  beautifyRole,
   getUserAvatar,
 };
