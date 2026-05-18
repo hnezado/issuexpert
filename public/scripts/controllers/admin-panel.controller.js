@@ -372,6 +372,13 @@ class AdminPanelController {
     // Table injection
     if (!this.elements.categoriesTableBody?.elem) return;
 
+    this.elements.categoriesTableBody.elem.innerHTML = `
+      <div data-js="admin-panel-categories-table-thead-tr" class="row header">
+        <div data-js="admin-panel-categories-table-th-id" class="cell">ID</div>
+        <div data-js="admin-panel-categories-table-th-name" class="cell">Name</div>
+      </div>
+    `;
+
     this.categories?.forEach((category) => {
       const row = document.createElement("div");
       row.classList.add("row");
@@ -487,21 +494,18 @@ class AdminPanelController {
       } else {
         this.selectedUser = this.users.find((u) => u.id === rowId);
       }
-      console.log("selectedUser:", this.selectedUser);
     } else if (tableName === "tickets") {
       if (alreadySelected) {
         this.selectedTicket = null;
       } else {
         this.selectedTicket = this.tickets.find((t) => t.id === rowId);
       }
-      console.log("selectedTicket:", this.selectedTicket);
     } else if (tableName === "categories") {
       if (alreadySelected) {
         this.selectedCategory = null;
       } else {
         this.selectedCategory = this.categories.find((c) => c.id === rowId);
       }
-      console.log("selectedCategory:", this.selectedCategory);
     }
 
     this.updateActionButtons(tableName);
@@ -572,6 +576,8 @@ class AdminPanelController {
             logger.warn("AdminPanelController.createUser: invalid username", {
               username,
             });
+            this.selectedUser = null;
+            this.updateActionButtons();
             modal.close();
             return;
           }
@@ -579,6 +585,8 @@ class AdminPanelController {
             logger.warn("AdminPanelController.createUser: invalid email", {
               email,
             });
+            this.selectedUser = null;
+            this.updateActionButtons();
             modal.close();
             return;
           }
@@ -586,6 +594,8 @@ class AdminPanelController {
             logger.warn("AdminPanelController.createUser: invalid password", {
               password,
             });
+            this.selectedUser = null;
+            this.updateActionButtons();
             modal.close();
             return;
           }
@@ -605,6 +615,8 @@ class AdminPanelController {
             }),
           });
 
+          this.selectedUser = null;
+          this.updateActionButtons();
           modal.close();
 
           if (!res.ok) {
@@ -620,7 +632,11 @@ class AdminPanelController {
           this.renderUsers();
         },
 
-        cancel: () => modal.close(),
+        cancel: () => {
+          this.selectedUser = null;
+          this.updateActionButtons();
+          modal.close();
+        },
       },
     });
   }
@@ -689,11 +705,17 @@ class AdminPanelController {
             });
           }
 
+          this.selectedUser = null;
+          this.updateActionButtons();
           modal.close();
           await this.loadUsers();
           this.renderUsers();
         },
-        cancel: () => modal.close(),
+        cancel: () => {
+          this.selectedUser = null;
+          this.updateActionButtons();
+          modal.close();
+        },
       },
     });
 
@@ -716,7 +738,7 @@ class AdminPanelController {
 
   async deleteUser() {
     if (!this.selectedUser) {
-      logger.warn("AdminPanelController: no selected user");
+      logger.warn("AdminPanelController.deleteUser: no selected user");
       return;
     }
 
@@ -752,6 +774,8 @@ class AdminPanelController {
             },
           });
 
+          this.selectedUser = null;
+          this.updateActionButtons();
           modal.close();
 
           if (!res.ok) {
@@ -766,7 +790,11 @@ class AdminPanelController {
           await this.loadUsers();
           this.renderUsers();
         },
-        cancel: () => modal.close(),
+        cancel: () => {
+          this.selectedUser = null;
+          this.updateActionButtons();
+          modal.close();
+        },
       },
     });
   }
@@ -801,6 +829,8 @@ class AdminPanelController {
                 priority,
               },
             );
+            this.selectedTicket = null;
+            this.updateActionButtons();
             modal.close();
             return;
           }
@@ -819,6 +849,8 @@ class AdminPanelController {
             }),
           });
 
+          this.selectedTicket = null;
+          this.updateActionButtons();
           modal.close();
 
           if (!res.ok) {
@@ -834,7 +866,11 @@ class AdminPanelController {
           this.renderTickets();
         },
 
-        cancel: () => modal.close(),
+        cancel: () => {
+          this.selectedTicket = null;
+          this.updateActionButtons();
+          modal.close();
+        },
       },
     });
 
@@ -930,11 +966,17 @@ class AdminPanelController {
             });
           }
 
+          this.selectedTicket = null;
+          this.updateActionButtons();
           modal.close();
           await this.loadTickets();
           this.renderTickets();
         },
-        cancel: () => modal.close(),
+        cancel: () => {
+          this.selectedTicket = null;
+          this.updateActionButtons();
+          modal.close();
+        },
       },
     });
 
@@ -1051,6 +1093,8 @@ class AdminPanelController {
             },
           });
 
+          this.selectedTicket = null;
+          this.updateActionButtons();
           modal.close();
 
           if (!res.ok) {
@@ -1065,7 +1109,11 @@ class AdminPanelController {
           await this.loadTickets();
           this.renderTickets();
         },
-        cancel: () => modal.close(),
+        cancel: () => {
+          this.selectedTicket = null;
+          this.updateActionButtons();
+          modal.close();
+        },
       },
     });
   }
@@ -1112,6 +1160,8 @@ class AdminPanelController {
             }),
           });
 
+          this.selectedCategory = null;
+          this.updateActionButtons();
           modal.close();
 
           if (!res.ok) {
@@ -1127,7 +1177,152 @@ class AdminPanelController {
           this.renderCategories();
         },
 
-        cancel: () => modal.close(),
+        cancel: () => {
+          this.selectedCategory = null;
+          this.updateActionButtons();
+          modal.close();
+        },
+      },
+    });
+  }
+
+  async updateCategory() {
+    if (!this.selectedCategory) {
+      logger.warn("AdminPanelController.updateCategory: no selected category");
+      return;
+    }
+
+    const modal = getController("modal").getInstance();
+    const content = await (
+      await fetch("/components/forms/category-update.form.html")
+    ).text();
+
+    modal.open({
+      title: "Edit category",
+      content,
+      footer: `
+        <button class="btn btn-primary btn-wider-lg" data-action="save">Save</button>
+        <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
+      `,
+      actions: {
+        save: async () => {
+          const data = modal.getFormData();
+
+          const name = data?.["modal-category-update-name"];
+
+          // Fields data validation
+          if (!name) {
+            logger.warn(
+              "AdminPanelController.updateCategory: missing required fields",
+              {
+                name,
+              },
+            );
+            return;
+          }
+
+          const token = localStorage.getItem("auth_token");
+          const res = await fetch(
+            `${API_BASE_URL}/categories/${this.selectedCategory?.id}`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                name,
+              }),
+            },
+          );
+
+          if (!res.ok) {
+            const error = await res.json();
+            logger.error("AdminPanelController.updateCategory: server error", {
+              status: res.status,
+              message: error,
+            });
+          }
+
+          this.selectedCategory = null;
+          this.updateActionButtons();
+          modal.close();
+          await this.loadCategories();
+          this.renderCategories();
+        },
+        cancel: () => {
+          this.selectedCategory = null;
+          this.updateActionButtons();
+          modal.close();
+        },
+      },
+    });
+
+    // User data injection
+    const modalElem = document.querySelector('[data-js="modal-container"]');
+
+    modalElem.querySelector('[data-js="modal-category-update-name"]').value =
+      this.selectedCategory.name;
+  }
+
+  async deleteCategory() {
+    if (!this.selectedCategory) {
+      logger.warn("AdminPanelController.deleteCategory: no selected category");
+      return;
+    }
+
+    const modal = getController("modal").getInstance();
+
+    modal.open({
+      title: "Delete category",
+      content: `
+        <div class="modal-body-category">
+          <div>(#${this.selectedCategory?.id}) ${this.selectedCategory?.name}</div>
+        </div>`,
+      footer: `
+        <button class="btn btn-primary btn-wider-lg" data-action="confirm">Confirm</button>
+        <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
+      `,
+      actions: {
+        confirm: async () => {
+          const categoryId = this.selectedCategory?.id;
+
+          // Fields data validation
+          if (!categoryId) {
+            logger.warn("AdminPanelController.deleteCategory: no category id");
+            return;
+          }
+
+          const token = localStorage.getItem("auth_token");
+          const res = await fetch(`${API_BASE_URL}/categories/${categoryId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          this.selectedCategory = null;
+          this.updateActionButtons();
+          modal.close();
+
+          if (!res.ok) {
+            const error = await res.json();
+            logger.error("AdminPanelController.deleteCategory: server error", {
+              status: res.status,
+              message: error,
+            });
+            return;
+          }
+
+          await this.loadCategories();
+          this.renderCategories();
+        },
+        cancel: () => {
+          this.selectedCategory = null;
+          this.updateActionButtons();
+          modal.close();
+        },
       },
     });
   }

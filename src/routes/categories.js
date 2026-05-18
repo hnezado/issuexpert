@@ -22,20 +22,20 @@ router.get(
 // );
 
 // // Only admins can create categories
-// router.post(
-//   "/",
-//   authMiddleware,
-//   roleMiddleware([1]),
-//   categoryController.createCategory,
-// );
+router.post(
+  "/",
+  authMiddleware,
+  roleMiddleware([1]),
+  categoryController.createCategory,
+);
 
 // // Only admins can update categories
-// router.patch(
-//   "/",
-//   authMiddleware,
-//   roleMiddleware([1]),
-//   categoryController.updateCategory,
-// );
+router.patch(
+  "/:id",
+  authMiddleware,
+  roleMiddleware([1]),
+  categoryController.updateCategory,
+);
 
 // // Anyone can assign categories to tickets
 // router.patch(
@@ -54,11 +54,11 @@ router.get(
 // );
 
 // // Only admins can delete categories
-// router.delete(
-//   "/",
-//   authMiddleware,
-//   roleMiddleware([1]),
-//   categoryController.deleteCategory,
-// );
+router.delete(
+  "/:id",
+  authMiddleware,
+  roleMiddleware([1]),
+  categoryController.deleteCategory,
+);
 
 export default router;

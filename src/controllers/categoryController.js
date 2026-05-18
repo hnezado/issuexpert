@@ -27,18 +27,16 @@ async function getCategory(req, res) {
 
 async function createCategory(req, res) {
   try {
-    const { categoryname } = req.body;
+    const { name } = req.body;
 
     // Checking required fields
-    if (!categoryname) {
+    if (!name) {
       logger.warn("CategoryController.createCategory: missing required fields");
       return res.status(400).json({ message: "Missing required fields" });
     }
 
     // Insert category in DB
-    const result = await categoryModel.createCategory({
-      categoryname,
-    });
+    const result = await categoryModel.createCategory(name);
 
     res.status(201).json({
       message: "Category created",
@@ -61,9 +59,10 @@ async function createCategory(req, res) {
 
 async function updateCategory(req, res) {
   try {
-    const { id, categoryname } = req.body;
+    const id = Number(req.params.id);
+    const { name } = req.body;
 
-    if (!id || !categoryname) {
+    if (!id || !name) {
       logger.warn("CategoryController.updateCategory: missing required fields");
       return res.status(400).json({ message: "Missing required fields" });
     }
@@ -71,8 +70,8 @@ async function updateCategory(req, res) {
     const fields = [];
     const values = [];
 
-    fields.push("categoryname = ?");
-    values.push(categoryname);
+    fields.push("name = ?");
+    values.push(name);
 
     // ID required at the end for WHERE clausule
     values.push(id);
@@ -95,10 +94,10 @@ async function updateCategory(req, res) {
 
 async function deleteCategory(req, res) {
   try {
-    const categoryId = Number(req.params.category_id);
+    const id = Number(req.params.id);
     const userRole = req.user.role;
 
-    if (!Number.isInteger(categoryId) || categoryId <= 0) {
+    if (!Number.isInteger(id) || id <= 0) {
       logger.warn("CategoryController.deleteCategory: invalid category id");
       return res.status(400).json({ message: "Invalid category id" });
     }
@@ -111,7 +110,7 @@ async function deleteCategory(req, res) {
       return res.status(403).json({ message: "Insufficient permissions" });
     }
 
-    const result = await categoryModel.deleteCategory(categoryId);
+    const result = await categoryModel.deleteCategory(id);
 
     if (result.affectedRows === 0) {
       logger.warn("CategoryController.deleteCategory: category not found");
