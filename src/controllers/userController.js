@@ -158,6 +158,41 @@ async function createUser(req, res) {
   }
 }
 
+async function changePassword(req, res) {
+  try {
+    const userId = req.user.id;
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      logger.warn("UserController.changePassword: missing fields");
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const user = await userModel.getUserById(userId);
+
+    if (!user) {
+      logger.warn("UserController.changePassword: user not found");
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // const isValid = await verifyPassword(currentPassword, user.password);
+
+    // if (!isValid) {
+    //   logger.warn("UserController.changePassword: invalid current password");
+    //   return res.status(401).json({ message: "Invalid password" });
+    // }
+
+    const hashed = await hashPassword(newPassword);
+
+    await userModel.updateUserPassword(userId, hashed);
+
+    res.status(200).json({ message: "Password updated" });
+  } catch (error) {
+    logger.error("UserController.changePassword: error", { error });
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 // Partial user update
 async function updateUser(req, res) {
   try {
@@ -313,6 +348,7 @@ export {
   getUserByUsername,
   getUserByEmail,
   createUser,
+  changePassword,
   updateUser,
   activateUser,
   deactivateUser,

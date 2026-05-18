@@ -48,6 +48,14 @@ router.post(
   userController.createUser,
 );
 
+// Anyone can change their own password
+router.post(
+  "/change-password",
+  authMiddleware,
+  roleMiddleware([1, 2, 3]),
+  userController.changePassword,
+);
+
 // Only admins can update any account (middleware)
 router.patch(
   "/:id",

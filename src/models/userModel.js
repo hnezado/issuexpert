@@ -96,6 +96,17 @@ async function createUser(username, email, password, role_id = 3) {
   return result;
 }
 
+async function updateUserPassword(id, password) {
+  const sql = `
+    UPDATE users
+    SET password = ?
+    WHERE id = ? AND is_deleted = 0
+  `;
+
+  const [result] = await db.execute(sql, [password, id]);
+  return result;
+}
+
 async function updateUser(fields, values) {
   // Updates a user dynamically based on provided fields
   // Using safe parameter placeholders (?) to avoid SQL injection
@@ -149,6 +160,7 @@ export {
   getUserByEmail,
   getUserPassword,
   createUser,
+  updateUserPassword,
   updateUser,
   activateUser,
   deactivateUser,
