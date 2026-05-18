@@ -59,21 +59,52 @@ h2 {
   }
 
   &-body {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
     & .priority {
       &-low {
-        background-color: $priority-bg-low;
+        svg {
+          stroke: $priority-low;
+        }
       }
 
       &-medium {
-        background-color: $priority-bg-medium;
+        svg {
+          stroke: $priority-medium;
+        }
       }
 
       &-high {
-        background-color: $priority-bg-high;
+        svg {
+          stroke: $priority-high;
+        }
       }
 
       &-critical {
-        background-color: $priority-bg-critical;
+        svg {
+          stroke: $priority-critical;
+        }
+      }
+    }
+
+    & .status {
+      &-open {
+        background-color: rgba($status-open, 0.2);
+      }
+
+      &-in-progress {
+        background-color: rgba($status-in-progress, 0.2);
+      }
+
+      &-resolved {
+        background-color: rgba($status-resolved, 0.2);
+      }
+
+      &-closed {
+        background-color: rgba($status-closed, 0.2);
       }
     }
   }

@@ -52,17 +52,33 @@ h2 {
 .table-container.hidden {
   display: none;
 }
-.table-body .priority-low {
-  background-color: #d1fae5;
+.table-body svg {
+  width: 20px;
+  height: 20px;
 }
-.table-body .priority-medium {
-  background-color: #dbeafe;
+.table-body .priority-low svg {
+  stroke: #22c55e;
 }
-.table-body .priority-high {
-  background-color: #fef3c7;
+.table-body .priority-medium svg {
+  stroke: #3b82f6;
 }
-.table-body .priority-critical {
-  background-color: #fee2e2;
+.table-body .priority-high svg {
+  stroke: #f59e0b;
+}
+.table-body .priority-critical svg {
+  stroke: #ef4444;
+}
+.table-body .status-open {
+  background-color: rgba(37, 99, 235, 0.2);
+}
+.table-body .status-in-progress {
+  background-color: rgba(245, 158, 11, 0.2);
+}
+.table-body .status-resolved {
+  background-color: rgba(22, 163, 74, 0.2);
+}
+.table-body .status-closed {
+  background-color: rgba(100, 116, 139, 0.2);
 }
 
 .no-wrap {

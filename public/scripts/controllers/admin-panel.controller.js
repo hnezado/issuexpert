@@ -311,7 +311,7 @@ class AdminPanelController {
       row.dataset.id = user.id;
 
       row.innerHTML = `
-        <div class="cell" data-label="ID">${user.id}</div>
+        <div class="cell" data-label="ID">#${user.id}</div>
         <div class="cell" data-label="Username">${user.username}</div>
         <div class="cell" data-label="Email">${user.email}</div>
         <div class="cell hide-750" data-label="Role">${formatText(user.role)}</div>
@@ -350,12 +350,14 @@ class AdminPanelController {
       row.dataset.id = ticket.id;
 
       row.innerHTML = `
-        <div class="cell" data-label="ID">${ticket.id}</div>
+        <div class="cell" data-label="ID">#${ticket.id}</div>
         <div class="cell" data-label="Title">${ticket.title}</div>
         <div class="cell hide-750" data-label="Description">${ticket.description}</div>
-        <div class="cell hide-500 priority-${getPriorityStr(ticket.priority)} no-wrap" data-label="Priority">${formatPriority(ticket.priority)}</div>
-        <div class="cell hide-600 no-wrap" data-label="Status">${formatStatus(ticket.status)}</div>
-        <div class="cell" data-label="Created by">${ticket.created_by}</div>
+        <div class="cell priority-${getPriorityStr(ticket.priority)}">
+          ${formatPriority(ticket.priority, true)}
+        </div>
+        <div class="cell hide-600 status-${ticket.status.replace("_", "-")} no-wrap" data-label="Status">${formatStatus(ticket.status)}</div>
+        <div class="cell" data-label="Created by">#${ticket.created_by}</div>
         <div class="cell hide-900" data-label="Last modified">${formatDate(ticket.updated_at, true)}</div>
       `;
 
@@ -386,7 +388,7 @@ class AdminPanelController {
       row.dataset.id = category.id;
 
       row.innerHTML = `
-        <div class="cell" data-label="ID">${category.id}</div>
+        <div class="cell" data-label="ID">#${category.id}</div>
         <div class="cell" data-label="Name">${category.name}</div>
       `;
 
