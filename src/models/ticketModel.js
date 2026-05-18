@@ -44,28 +44,6 @@ async function findById(ticketId) {
   return result[0];
 }
 
-async function getAllAssignedTickets() {
-  const sql = `
-    SELECT 
-      t.id,
-      t.title,
-      t.description,
-      t.priority,
-      s.name AS status,
-      t.created_by,
-      t.assigned_to,
-      t.created_at,
-      t.updated_at
-    FROM Tickets t
-    LEFT JOIN ticketstatuses s ON t.status_id = s.id
-    WHERE t.assigned_to IS NOT NULL AND t.is_deleted = 0
-    ORDER BY t.created_at DESC;
-  `;
-
-  const [result] = await db.execute(sql);
-  return result;
-}
-
 async function getAllUnassignedTickets() {
   const sql = `
     SELECT 
@@ -81,6 +59,28 @@ async function getAllUnassignedTickets() {
     FROM Tickets t
     LEFT JOIN ticketstatuses s ON t.status_id = s.id
     WHERE t.assigned_to IS NULL AND t.is_deleted = 0
+    ORDER BY t.created_at DESC;
+  `;
+
+  const [result] = await db.execute(sql);
+  return result;
+}
+
+async function getAllAssignedTickets() {
+  const sql = `
+    SELECT 
+      t.id,
+      t.title,
+      t.description,
+      t.priority,
+      s.name AS status,
+      t.created_by,
+      t.assigned_to,
+      t.created_at,
+      t.updated_at
+    FROM Tickets t
+    LEFT JOIN ticketstatuses s ON t.status_id = s.id
+    WHERE t.assigned_to IS NOT NULL AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
 

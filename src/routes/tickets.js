@@ -21,13 +21,22 @@ router.get(
 //   ticketController.getAllAssignedTickets,
 // );
 
-// // Only admins and technicians can all unassigned tickets (middleware)
-// router.get(
-//   "/unassigned",
-//   authMiddleware,
-//   roleMiddleware([1, 2]),
-//   ticketController.getAllUnassignedTickets,
-// );
+// Only admins and technicians can all unassigned tickets (middleware)
+router.get(
+  "/unassigned",
+  authMiddleware,
+  roleMiddleware([1, 2]),
+  ticketController.getAllUnassignedTickets,
+);
+
+// // Only admins can get tickets assigned to any account (middleware)
+// // Technicians can only get tickets assigned to themselves or other technicians (controller)
+router.get(
+  "/assigned/:id",
+  authMiddleware,
+  roleMiddleware([1, 2]),
+  ticketController.getTicketsAssignedToUser,
+);
 
 // DO NOT USE (REDUNDANT)
 // // Any authenticated user can get tickets they created (middleware)
@@ -55,15 +64,6 @@ router.get(
   authMiddleware,
   roleMiddleware([1, 2, 3]),
   ticketController.getTicketsCreatedByUser,
-);
-
-// // Only admins can get tickets assigned to any account (middleware)
-// // Technicians can only get tickets assigned to themselves or other technicians (controller)
-router.get(
-  "/assigned/:id",
-  authMiddleware,
-  roleMiddleware([1, 2]),
-  ticketController.getTicketsAssignedToUser,
 );
 
 // // Any authenticated account can create new tickets

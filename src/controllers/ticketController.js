@@ -17,23 +17,6 @@ async function getAllTickets(req, res) {
   }
 }
 
-async function getAllAssignedTickets(req, res) {
-  try {
-    const assignedTickets = await ticketModel.getAllAssignedTickets();
-
-    res.status(200).json({
-      message: "All assigned tickets retrieved",
-      data: assignedTickets,
-    });
-  } catch (error) {
-    logger.error(
-      "TicketController.getAllAssignedTickets: error retrieving all assigned tickets",
-      { error },
-    );
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
-
 async function getAllUnassignedTickets(req, res) {
   try {
     const unassignedTickets = await ticketModel.getAllUnassignedTickets();
@@ -45,6 +28,23 @@ async function getAllUnassignedTickets(req, res) {
   } catch (error) {
     logger.error(
       "TicketController.getAllUnassignedTickets: error retrieving all unassigned tickets",
+      { error },
+    );
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+async function getAllAssignedTickets(req, res) {
+  try {
+    const assignedTickets = await ticketModel.getAllAssignedTickets();
+
+    res.status(200).json({
+      message: "All assigned tickets retrieved",
+      data: assignedTickets,
+    });
+  } catch (error) {
+    logger.error(
+      "TicketController.getAllAssignedTickets: error retrieving all assigned tickets",
       { error },
     );
     res.status(500).json({ message: "Internal server error" });

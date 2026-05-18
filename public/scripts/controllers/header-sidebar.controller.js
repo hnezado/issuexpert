@@ -175,6 +175,9 @@ class HeaderSidebarController {
     const allTicketsBtn = Array.from(this.elements.listButtons)?.find(
       (b) => b.dataset.list === "all-tickets",
     );
+    const unassignedTicketsBtn = Array.from(this.elements.listButtons)?.find(
+      (b) => b.dataset.list === "unassigned-tickets",
+    );
     const assignedTicketsBtn = Array.from(this.elements.listButtons)?.find(
       (b) => b.dataset.list === "assigned-tickets",
     );
@@ -187,11 +190,13 @@ class HeaderSidebarController {
 
     // Reset all list buttons
     allTicketsBtn.classList.remove("active", "inactive");
+    unassignedTicketsBtn.classList.remove("active", "inactive");
     assignedTicketsBtn.classList.remove("active", "inactive");
     myTicketsBtn.classList.remove("active", "inactive");
 
     if (isUser) {
       allTicketsBtn.classList.add("inactive");
+      unassignedTicketsBtn.classList.add("inactive");
       assignedTicketsBtn.classList.add("inactive");
     }
 

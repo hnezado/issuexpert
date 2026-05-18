@@ -42,6 +42,7 @@ class DashboardController {
     this.handlers = {};
 
     this.ownedTickets = [];
+    this.unassignedTickets = [];
     this.assignedTickets = [];
     this.activeTicketsList = [];
     this.ticketsFiltered = [];
@@ -155,30 +156,34 @@ class DashboardController {
   }
 
   async loadTickets() {
-    await this.loadOwnedTickets();
+    await this.loadUnassignedTickets();
     await this.loadAssignedTickets();
+    await this.loadOwnedTickets();
   }
 
-  async loadOwnedTickets() {
+  async loadUnassignedTickets() {
     if (!this.currentUser) return;
 
-    const { id } = this.currentUser;
+    const { id, role } = this.currentUser;
+
+    const isAdmin = this.currentUser.role !== "admin";
+    const isTech = this.currentUser.role !== "technician";
+    if (!isAdmin && !isTech) return;
 
     const token = localStorage.getItem("auth_token");
     if (!token) return null;
-
     try {
-      const res = await fetch(`${API_BASE_URL}/tickets/created/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/tickets/unassigned`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       const data = await res.json();
-      this.ownedTickets = data.data;
+      this.unassignedTickets = data.data;
     } catch (error) {
       logger.error(
-        "AdminPanelController.loadOwnedTickets: error loading owned tickets",
+        "AdminPanelController.loadUnassignedTickets: error loading unassigned tickets",
         {
           error,
         },
@@ -209,6 +214,33 @@ class DashboardController {
     } catch (error) {
       logger.error(
         "AdminPanelController.loadAssignedTickets: error loading assigned tickets",
+        {
+          error,
+        },
+      );
+    }
+  }
+
+  async loadOwnedTickets() {
+    if (!this.currentUser) return;
+
+    const { id } = this.currentUser;
+
+    const token = localStorage.getItem("auth_token");
+    if (!token) return null;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/tickets/created/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      this.ownedTickets = data.data;
+    } catch (error) {
+      logger.error(
+        "AdminPanelController.loadOwnedTickets: error loading owned tickets",
         {
           error,
         },
@@ -383,9 +415,15 @@ class DashboardController {
     if (this.activeTicketsListName === "all-tickets") {
       this.activeTicketsList = [
         ...new Map(
-          [...this.assignedTickets, ...this.ownedTickets].map((t) => [t.id, t]),
+          [
+            ...this.unassignedTickets,
+            ...this.assignedTickets,
+            ...this.ownedTickets,
+          ].map((t) => [t.id, t]),
         ).values(),
       ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    } else if (this.activeTicketsListName === "unassigned-tickets") {
+      this.activeTicketsList = [...this.unassignedTickets];
     } else if (this.activeTicketsListName === "assigned-tickets") {
       this.activeTicketsList = [...this.assignedTickets];
     } else if (this.activeTicketsListName === "owned-tickets") {
@@ -798,7 +836,7 @@ class DashboardController {
 
     const diffMinutes = (now - created) / (1000 * 60);
 
-    return diffMinutes <= 60; // 1 hour
+    return diffMinutes <= 60 * 24; // 1 day
   }
 }
 
