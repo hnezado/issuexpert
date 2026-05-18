@@ -4,7 +4,7 @@ import {
   beautifyUsername,
   beautifyRole,
 } from "../../utils/user.js";
-import { fetchCurrentUser, changePassword, logout } from "../auth/user.js";
+import { fetchCurrentUser, logout } from "../auth/user.js";
 import { API_BASE_URL } from "../config.js";
 import {
   getController,

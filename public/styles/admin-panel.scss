@@ -57,6 +57,30 @@ h2 {
       display: none;
     }
   }
+
+  &-body {
+    & .priority {
+      &-low {
+        background-color: $priority-bg-low;
+      }
+
+      &-medium {
+        background-color: $priority-bg-medium;
+      }
+
+      &-high {
+        background-color: $priority-bg-high;
+      }
+
+      &-critical {
+        background-color: $priority-bg-critical;
+      }
+    }
+  }
+}
+
+.no-wrap {
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {

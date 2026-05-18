@@ -353,8 +353,8 @@ class AdminPanelController {
         <div class="cell" data-label="ID">${ticket.id}</div>
         <div class="cell" data-label="Title">${ticket.title}</div>
         <div class="cell hide-750" data-label="Description">${ticket.description}</div>
-        <div class="cell hide-500 priority-${getPriorityStr(ticket.priority)}" data-label="Priority">${formatPriority(ticket.priority)}</div>
-        <div class="cell hide-600" data-label="Status">${formatStatus(ticket.status)}</div>
+        <div class="cell hide-500 priority-${getPriorityStr(ticket.priority)} no-wrap" data-label="Priority">${formatPriority(ticket.priority)}</div>
+        <div class="cell hide-600 no-wrap" data-label="Status">${formatStatus(ticket.status)}</div>
         <div class="cell" data-label="Created by">${ticket.created_by}</div>
         <div class="cell hide-900" data-label="Last modified">${formatDate(ticket.updated_at, true)}</div>
       `;
@@ -1065,6 +1065,68 @@ class AdminPanelController {
           await this.loadTickets();
           this.renderTickets();
         },
+        cancel: () => modal.close(),
+      },
+    });
+  }
+
+  async createCategory() {
+    const modal = getController("modal").getInstance();
+    const content = await (
+      await fetch("../components/forms/category-create.form.html")
+    ).text();
+
+    modal.open({
+      title: "New category",
+      content,
+      footer: `
+        <button class="btn btn-primary btn-wider-lg" data-action="save">Save</button>
+        <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
+      `,
+      actions: {
+        save: async () => {
+          const data = modal.getFormData();
+
+          const name = data?.["modal-category-create-name"];
+
+          // Fields data validation
+          if (!name) {
+            logger.warn(
+              "AdminPanelController.createCategory: missing name field",
+              {
+                name,
+              },
+            );
+            return;
+          }
+
+          const token = localStorage.getItem("auth_token");
+          const res = await fetch(`${API_BASE_URL}/categories`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              name,
+            }),
+          });
+
+          modal.close();
+
+          if (!res.ok) {
+            const error = await res.json();
+            logger.error("AdminPanelController.createCategory: server error", {
+              status: res.status,
+              message: error,
+            });
+            return;
+          }
+
+          await this.loadCategories();
+          this.renderCategories();
+        },
+
         cancel: () => modal.close(),
       },
     });

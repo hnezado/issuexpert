@@ -52,6 +52,22 @@ h2 {
 .table-container.hidden {
   display: none;
 }
+.table-body .priority-low {
+  background-color: #d1fae5;
+}
+.table-body .priority-medium {
+  background-color: #dbeafe;
+}
+.table-body .priority-high {
+  background-color: #fef3c7;
+}
+.table-body .priority-critical {
+  background-color: #fee2e2;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
 
 @media (max-width: 900px) {
   .admin-panel-tab-btn-container {
