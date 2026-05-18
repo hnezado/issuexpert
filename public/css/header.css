@@ -1,8 +1,4 @@
-#header-view-container {
-  width: 100%;
-}
-
-.header {
+.header-topbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -15,7 +11,7 @@
   height: 80px;
   transition: 0.3s ease;
 }
-.header-logo {
+.header-topbar-logo {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -24,19 +20,19 @@
   cursor: pointer;
   user-select: none;
 }
-.header-logo-img {
+.header-topbar-logo-img {
   max-height: 80px;
   height: 100%;
   object-fit: contain;
 }
-.header-logo-title {
+.header-topbar-logo-title {
   padding: 0 10px;
   font-weight: 600;
   font-size: 1.2rem;
   user-select: none;
   color: #0f172a;
 }
-.header-logo-title-container {
+.header-topbar-logo-title-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -45,7 +41,7 @@
   position: relative;
   z-index: 1;
 }
-.header-logo-title-container::before {
+.header-topbar-logo-title-container::before {
   content: "";
   position: absolute;
   top: 0;
@@ -56,20 +52,20 @@
   z-index: -1;
   transition: width 0.25s ease;
 }
-.header-logo:hover {
+.header-topbar-logo:hover {
   transition: background-color 0.5s ease;
 }
-.header-logo:hover .header-logo-title-container::before {
+.header-topbar-logo:hover .header-logo-title-container::before {
   width: 100%;
 }
-.header-user {
+.header-topbar-user {
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-.header-user-avatar-content {
+.header-topbar-user-avatar-content {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -83,7 +79,7 @@
   font-size: 14px;
   user-select: none;
 }
-.header-user-details {
+.header-topbar-user-details {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -92,22 +88,22 @@
   gap: 5px;
   padding: 10px 16px;
 }
-.header-user-details-email {
+.header-topbar-user-details-email {
   font-size: 0.8rem;
   color: #475569;
 }
-.header-user-details-role {
+.header-topbar-user-details-role {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: baseline;
 }
-.header-user-details-role-content {
+.header-topbar-user-details-role-content {
   font-size: 0.9rem;
   margin-right: 8px;
   color: #0f172a;
 }
-.header-user-details .btn-anim-content-rotate {
+.header-topbar-user-details .btn-anim-content-rotate {
   position: absolute;
   bottom: 0px;
   right: 16px;
@@ -115,60 +111,88 @@
   height: 20px;
   transform: translateY(-50%);
 }
-.header-user-details .btn-anim-content-rotate svg {
+.header-topbar-user-details .btn-anim-content-rotate svg {
   width: 24px;
   height: 24px;
 }
+.header-topbar-user > button {
+  border: 0;
+  box-shadow: none;
+  background-color: transparent;
+}
+.header-topbar-user > button svg {
+  stroke: #0f172a;
+}
+.header-topbar-user > button:hover {
+  background: rgba(240, 80, 96, 0.1);
+}
+.header-topbar-user > button:hover svg {
+  stroke: #f05060;
+}
 
 @media (max-width: 650px) {
-  .header-user-avatar-content {
+  .header-topbar-user {
+    padding-left: 10px;
+  }
+  .header-topbar-user-avatar-content {
     width: 35px;
     height: 35px;
     font-size: 0.75rem;
   }
-  .header-user-details {
+  .header-topbar-user-details {
     width: 100%;
+    padding-right: 46px;
   }
-  .header-user-details-name {
+  .header-topbar-user-details-name {
     font-size: 0.95rem;
   }
-  .header-user-details-email {
-    font-size: 0.75rem;
+  .header-topbar-user-details-email {
+    display: none;
   }
-  .header-user-details-role-content {
+  .header-topbar-user-details-role-content {
     font-size: 0.85rem;
   }
-  .header-user .btn[data-js=header-btn-logout] {
+  .header-topbar-user .btn[data-js=header-btn-logout] {
     position: absolute;
-    top: 19px;
-    right: 16px;
-    width: 20px;
-    height: 20px;
+    top: 20px;
+    right: 14px;
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    color: #0f172a;
     transform: translateY(-50%);
     border: none;
+    box-shadow: none;
   }
-  .header-user .btn[data-js=header-btn-logout] .btn-anim-content-grow-md .icon {
-    width: 12px;
-    height: 12px;
+  .header-topbar-user .btn[data-js=header-btn-logout] .btn-anim-content-grow-md svg {
+    width: 16px;
+    height: 16px;
+    stroke: #0f172a;
+  }
+  .header-topbar-user .btn[data-js=header-btn-logout]:hover {
+    background: rgba(240, 80, 96, 0.1);
+  }
+  .header-topbar-user .btn[data-js=header-btn-logout]:hover svg {
+    stroke: #f05060;
   }
 }
 @media (max-width: 500px) {
-  .header {
+  .header-topbar {
     padding-right: 0;
   }
-  .header-logo-title-container {
+  .header-topbar-logo-title-container {
     display: none;
   }
 }
 @media (max-width: 380px) {
-  .header-user-avatar {
-    display: none;
-  }
-  .header-user-details {
+  .header-topbar-user-details {
     padding-right: 40px;
   }
-  .header-user-details-email {
-    display: none;
+  .header-topbar-user-details-name {
+    font-size: 0.85rem;
+  }
+  .header-topbar-user-details-role-content {
+    font-size: 0.75rem;
   }
 }
 

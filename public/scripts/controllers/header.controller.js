@@ -3,7 +3,7 @@ import { fetchCurrentUser, logout } from "../auth/user.js";
 import { logger } from "../core/logger.js";
 import { registerController } from "../core/controller-registry.js";
 import { formatText } from "../../utils/general.js";
-import { getUserAvatar } from "../../utils/user.js";
+import { beautifyUsername, getUserAvatar } from "../../utils/user.js";
 
 /**
  * HeaderController (singleton)
@@ -53,31 +53,33 @@ class HeaderController {
     }
 
     this.elements.logo = {
-      elem: this.rootElem.querySelector('[data-js="header-logo"]'),
+      elem: this.rootElem.querySelector('[data-js="header-topbar-logo"]'),
       eventType: "click",
       handler: () => goTo("dashboard"),
     };
     this.elements.adminBtn = {
-      elem: this.rootElem.querySelector('[data-js="header-btn-admin"]'),
+      elem: this.rootElem.querySelector('[data-js="header-topbar-btn-admin"]'),
       eventType: "click",
       handler: () => goTo("admin-panel"),
     };
     this.elements.logoutBtn = {
-      elem: this.rootElem.querySelector('[data-js="header-btn-logout"]'),
+      elem: this.rootElem.querySelector('[data-js="header-topbar-btn-logout"]'),
       eventType: "click",
       handler: () => logout(),
     };
     this.elements.avatar = {
-      elem: this.rootElem.querySelector('[data-js="header-user-avatar"]'),
+      elem: this.rootElem.querySelector(
+        '[data-js="header-topbar-user-avatar"]',
+      ),
     };
     this.elements.name = {
-      elem: this.rootElem.querySelector('[data-js="header-user-name"]'),
+      elem: this.rootElem.querySelector('[data-js="header-topbar-user-name"]'),
     };
     this.elements.email = {
-      elem: this.rootElem.querySelector('[data-js="header-user-email"]'),
+      elem: this.rootElem.querySelector('[data-js="header-topbar-user-email"]'),
     };
     this.elements.role = {
-      elem: this.rootElem.querySelector('[data-js="header-user-role"]'),
+      elem: this.rootElem.querySelector('[data-js="header-topbar-user-role"]'),
     };
 
     const missingElements = Object.entries(this.elements)
@@ -120,7 +122,7 @@ class HeaderController {
 
     // Username injection
     if (this.elements.name?.elem)
-      this.elements.name.elem.textContent = formatText(
+      this.elements.name.elem.textContent = beautifyUsername(
         this.currentUser.username,
       );
 
