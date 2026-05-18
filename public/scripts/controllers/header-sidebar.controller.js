@@ -79,13 +79,13 @@ class HeaderSidebarController {
         '[data-js="header-sidebar-user-avatar-content"]',
       ),
       userAvatarIconAdmin: this.rootElem.querySelector(
-        '[data-js="header-sidebar-user-avatar-icon-admin"]',
+        '[data-js="header-sidebar-user-avatar-role-icon-admin"]',
       ),
       userAvatarIconTech: this.rootElem.querySelector(
-        '[data-js="header-sidebar-user-avatar-icon-tech"]',
+        '[data-js="header-sidebar-user-avatar-role-icon-tech"]',
       ),
       userAvatarIconUser: this.rootElem.querySelector(
-        '[data-js="header-sidebar-user-avatar-icon-user"]',
+        '[data-js="header-sidebar-user-avatar-role-icon-user"]',
       ),
       userUsername: this.rootElem.querySelector(
         '[data-js="header-sidebar-user-username"]',

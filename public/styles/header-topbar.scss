@@ -52,7 +52,7 @@
     &:hover {
       transition: background-color 0.5s ease;
 
-      .header-logo-title-container::before {
+      .header-topbar-logo-title-container::before {
         width: 100%;
       }
     }
@@ -63,17 +63,50 @@
     @include flex(row, center, center);
 
     &-avatar {
+      position: relative;
+
+      &-role-icon {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        @include flex();
+        width: fit-content;
+        height: min-content;
+        z-index: 102;
+        pointer-events: none;
+
+        svg {
+          width: 18px;
+          height: 18px;
+          stroke: $surface;
+          fill: $primary-active;
+        }
+      }
+
       &-content {
         @include flex();
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        background-color: $primary;
-        color: $text-inverse;
-        font-weight: bold;
-        font-size: 14px;
-        user-select: none;
+        background: $primary-hover;
+        border: 1px solid $primary;
+        color: $primary;
+        font-size: 1rem;
+        font-weight: 600;
+        flex-shrink: 0;
+        z-index: 101;
       }
+      // &-content {
+      //   @include flex();
+      //   width: 40px;
+      //   height: 40px;
+      //   border-radius: 50%;
+      //   background-color: $primary;
+      //   color: $text-inverse;
+      //   font-weight: bold;
+      //   font-size: 14px;
+      //   user-select: none;
+      // }
     }
 
     &-details {
@@ -137,11 +170,21 @@
     &-user {
       padding-left: 10px;
       &-avatar {
-        &-content {
-          width: 35px;
-          height: 35px;
-          font-size: 0.75rem;
+        &-role-icon {
+          width: 15px;
+          height: 15px;
         }
+
+        &-content {
+          width: 40px;
+          height: 40px;
+          font-size: 0.8rem;
+        }
+        // &-content {
+        //   width: 35px;
+        //   height: 35px;
+        //   font-size: 0.75rem;
+        // }
       }
 
       &-details {

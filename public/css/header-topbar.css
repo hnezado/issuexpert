@@ -55,7 +55,7 @@
 .header-topbar-logo:hover {
   transition: background-color 0.5s ease;
 }
-.header-topbar-logo:hover .header-logo-title-container::before {
+.header-topbar-logo:hover .header-topbar-logo-title-container::before {
   width: 100%;
 }
 .header-topbar-user {
@@ -65,19 +65,43 @@
   justify-content: center;
   align-items: center;
 }
+.header-topbar-user-avatar {
+  position: relative;
+}
+.header-topbar-user-avatar-role-icon {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: min-content;
+  z-index: 102;
+  pointer-events: none;
+}
+.header-topbar-user-avatar-role-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #ffffff;
+  fill: #6f8ad5;
+}
 .header-topbar-user-avatar-content {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background-color: #7a9de9;
-  color: #f8fafc;
-  font-weight: bold;
-  font-size: 14px;
-  user-select: none;
+  background: #eaf2fb;
+  border: 1px solid #7a9de9;
+  color: #7a9de9;
+  font-size: 1rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  z-index: 101;
 }
 .header-topbar-user-details {
   position: relative;
@@ -134,10 +158,14 @@
   .header-topbar-user {
     padding-left: 10px;
   }
+  .header-topbar-user-avatar-role-icon {
+    width: 15px;
+    height: 15px;
+  }
   .header-topbar-user-avatar-content {
-    width: 35px;
-    height: 35px;
-    font-size: 0.75rem;
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
   }
   .header-topbar-user-details {
     width: 100%;
@@ -196,4 +224,4 @@
   }
 }
 
-/*# sourceMappingURL=header.css.map */
+/*# sourceMappingURL=header-topbar.css.map */

@@ -25,14 +25,13 @@ const ROUTES = {
   dashboard: {
     url: "/dashboard",
     requireAuth: true,
-    // views: ["header", "tickets-table", "footer"],
     views: ["header-sidebar", "dashboard"],
   },
   "admin-panel": {
     url: "/admin-panel",
     requireAuth: true,
     allowedRoles: ["admin"],
-    views: ["header", "admin-panel"],
+    views: ["header-topbar", "admin-panel"],
   },
 };
 

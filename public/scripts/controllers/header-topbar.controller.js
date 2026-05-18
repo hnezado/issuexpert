@@ -3,7 +3,11 @@ import { fetchCurrentUser, logout } from "../auth/user.js";
 import { logger } from "../core/logger.js";
 import { registerController } from "../core/controller-registry.js";
 import { formatText } from "../../utils/general.js";
-import { beautifyUsername, getUserAvatar } from "../../utils/user.js";
+import {
+  beautifyRole,
+  beautifyUsername,
+  getUserAvatar,
+} from "../../utils/user.js";
 
 /**
  * HeaderController (singleton)
@@ -69,17 +73,23 @@ class HeaderController {
     };
     this.elements.avatar = {
       elem: this.rootElem.querySelector(
-        '[data-js="header-topbar-user-avatar"]',
+        '[data-js="header-topbar-user-avatar-content"]',
       ),
     };
     this.elements.name = {
-      elem: this.rootElem.querySelector('[data-js="header-topbar-user-name"]'),
+      elem: this.rootElem.querySelector(
+        '[data-js="header-topbar-user-details-name"]',
+      ),
     };
     this.elements.email = {
-      elem: this.rootElem.querySelector('[data-js="header-topbar-user-email"]'),
+      elem: this.rootElem.querySelector(
+        '[data-js="header-topbar-user-details-email"]',
+      ),
     };
     this.elements.role = {
-      elem: this.rootElem.querySelector('[data-js="header-topbar-user-role"]'),
+      elem: this.rootElem.querySelector(
+        '[data-js="header-topbar-user-details-role"]',
+      ),
     };
 
     const missingElements = Object.entries(this.elements)
@@ -115,6 +125,11 @@ class HeaderController {
     }
 
     // Avatar injection
+    if (this.elements.avatar?.elem) {
+      this.elements.avatar.elem.title = `${beautifyUsername(
+        this.currentUser?.username,
+      )} - ${beautifyRole(this.currentUser?.role)}`;
+    }
     if (this.elements.avatar?.elem)
       this.elements.avatar.elem.textContent = getUserAvatar(
         this.currentUser?.username,
@@ -165,6 +180,6 @@ class HeaderController {
   }
 }
 
-registerController("header", HeaderController);
+registerController("header-topbar", HeaderController);
 
 export default HeaderController;
