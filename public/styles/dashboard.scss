@@ -12,6 +12,7 @@
   }
 
   &-header {
+    @include flex(column);
     width: 100%;
 
     &-title {
@@ -31,7 +32,6 @@
         @include flex(row, flex-start);
         gap: 24px;
         min-width: 0;
-        padding: 20px 0;
 
         &-search {
           &-container {
@@ -205,6 +205,17 @@
       &-crud {
         @include flex();
         gap: 5px;
+      }
+    }
+
+    &-items-count {
+      align-self: flex-end;
+      color: rgba($text-muted, 0.5);
+      padding: 10px;
+      font-size: 0.7rem;
+
+      &.hidden {
+        display: none;
       }
     }
   }

@@ -106,7 +106,6 @@ class HeaderSidebarController {
       if (!btn) return;
 
       const list = btn.dataset.list;
-      if (list === "all-tickets" && this.currentUser.role === "user") return;
       if (list === "unassigned-tickets" && this.currentUser.role === "user")
         return;
       if (list === "assigned-tickets" && this.currentUser.role === "user")
@@ -197,7 +196,6 @@ class HeaderSidebarController {
     myTicketsBtn.classList.remove("active", "inactive");
 
     if (isUser) {
-      allTicketsBtn.classList.add("inactive");
       unassignedTicketsBtn.classList.add("inactive");
       assignedTicketsBtn.classList.add("inactive");
     }

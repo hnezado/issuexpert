@@ -91,6 +91,9 @@ class DashboardController {
       filterPrioritySelect: this.rootElem.querySelector(
         '[data-js="dashboard-header-actions-filters-priority-select"]',
       ),
+      itemCount: this.rootElem.querySelector(
+        '[data-js="dashboard-header-items-count"]',
+      ),
       ticketList: this.rootElem.querySelector(
         '[data-js="dashboard-ticket-list"]',
       ),
@@ -155,11 +158,24 @@ class DashboardController {
         e.stopPropagation();
 
         const ticketId = (assignBtn || unassignBtn)?.dataset.id;
+        const ticket = this.ticketsFiltered.find(
+          (t) => String(t.id) === String(ticketId),
+        );
 
-        if (ticketId) {
-          assignBtn
-            ? await this.assignTicket(ticketId)
-            : await this.unassignTicket(ticketId);
+        if (!ticketId || !ticket) return;
+
+        const isAdmin = this.currentUser.role === "admin";
+        const isTech = this.currentUser.role === "technician";
+        const isSelfAssigned = ticket.assigned_to === this.currentUser.id;
+
+        if (assignBtn) {
+          if (isAdmin || isTech) {
+            await this.assignTicket(ticketId);
+          }
+        } else if (unassignBtn) {
+          if (isAdmin || (isTech && isSelfAssigned)) {
+            await this.unassignTicket(ticketId);
+          }
         }
 
         return;
@@ -220,8 +236,8 @@ class DashboardController {
 
     const { id, role } = this.currentUser;
 
-    const isAdmin = this.currentUser.role !== "admin";
-    const isTech = this.currentUser.role !== "technician";
+    const isAdmin = this.currentUser.role === "admin";
+    const isTech = this.currentUser.role === "technician";
     if (!isAdmin && !isTech) return;
 
     const token = localStorage.getItem("auth_token");
@@ -299,6 +315,8 @@ class DashboardController {
         this.elements.filterPrioritySelect;
       });
 
+    this.elements.itemCount.textContent = `Showing ${this.ticketsFiltered.length} tickets`;
+
     this.updateButtons();
   }
 
@@ -353,16 +371,17 @@ class DashboardController {
   }
 
   getTicketCard(ticket) {
-    const isAdminOrTech = ["admin", "technician"].includes(
-      this.currentUser.role,
-    );
+    const isAdmin = this.currentUser.role === "admin";
+    const isTech = this.currentUser.role === "technician";
 
     const isAssigned = !!ticket.assigned_to_username;
     const isCreator = ticket.created_by === this.currentUser.id;
     const isSelfAssigned = ticket.assigned_to === this.currentUser.id;
 
     const assignedUser = ticket.assigned_to_username
-      ? `<span class="dashboard-ticket-card-footer-users-assigned-value ${isSelfAssigned ? 'self-assigned" title="This ticket is assigned to me"' : ""}">
+      ? `<span class="dashboard-ticket-card-footer-users-assigned-value
+      ${isSelfAssigned ? "self-assigned" : ""}"
+      ${isSelfAssigned ? 'title="Ticket assigned to me"' : ""}">
         ${isSelfAssigned ? "➤ Me" : beautifyUsername(ticket.assigned_to_username)}
       </span>`
       : `<span class="dashboard-ticket-card-footer-users-assigned-value unassigned ${isSelfAssigned ? "self" : ""}">
@@ -370,7 +389,7 @@ class DashboardController {
       </span>`;
 
     const assignBtn =
-      isAdminOrTech && !isAssigned
+      !isAssigned && (isAdmin || isTech)
         ? `
         <button
           class="btn btn-clean btn-mini dashboard-ticket-card-footer-users-assigned-btn-assign"
@@ -386,13 +405,13 @@ class DashboardController {
         : "";
 
     const unassignBtn =
-      isAdminOrTech && isAssigned
+      isAssigned && (isAdmin || (isTech && isSelfAssigned))
         ? `
         <button
           class="btn btn-clean btn-mini dashboard-ticket-card-footer-users-assigned-btn-unassign"
           data-js="dashboard-ticket-card-footer-users-assigned-btn-unassign"
           data-id="${ticket.id}"
-          title="Unassign ticket from me"
+          title="${isSelfAssigned ? "Unassign ticket from me" : "Unassign ticket from " + beautifyUsername(ticket.assigned_to_username)}"
         >
           <svg width="256px" height="256px" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 20V19C4 16.2386 6.23858 14 9 14H12.75M16 15L18.5 17.5M18.5 17.5L21 20M18.5 17.5L21 15M18.5 17.5L16 20M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"/>
@@ -432,7 +451,7 @@ class DashboardController {
         <div class="dashboard-ticket-card-footer-users">
           <div class="dashboard-ticket-card-footer-users-created">
             <span class="dashboard-ticket-card-footer-users-created-label">Author:</span>
-            <span class="dashboard-ticket-card-footer-users-created-value ${isCreator ? 'creator" title="The author is myself"' : ""}">
+            <span class="dashboard-ticket-card-footer-users-created-value ${isCreator ? "creator" : ""}" ${isCreator ? 'title="Ticket created by me"' : ""}>
               ${isCreator ? "➤ Me" : beautifyUsername(ticket.created_by_username)}
             </span>
           </div>
@@ -460,32 +479,45 @@ class DashboardController {
     if (!this.isInitialized) return;
 
     this.activeTicketsListName = listName;
-    this.renderHeader();
     this.updateActiveList();
   }
 
   updateActiveList() {
     if (!this.currentUser) return;
+    const isAdmin = this.currentUser.role === "admin";
+    const isTech = this.currentUser.role === "technician";
     const isUser = this.currentUser.role === "user";
 
     if (isUser && this.activeTicketsListName !== "owned-tickets") return;
 
     if (this.activeTicketsListName === "all-tickets") {
-      this.activeTicketsList = [
-        ...new Map(
-          [
-            ...this.unassignedTickets,
-            ...this.assignedTickets,
-            ...this.ownedTickets,
-          ].map((t) => [t.id, t]),
-        ).values(),
-      ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      if (isAdmin || isTech) {
+        this.activeTicketsList = [
+          ...new Map(
+            [
+              ...this.unassignedTickets,
+              ...this.assignedTickets,
+              ...this.ownedTickets,
+            ].map((t) => [t.id, t]),
+          ).values(),
+        ].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+      } else if (isUser) {
+        this.activeTicketsList = [...this.ownedTickets].sort(
+          (a, b) => new Date(b.updated_at) - new Date(a.updated_at),
+        );
+      }
     } else if (this.activeTicketsListName === "unassigned-tickets") {
-      this.activeTicketsList = [...this.unassignedTickets];
+      this.activeTicketsList = [...this.unassignedTickets].sort(
+        (a, b) => new Date(b.updated_at) - new Date(a.updated_at),
+      );
     } else if (this.activeTicketsListName === "assigned-tickets") {
-      this.activeTicketsList = [...this.assignedTickets];
+      this.activeTicketsList = [...this.assignedTickets].sort(
+        (a, b) => new Date(b.updated_at) - new Date(a.updated_at),
+      );
     } else if (this.activeTicketsListName === "owned-tickets") {
-      this.activeTicketsList = [...this.ownedTickets];
+      this.activeTicketsList = [...this.ownedTickets].sort(
+        (a, b) => new Date(b.updated_at) - new Date(a.updated_at),
+      );
     }
 
     this.resetFilters();
@@ -526,6 +558,7 @@ class DashboardController {
     this.ticketsFiltered = [...filteredList];
 
     this.resetSelectedTicket();
+    this.renderHeader();
     this.renderTickets();
     this.updateButtons();
   }
@@ -901,6 +934,9 @@ class DashboardController {
     if (!ticketId) {
       return;
     }
+
+    // const assignedSelf = this.
+
     const token = localStorage.getItem("auth_token");
     if (!token) return null;
 
