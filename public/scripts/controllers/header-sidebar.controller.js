@@ -107,6 +107,8 @@ class HeaderSidebarController {
 
       const list = btn.dataset.list;
       if (list === "all-tickets" && this.currentUser.role === "user") return;
+      if (list === "unassigned-tickets" && this.currentUser.role === "user")
+        return;
       if (list === "assigned-tickets" && this.currentUser.role === "user")
         return;
 

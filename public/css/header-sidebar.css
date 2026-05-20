@@ -223,7 +223,9 @@
 .header-sidebar-options-panel-btn-logout svg {
   width: 16px;
   height: 16px;
-  transition: stroke 0.3s ease, transform 0.2s ease;
+  transition:
+    stroke 0.3s ease,
+    transform 0.2s ease;
 }
 .header-sidebar-options-panel-btn-logout:hover svg {
   stroke: #f05060;
@@ -299,7 +301,8 @@
   width: 100%;
   overflow-x: auto;
 }
-.header-sidebar-user-details-email, .header-sidebar-user-details-role {
+.header-sidebar-user-details-email,
+.header-sidebar-user-details-role {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

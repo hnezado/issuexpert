@@ -90,9 +90,9 @@
     &-item {
       position: relative;
       all: unset; // Erases any existing style
-      @include flex();
+      @include flex(row, flex-start);
       gap: 20px;
-      width: 120px;
+      width: 150px;
       height: 50px;
       padding: 0 12px;
       border-radius: 8px 0 0 8px;
