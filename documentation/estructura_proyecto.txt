@@ -1,66 +1,58 @@
 issuexpert/
-├─ .vscode/					# Configuración del entorno de desarrollo
-├─ .env						# Variables de entorno
-├─ .gitignore
-├─ package-lock.json
+├─ .env								# Variables de entorno
 ├─ package.json
 ├─ README.md
 │
-├─ node_modules/
+├─ documentation/
+│  ├─ estructura_proyecto.txt
+│  ├─ memoria.docx
+│  │
+│  ├─ db/							# Modelos y scripts de base de datos
+│  │  ├─ issuexpert_init.sql
+│  │  ├─ model_er.jpg
+│  │  └─ model_relational.jpg
+│  │
+│  └─ misc/							# Documentación adicional del proyecto
 │
-├─ public/					# Frontend estático
-│  ├─ assets/				# Imágenes, contenido multimedia
+├─ public/							# Frontend estático
+│  ├─ assets/						# Iconos e imágenes
+│  │
+│  ├─ components/
+│  │  └─ forms/					# Formularios HTML reutilizables
+│  │
+│  ├─ css/							# CSS compilado
+│  │
+│  ├─ styles/						# Archivos SCSS
+│  │  └─ core/						# Variables, mixins y paletas
+│  │
 │  ├─ scripts/
-│  │  ├─ auth/				# Scripts de autentificación
-│  │  ├─ <...>.js			# Scripts específicos de cada página
-│  │  ├─ config.js			# Configuración del frontend (constantes)
-│  │  ├─ apiClient.js		# Conexiones con backend
-│  │  └─ index.js
+│  │  ├─ auth/						# Gestión de autenticación frontend
+│  │  ├─ controllers/				# Controladores de vistas/componentes
+│  │  ├─ core/						# Router, guards, logger, render...
+│  │  ├─ config.js
+│  │  └─ index.js					# Punto de entrada frontend
 │  │
-│  ├─ styles/
-│  │  ├─ <...>.sass			# Estilos específicos de cada página
-│  │  └─ styles.sass		# Estilos generales
+│  ├─ utils/						# Utilidades reutilizables frontend
 │  │
-│  ├─ <...>.html			# Páginas específicas (HTML)
+│  ├─ views/						# Plantillas HTML de vistas
+│  │
 │  └─ index.html
 │
-├─ src/						# Backend modularizado (MVC)
-│  ├─ config/
-│  │  ├─ <...>.js			# Configuraciones específicas
-│  │  ├─ db.js				# Conexión a la base de datos MySQL
-│  │  └─ config.js			# Configuración del backend
-│  │
-│  ├─ controllers/			# Lógica de negocio de la aplicación
-│  │  ├─ <...Controller>.js	# Controladores específicos
-│  │  ├─ authController.js
-│  │  ├─ messageController.js
-│  │  ├─ ticketController.js
-│  │  └─ userController.js
-│  │
-│  ├─ middlewares/			# Interceptores de peticiones (auth, roles)
-│  │  ├─ authMiddleware.js
-│  │  └─ roleMiddleware.js
-│  │
-│  ├─ models/				# Acceso y gestión de datos (MySQL)
-│  │  ├─ <...Model>.js		# Modelos específicos
-│  │  ├─ messageModel.js
-│  │  ├─ ticketModel.js
-│  │  └─ userModel.js
-│  │
-│  ├─ routes/				# Definición de endpoints por módulo
-│  │  ├─ <...>.js			# Modelos específicos
-│  │  ├─ auth.js
-│  │  ├─ messages.js
-│  │  ├─ tickets.js
-│  │  └─ users.js
-│  │
-│  ├─ tests/				# Scripts para testeo de distintas funcionalidades
-│  │  └─ <test-...>.js
-│  │
-│  ├─ utils/				# Funciones auxiliares reutilizables
-│  │  ├─ <...>.js			# Otras utilidades
-│  │  ├─ jwt.js				# Generación y verificación de tokens JWT
-│  │  └─ password.js		# Hash y comparación de contraseñas
-│  │
-│  ├─ app.js				# Configuración principal de Express: middlewares y rutas
-│  └─ server.js				# Arranque del servidor
+└─ src/								# Backend (Node.js + Express + MVC)
+   ├─ config/
+   │  └─ db.js						# Conexión MySQL
+   │
+   ├─ controllers/				# Lógica de negocio
+   │
+   ├─ middlewares/				# Auth y control de roles
+   │
+   ├─ models/						# Acceso y gestión de datos
+   │
+   ├─ routes/						# Endpoints de la API
+   │
+   ├─ tests/						# Scripts de pruebas
+   │
+   ├─ utils/						# JWT, logger, helpers...
+   │
+   ├─ app.js						# Configuración de Express
+   └─ server.js					# Inicio del servidor
