@@ -95,21 +95,21 @@ router.patch(
 
 // // Only admins can assign tickets to any account
 // // Technicians can only assign tickets to themselves
-// router.patch(
-//   "/assign",
-//   authMiddleware,
-//   roleMiddleware([1, 2]),
-//   ticketController.assignTicket,
-// );
+router.patch(
+  "/assign/:id",
+  authMiddleware,
+  roleMiddleware([1, 2]),
+  ticketController.assignTicket,
+);
 
 // // Only admins can unassign tickets from any account
 // // Technicians can only unassign their own tickets
-// router.patch(
-//   "/unassign",
-//   authMiddleware,
-//   roleMiddleware([1, 2]),
-//   ticketController.unassignTicket,
-// );
+router.patch(
+  "/unassign/:id",
+  authMiddleware,
+  roleMiddleware([1, 2]),
+  ticketController.unassignTicket,
+);
 
 // // Only admins can delete any ticket
 // // Technicians can delete tickets they created

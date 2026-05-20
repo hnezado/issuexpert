@@ -142,7 +142,7 @@ class DashboardController {
     );
 
     // Event delegation for ticket list interactions
-    this.elements.ticketList?.addEventListener("click", (e) => {
+    this.elements.ticketList?.addEventListener("click", async (e) => {
       // Handle assign/unassign buttons
       const assignBtn = e.target.closest(
         '[data-js="dashboard-ticket-card-footer-users-assigned-btn-assign"]',
@@ -158,8 +158,8 @@ class DashboardController {
 
         if (ticketId) {
           assignBtn
-            ? this.assignTicket(ticketId)
-            : this.unassignTicket(ticketId);
+            ? await this.assignTicket(ticketId)
+            : await this.unassignTicket(ticketId);
         }
 
         return;
@@ -363,8 +363,7 @@ class DashboardController {
 
     const assignedUser = ticket.assigned_to_username
       ? `<span class="dashboard-ticket-card-footer-users-assigned-value ${isSelfAssigned ? 'self-assigned" title="This ticket is assigned to me"' : ""}">
-        ${isSelfAssigned ? "➤ " : ""}
-        ${beautifyUsername(ticket.assigned_to_username)}
+        ${isSelfAssigned ? "➤ Me" : beautifyUsername(ticket.assigned_to_username)}
       </span>`
       : `<span class="dashboard-ticket-card-footer-users-assigned-value unassigned ${isSelfAssigned ? "self" : ""}">
         Unassigned
@@ -434,8 +433,7 @@ class DashboardController {
           <div class="dashboard-ticket-card-footer-users-created">
             <span class="dashboard-ticket-card-footer-users-created-label">Author:</span>
             <span class="dashboard-ticket-card-footer-users-created-value ${isCreator ? 'creator" title="The author is myself"' : ""}">
-              ${isCreator ? "➤ " : ""}
-              ${beautifyUsername(ticket.created_by_username)}
+              ${isCreator ? "➤ Me" : beautifyUsername(ticket.created_by_username)}
             </span>
           </div>
 
@@ -899,12 +897,65 @@ class DashboardController {
     return diffMinutes <= 60 * 24; // 1 day
   }
 
-  assignTicket(ticketId) {
-    console.log("Assigned ticket:", ticketId);
+  async assignTicket(ticketId) {
+    if (!ticketId) {
+      return;
+    }
+    const token = localStorage.getItem("auth_token");
+    if (!token) return null;
+
+    const res = await fetch(`${API_BASE_URL}/tickets/assign/${ticketId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        assigned_to: this.currentUser.id,
+      }),
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      logger.error(
+        "AdminPanelController.assignTicket: error assigning ticket",
+        {
+          status: res.status,
+          message: error,
+        },
+      );
+    }
+
+    await this.loadTickets();
+    this.updateActiveList();
   }
 
-  unassignTicket(ticketId) {
-    console.log("Unassigned ticket:", ticketId);
+  async unassignTicket(ticketId) {
+    if (!ticketId) {
+      return;
+    }
+    const token = localStorage.getItem("auth_token");
+    if (!token) return null;
+
+    const res = await fetch(`${API_BASE_URL}/tickets/unassign/${ticketId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      logger.error(
+        "AdminPanelController.unassignTicket: error unassigning ticket",
+        {
+          status: res.status,
+          message: error,
+        },
+      );
+    }
+
+    await this.loadTickets();
+    this.updateActiveList();
   }
 }
 

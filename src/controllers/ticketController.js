@@ -389,19 +389,20 @@ async function updateStatus(req, res) {
 }
 
 async function assignTicket(req, res) {
+  console.log("holi");
   try {
     const ticketId = Number(req.params.id);
     const requesterId = req.user.id;
     const requesterRole = req.user.role;
 
-    if (!Number.isInteger(ticketId) || ticketId <= 0) {
+    if (!ticketId || ticketId <= 0) {
       logger.warn("TicketController.assignTicket: invalid ticket id");
       return res.status(400).json({ message: "Invalid ticket id" });
     }
 
     const assignedTo = Number(req.body.assigned_to);
 
-    if (!Number.isInteger(assignedTo) || assignedTo <= 0) {
+    if (!assignedTo || assignedTo <= 0) {
       logger.warn("TicketController.assignTicket: invalid assigned_to");
       return res.status(400).json({ message: "Invalid assigned_to" });
     }
@@ -416,9 +417,9 @@ async function assignTicket(req, res) {
     // Role restriction
     const isAdmin = requesterRole === "admin";
     const isTechnician = requesterRole === "technician";
-    const willSelfAssign = assignedTo === requesterId;
+    const assignSelf = assignedTo === requesterId;
 
-    const allowed = isAdmin || (isTechnician && willSelfAssign);
+    const allowed = isAdmin || (isTechnician && assignSelf);
 
     if (!allowed) {
       logger.warn("TicketController.assignTicket: forbidden access");
