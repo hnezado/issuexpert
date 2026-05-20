@@ -115,6 +115,32 @@ async function getUserByEmail(req, res) {
   }
 }
 
+// Get a username by id
+async function getUsernameById(req, res) {
+  const id = Number(req.params.id);
+
+  if (!id) {
+    logger.warn("UserController.getUsernameById: missing user id");
+    return res.status(400).json({ message: "Missing user id" });
+  }
+
+  try {
+    const username = await userModel.getUsernameById(id);
+
+    if (!username) {
+      logger.warn("UserController.getUsernameById: user not found");
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(username);
+  } catch (error) {
+    logger.error("UserController.getUsernameById: error retrieving username", {
+      error,
+    });
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 async function createUser(req, res) {
   try {
     const { username, email, password, role } = req.body;
@@ -347,6 +373,7 @@ export {
   getUserById,
   getUserByUsername,
   getUserByEmail,
+  getUsernameById,
   createUser,
   changePassword,
   updateUser,

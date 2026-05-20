@@ -227,7 +227,7 @@
   color: #ffffff;
   font-size: 0.7rem;
   padding: 2px 6px;
-  border-radius: 999px;
+  border-radius: 5px;
   font-weight: 600;
 }
 .dashboard-ticket-card-header-id {
@@ -254,6 +254,10 @@
 }
 .dashboard-ticket-card-header-priority.priority-critical svg {
   stroke: #ef4444;
+}
+.dashboard-ticket-card-header-priority.priority-invalid svg {
+  stroke: #6b7280;
+  fill: #6b7280;
 }
 .dashboard-ticket-card-header-status {
   background: #f1f5f9;
@@ -303,16 +307,60 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
 }
 .dashboard-ticket-card-footer-users-created, .dashboard-ticket-card-footer-users-assigned {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
   font-size: 0.55rem;
   color: #475569;
 }
 .dashboard-ticket-card-footer-users-created-value, .dashboard-ticket-card-footer-users-assigned-value {
   font-size: 0.7rem;
   font-weight: bold;
+  margin: 0 8px 0 4px;
+}
+.dashboard-ticket-card-footer-users-created-value.unassigned, .dashboard-ticket-card-footer-users-assigned-value.unassigned {
+  color: #d97706;
+}
+.dashboard-ticket-card-footer-users-created-value.creator, .dashboard-ticket-card-footer-users-created-value.self-assigned, .dashboard-ticket-card-footer-users-assigned-value.creator, .dashboard-ticket-card-footer-users-assigned-value.self-assigned {
+  color: #16a34a;
+  text-decoration: underline;
+}
+.dashboard-ticket-card-footer-users-assigned-value {
+  text-align: end;
+}
+.dashboard-ticket-card-footer-users-assigned-btn-assign, .dashboard-ticket-card-footer-users-assigned-btn-unassign {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  transition: all 0.3s ease;
+}
+.dashboard-ticket-card-footer-users-assigned-btn-assign svg, .dashboard-ticket-card-footer-users-assigned-btn-unassign svg {
+  width: 16px;
+  height: 16px;
+}
+.dashboard-ticket-card-footer-users-assigned-btn-assign {
+  background-color: rgba(209, 250, 229, 0.6);
+}
+.dashboard-ticket-card-footer-users-assigned-btn-assign:hover {
+  background-color: rgba(209, 250, 229, 0.8);
+}
+.dashboard-ticket-card-footer-users-assigned-btn-assign:hover svg {
+  stroke: #22c55e;
+}
+.dashboard-ticket-card-footer-users-assigned-btn-unassign {
+  background-color: rgba(254, 226, 226, 0.6);
+}
+.dashboard-ticket-card-footer-users-assigned-btn-unassign:hover {
+  background-color: rgba(254, 226, 226, 0.8);
+}
+.dashboard-ticket-card-footer-users-assigned-btn-unassign:hover svg {
+  stroke: #ef4444;
 }
 
 .status-open {
@@ -401,6 +449,12 @@
   .dashboard {
     padding-left: 70px;
     padding-right: 20px;
+  }
+  .dashboard-ticket-card-footer-users-created-label, .dashboard-ticket-card-footer-users-assigned-label {
+    display: none;
+  }
+  .dashboard-ticket-card-footer-users-created-value, .dashboard-ticket-card-footer-users-assigned-value {
+    font-size: 0.6rem;
   }
   .dashboard-header-actions-crud {
     display: flex;

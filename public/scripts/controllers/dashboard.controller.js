@@ -17,6 +17,7 @@ import {
   PRIORITIES,
   formatTicketListName,
 } from "../../utils/tickets.js";
+import { beautifyUsername } from "../../utils/user.js";
 
 /**
  * Dashboard Controller
@@ -140,7 +141,30 @@ class DashboardController {
       this.deleteTicket(),
     );
 
+    // Event delegation for ticket list interactions
     this.elements.ticketList?.addEventListener("click", (e) => {
+      // Handle assign/unassign buttons
+      const assignBtn = e.target.closest(
+        '[data-js="dashboard-ticket-card-footer-users-assigned-btn-assign"]',
+      );
+      const unassignBtn = e.target.closest(
+        '[data-js="dashboard-ticket-card-footer-users-assigned-btn-unassign"]',
+      );
+
+      if (assignBtn || unassignBtn) {
+        e.stopPropagation();
+
+        const ticketId = (assignBtn || unassignBtn)?.dataset.id;
+
+        if (ticketId) {
+          assignBtn
+            ? this.assignTicket(ticketId)
+            : this.unassignTicket(ticketId);
+        }
+
+        return;
+      }
+
       const card = e.target.closest("[data-ticket-id]");
       if (!card) return;
 
@@ -166,8 +190,8 @@ class DashboardController {
 
     const { id, role } = this.currentUser;
 
-    const isAdmin = this.currentUser.role !== "admin";
-    const isTech = this.currentUser.role !== "technician";
+    const isAdmin = this.currentUser.role === "admin";
+    const isTech = this.currentUser.role === "technician";
     if (!isAdmin && !isTech) return;
 
     const token = localStorage.getItem("auth_token");
@@ -324,11 +348,61 @@ class DashboardController {
       card.innerHTML = this.getTicketCard(ticket);
       container.appendChild(card);
     });
+
+    this.updateButtons();
   }
 
   getTicketCard(ticket) {
+    const isAdminOrTech = ["admin", "technician"].includes(
+      this.currentUser.role,
+    );
+
+    const isAssigned = !!ticket.assigned_to_username;
+    const isCreator = ticket.created_by === this.currentUser.id;
+    const isSelfAssigned = ticket.assigned_to === this.currentUser.id;
+
+    const assignedUser = ticket.assigned_to_username
+      ? `<span class="dashboard-ticket-card-footer-users-assigned-value ${isSelfAssigned ? 'self-assigned" title="This ticket is assigned to me"' : ""}">
+        ${isSelfAssigned ? "➤ " : ""}
+        ${beautifyUsername(ticket.assigned_to_username)}
+      </span>`
+      : `<span class="dashboard-ticket-card-footer-users-assigned-value unassigned ${isSelfAssigned ? "self" : ""}">
+        Unassigned
+      </span>`;
+
+    const assignBtn =
+      isAdminOrTech && !isAssigned
+        ? `
+        <button
+          class="btn btn-clean btn-mini dashboard-ticket-card-footer-users-assigned-btn-assign"
+          data-js="dashboard-ticket-card-footer-users-assigned-btn-assign"
+          data-id="${ticket.id}"
+          title="Assign ticket to me"
+        >
+          <svg width="256px" height="256px" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 20V19C4 16.2386 6.23858 14 9 14H12.75M17.5355 13.9645V17.5M17.5355 17.5V21.0355M17.5355 17.5H21.0711M17.5355 17.5H14M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"/>
+          </svg>
+        </button>
+      `
+        : "";
+
+    const unassignBtn =
+      isAdminOrTech && isAssigned
+        ? `
+        <button
+          class="btn btn-clean btn-mini dashboard-ticket-card-footer-users-assigned-btn-unassign"
+          data-js="dashboard-ticket-card-footer-users-assigned-btn-unassign"
+          data-id="${ticket.id}"
+          title="Unassign ticket from me"
+        >
+          <svg width="256px" height="256px" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 20V19C4 16.2386 6.23858 14 9 14H12.75M16 15L18.5 17.5M18.5 17.5L21 20M18.5 17.5L21 15M18.5 17.5L16 20M15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"/>
+          </svg>
+        </button>
+      `
+        : "";
+
     return `
-      <!-- Ticket header -->
       <div class="dashboard-ticket-card-header">
         ${this.isNewTicket(ticket) ? `<span class="dashboard-ticket-card-header-badge-new">NEW</span>` : ""}
         
@@ -343,47 +417,33 @@ class DashboardController {
         </span>
       </div>
 
-      <!-- Ticket body -->
       <div class="dashboard-ticket-card-body">
-        <div class="dashboard-ticket-card-body-title">
-          ${ticket.title}
-        </div>
-
-        <div class="dashboard-ticket-card-body-description">
-          ${ticket.description || ""}
-        </div>
+        <div class="dashboard-ticket-card-body-title">${ticket.title}</div>
+        <div class="dashboard-ticket-card-body-description">${ticket.description || ""}</div>
       </div>
 
-      <!-- Ticket footer -->
       <div class="dashboard-ticket-card-footer">
         <div class="dashboard-ticket-card-footer-date">
           <div class="dashboard-ticket-card-footer-date-updated">
-            <span class="dashboard-ticket-card-footer-date-updated-label">
-              Last modified:
-            </span>
-            <span class="dashboard-ticket-card-footer-date-updated-value">
-              ${formatDate(ticket.updated_at, true)}
-            </span>
+            <span>Last modified:</span>
+            <span class="dashboard-ticket-card-footer-date-updated-value">${formatDate(ticket.updated_at, true)}</span>
           </div>
         </div>
 
         <div class="dashboard-ticket-card-footer-users">
           <div class="dashboard-ticket-card-footer-users-created">
-            <span class="dashboard-ticket-card-footer-users-created-label">
-              Author:
-            </span>
-            <span class="dashboard-ticket-card-footer-users-created-value">
-              #${ticket.created_by}
+            <span class="dashboard-ticket-card-footer-users-created-label">Author:</span>
+            <span class="dashboard-ticket-card-footer-users-created-value ${isCreator ? 'creator" title="The author is myself"' : ""}">
+              ${isCreator ? "➤ " : ""}
+              ${beautifyUsername(ticket.created_by_username)}
             </span>
           </div>
 
           <div class="dashboard-ticket-card-footer-users-assigned">
-            <span class="dashboard-ticket-card-footer-users-assigned-label">
-              ${ticket.assigned_to ? "Assigned to:" : "Unassigned"}
-            </span>
-            <span class="dashboard-ticket-card-footer-users-assigned-value">
-              ${ticket.assigned_to ? "#" + ticket.assigned_to : ""}
-            </span>
+            <span class="dashboard-ticket-card-footer-users-created-label">${isAssigned ? "Assigned:" : ""}</span>
+            ${assignedUser}
+            ${assignBtn}
+            ${unassignBtn}
           </div>
         </div>
       </div>
@@ -837,6 +897,14 @@ class DashboardController {
     const diffMinutes = (now - created) / (1000 * 60);
 
     return diffMinutes <= 60 * 24; // 1 day
+  }
+
+  assignTicket(ticketId) {
+    console.log("Assigned ticket:", ticketId);
+  }
+
+  unassignTicket(ticketId) {
+    console.log("Unassigned ticket:", ticketId);
   }
 }
 

@@ -53,11 +53,13 @@ async function getAllUnassignedTickets() {
       t.priority,
       s.name AS status,
       t.created_by,
+      creator.username AS created_by_username,
       t.assigned_to,
       t.created_at,
       t.updated_at
     FROM Tickets t
     LEFT JOIN ticketstatuses s ON t.status_id = s.id
+    LEFT JOIN users creator ON t.created_by = creator.id
     WHERE t.assigned_to IS NULL AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
@@ -75,38 +77,20 @@ async function getAllAssignedTickets() {
       t.priority,
       s.name AS status,
       t.created_by,
+      creator.username AS created_by_username,
       t.assigned_to,
+      assigned.username AS assigned_to_username,
       t.created_at,
       t.updated_at
     FROM Tickets t
     LEFT JOIN ticketstatuses s ON t.status_id = s.id
+    LEFT JOIN users creator ON t.created_by = creator.id
+    LEFT JOIN users assigned ON t.assigned_to = creator.id
     WHERE t.assigned_to IS NOT NULL AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
 
   const [result] = await db.execute(sql);
-  return result;
-}
-
-async function getTicketsCreatedByUser(userId) {
-  const sql = `
-    SELECT 
-      t.id,
-      t.title,
-      t.description,
-      t.priority,
-      s.name AS status,
-      t.created_by,
-      t.assigned_to,
-      t.created_at,
-      t.updated_at
-    FROM Tickets t
-    LEFT JOIN ticketstatuses s ON t.status_id = s.id
-    WHERE t.created_by = ? AND t.is_deleted = 0
-    ORDER BY t.created_at DESC;
-  `;
-
-  const [result] = await db.execute(sql, [userId]);
   return result;
 }
 
@@ -119,12 +103,42 @@ async function getTicketsAssignedToUser(userId) {
       t.priority,
       s.name AS status,
       t.created_by,
+      creator.username AS created_by_username,
       t.assigned_to,
+      assigned.username AS assigned_to_username,
       t.created_at,
       t.updated_at
-    FROM Tickets t
+    FROM tickets t
     LEFT JOIN ticketstatuses s ON t.status_id = s.id
+    LEFT JOIN users creator ON t.created_by = creator.id
+    LEFT JOIN users assigned ON t.assigned_to = assigned.id
     WHERE t.assigned_to = ? AND t.is_deleted = 0
+    ORDER BY t.created_at DESC;
+  `;
+
+  const [result] = await db.execute(sql, [userId]);
+  return result;
+}
+
+async function getTicketsCreatedByUser(userId) {
+  const sql = `
+    SELECT 
+      t.id,
+      t.title,
+      t.description,
+      t.priority,
+      s.name AS status,
+      t.created_by,
+      creator.username AS created_by_username,
+      t.assigned_to,
+      assigned.username AS assigned_to_username,
+      t.created_at,
+      t.updated_at
+    FROM tickets t
+    LEFT JOIN ticketstatuses s ON t.status_id = s.id
+    LEFT JOIN users creator ON t.created_by = creator.id
+    LEFT JOIN users assigned ON t.assigned_to = assigned.id
+    WHERE t.created_by = ? AND t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
 

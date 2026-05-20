@@ -72,6 +72,19 @@ async function getUserByEmail(email) {
   return result[0];
 }
 
+async function getUsernameById(id) {
+  const sql = `
+    SELECT
+      id,
+      username
+    FROM users
+    WHERE id = ? AND is_deleted = 0
+  `;
+
+  const [result] = await db.execute(sql, [id]);
+  return result[0];
+}
+
 async function getUserPassword(id) {
   const sql = `
     SELECT
@@ -158,6 +171,7 @@ export {
   getUserById,
   getUserByUsername,
   getUserByEmail,
+  getUsernameById,
   getUserPassword,
   createUser,
   updateUserPassword,

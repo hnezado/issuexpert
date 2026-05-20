@@ -78,7 +78,7 @@ function cleanUsername(username) {
 // Beautify the username before displaying it in the UI
 // Periods "." become spaces " "
 function beautifyUsername(username) {
-  if (!username) return;
+  if (!username && username.length <= 0) return;
   // Replace globally one or more periods with space
   return username
     .trim()

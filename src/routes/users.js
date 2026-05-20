@@ -31,6 +31,14 @@ router.get(
   userController.getUserByUsername,
 );
 
+// Anyone can get any username from an user id
+router.get(
+  "/username-by-id/:id",
+  authMiddleware,
+  roleMiddleware([1, 2]),
+  userController.getUsernameById,
+);
+
 // Admins can get any account (middleware)
 // Technicians can only get user accounts (controller)
 router.get(

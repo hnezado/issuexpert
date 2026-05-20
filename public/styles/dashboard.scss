@@ -242,7 +242,7 @@
           color: $surface;
           font-size: 0.7rem;
           padding: 2px 6px;
-          border-radius: 999px;
+          border-radius: 5px;
           font-weight: 600;
         }
 
@@ -283,6 +283,13 @@
             &-critical {
               svg {
                 stroke: $priority-critical;
+              }
+            }
+
+            &-invalid {
+              svg {
+                stroke: $priority-invalid;
+                fill: $priority-invalid;
               }
             }
           }
@@ -335,17 +342,72 @@
         }
 
         &-users {
-          @include flex(row, space-between);
+          @include flex(row, space-between, stretch);
           width: 100%;
 
           &-created,
           &-assigned {
+            @include flex(row, flex-start, flex-end);
             font-size: 0.55rem;
             color: $text-muted;
 
             &-value {
               font-size: 0.7rem;
               font-weight: bold;
+              margin: 0 8px 0 4px;
+
+              &.unassigned {
+                color: $warning;
+              }
+
+              &.creator,
+              &.self-assigned {
+                color: $success;
+                text-decoration: underline;
+              }
+            }
+          }
+
+          &-assigned {
+            &-value {
+              text-align: end;
+            }
+
+            &-btn {
+              &-assign,
+              &-unassign {
+                @include flex(row, center, flex-end);
+                transition: all 0.3s ease;
+
+                svg {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
+
+              &-assign {
+                background-color: rgba($priority-bg-low, 0.6);
+
+                &:hover {
+                  background-color: rgba($priority-bg-low, 0.8);
+
+                  svg {
+                    stroke: $priority-low;
+                  }
+                }
+              }
+
+              &-unassign {
+                background-color: rgba($priority-bg-critical, 0.6);
+
+                &:hover {
+                  background-color: rgba($priority-bg-critical, 0.8);
+
+                  svg {
+                    stroke: $priority-critical;
+                  }
+                }
+              }
             }
           }
         }
@@ -465,6 +527,24 @@
   .dashboard {
     padding-left: calc(20px + 50px);
     padding-right: 20px;
+
+    &-ticket {
+      &-card {
+        &-footer {
+          &-users {
+            &-created,
+            &-assigned {
+              &-label {
+                display: none;
+              }
+              &-value {
+                font-size: 0.6rem;
+              }
+            }
+          }
+        }
+      }
+    }
 
     &-header {
       &-actions {

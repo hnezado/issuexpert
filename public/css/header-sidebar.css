@@ -94,10 +94,10 @@
   all: unset;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  width: 120px;
+  width: 150px;
   height: 50px;
   padding: 0 12px;
   border-radius: 8px 0 0 8px;
@@ -223,9 +223,7 @@
 .header-sidebar-options-panel-btn-logout svg {
   width: 16px;
   height: 16px;
-  transition:
-    stroke 0.3s ease,
-    transform 0.2s ease;
+  transition: stroke 0.3s ease, transform 0.2s ease;
 }
 .header-sidebar-options-panel-btn-logout:hover svg {
   stroke: #f05060;
@@ -301,8 +299,7 @@
   width: 100%;
   overflow-x: auto;
 }
-.header-sidebar-user-details-email,
-.header-sidebar-user-details-role {
+.header-sidebar-user-details-email, .header-sidebar-user-details-role {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

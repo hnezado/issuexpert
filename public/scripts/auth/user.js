@@ -55,6 +55,32 @@ async function fetchCurrentUser() {
   }
 }
 
+async function fetchUsername(id) {
+  if (!id) return "";
+
+  const token = localStorage.getItem("auth_token");
+  if (!token) return null;
+
+  const res = await fetch(`${API_BASE_URL}/users/username-by-id/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    logger.error("User.fetchUsername: server error", {
+      status: res.status,
+      message: error,
+    });
+    return "";
+  }
+
+  const username = await res.json();
+  return username.username;
+}
+
 function clearCurrentUser() {
   cachedUser = null;
   sessionStorage.removeItem("current_user");
@@ -66,4 +92,4 @@ function logout() {
   goTo("login");
 }
 
-export { fetchCurrentUser, logout };
+export { fetchCurrentUser, fetchUsername, logout };
