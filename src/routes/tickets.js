@@ -5,7 +5,7 @@ import * as ticketController from "../controllers/ticketController.js";
 
 const router = express.Router();
 
-// // Only admins can get all tickets (middleware)
+// Only admins can get all tickets (middleware)
 router.get(
   "/",
   authMiddleware,
@@ -13,7 +13,7 @@ router.get(
   ticketController.getAllTickets,
 );
 
-// // Only admins can get all assigned tickets (middleware)
+// Only admins can get all assigned tickets (middleware)
 // router.get(
 //   "/assigned",
 //   authMiddleware,
@@ -29,8 +29,8 @@ router.get(
   ticketController.getAllUnassignedTickets,
 );
 
-// // Only admins can get tickets assigned to any account (middleware)
-// // Technicians can only get tickets assigned to themselves or other technicians (controller)
+// Only admins can get tickets assigned to any account (middleware)
+// Technicians can only get tickets assigned to themselves or other technicians (controller)
 router.get(
   "/assigned/:id",
   authMiddleware,
@@ -39,7 +39,7 @@ router.get(
 );
 
 // DO NOT USE (REDUNDANT)
-// // Any authenticated user can get tickets they created (middleware)
+// Any authenticated user can get tickets they created (middleware)
 // router.get(
 //   "/created",
 //   authMiddleware,
@@ -48,7 +48,7 @@ router.get(
 // );
 
 // DO NOT USE (REDUNDANT)
-// // Admins and technicians can get tickets assigned to themselves (middleware)
+// Admins and technicians can get tickets assigned to themselves (middleware)
 // router.get(
 //   "/assigned",
 //   authMiddleware,
@@ -56,9 +56,9 @@ router.get(
 //   ticketController.getTicketsAssignedToCurrentUser,
 // );
 
-// // Only admins can get tickets created by any account (controller)
-// // Technicians can only get tickets created by themselves and users (controller)
-// // Users can only get tickets they created (controller)
+// Only admins can get tickets created by any account (controller)
+// Technicians can only get tickets created by themselves and users (controller)
+// Users can only get tickets they created (controller)
 router.get(
   "/created/:id",
   authMiddleware,
@@ -66,7 +66,7 @@ router.get(
   ticketController.getTicketsCreatedByUser,
 );
 
-// // Any authenticated account can create new tickets
+// Any authenticated account can create new tickets
 router.post(
   "/",
   authMiddleware,
@@ -74,9 +74,9 @@ router.post(
   ticketController.createTicket,
 );
 
-// // Only admins can update any ticket
-// // Technicians can update tickets they created or are assigned to
-// // Users can only update tickets they created
+// Only admins can update any ticket
+// Technicians can update tickets they created or are assigned to
+// Users can only update tickets they created
 router.patch(
   "/:id",
   authMiddleware,
@@ -84,8 +84,8 @@ router.patch(
   ticketController.updateTicket,
 );
 
-// // Only admins can modify any ticket status
-// // Technicians can modify the status of tickets they created or are assigned to
+// Only admins can modify any ticket status
+// Technicians can modify the status of tickets they created or are assigned to
 // router.patch(
 //   "/status",
 //   authMiddleware,
@@ -93,8 +93,8 @@ router.patch(
 //   ticketController.updateStatus,
 // );
 
-// // Only admins can assign tickets to any account
-// // Technicians can only assign tickets to themselves
+// Only admins can assign tickets to any account
+// Technicians can only assign tickets to themselves
 router.patch(
   "/assign/:id",
   authMiddleware,
@@ -102,8 +102,8 @@ router.patch(
   ticketController.assignTicket,
 );
 
-// // Only admins can unassign tickets from any account
-// // Technicians can only unassign their own tickets
+// Only admins can unassign tickets from any account
+// Technicians can only unassign their own tickets
 router.patch(
   "/unassign/:id",
   authMiddleware,
@@ -111,9 +111,9 @@ router.patch(
   ticketController.unassignTicket,
 );
 
-// // Only admins can delete any ticket
-// // Technicians can delete tickets they created
-// // Users can delete tickets they created
+// Only admins can delete any ticket
+// Technicians can delete tickets they created
+// Users can delete tickets they created
 router.delete(
   "/:id",
   authMiddleware,
