@@ -336,10 +336,10 @@
   margin: 0 8px 0 4px;
 }
 .dashboard-ticket-card-footer-users-created-value.unassigned, .dashboard-ticket-card-footer-users-assigned-value.unassigned {
-  color: #d97706;
+  color: #f59e0b;
 }
 .dashboard-ticket-card-footer-users-created-value.creator, .dashboard-ticket-card-footer-users-created-value.self-assigned, .dashboard-ticket-card-footer-users-assigned-value.creator, .dashboard-ticket-card-footer-users-assigned-value.self-assigned {
-  color: #16a34a;
+  color: #22c55e;
   text-decoration: underline;
 }
 .dashboard-ticket-card-footer-users-assigned-value {
@@ -357,19 +357,19 @@
   height: 16px;
 }
 .dashboard-ticket-card-footer-users-assigned-btn-assign {
-  background-color: rgba(209, 250, 229, 0.6);
+  background-color: rgba(34, 197, 94, 0.1);
 }
 .dashboard-ticket-card-footer-users-assigned-btn-assign:hover {
-  background-color: rgba(209, 250, 229, 0.8);
+  background-color: rgba(34, 197, 94, 0.2);
 }
 .dashboard-ticket-card-footer-users-assigned-btn-assign:hover svg {
   stroke: #22c55e;
 }
 .dashboard-ticket-card-footer-users-assigned-btn-unassign {
-  background-color: rgba(254, 226, 226, 0.6);
+  background-color: rgba(239, 68, 68, 0.1);
 }
 .dashboard-ticket-card-footer-users-assigned-btn-unassign:hover {
-  background-color: rgba(254, 226, 226, 0.8);
+  background-color: rgba(239, 68, 68, 0.2);
 }
 .dashboard-ticket-card-footer-users-assigned-btn-unassign:hover svg {
   stroke: #ef4444;
@@ -377,19 +377,19 @@
 
 .status-open {
   background-color: #2563eb;
-  color: #f8fafc;
+  color: #edf1f5;
 }
 .status-in-progress {
-  background-color: #f59e0b;
+  background-color: #d97706;
   color: #0f172a;
 }
 .status-resolved {
   background-color: #16a34a;
-  color: #f8fafc;
+  color: #edf1f5;
 }
 .status-closed {
-  background-color: #64748b;
-  color: #f8fafc;
+  background-color: #6b7280;
+  color: #edf1f5;
 }
 
 @media (max-width: 900px) {

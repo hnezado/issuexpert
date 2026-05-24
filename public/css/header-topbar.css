@@ -148,10 +148,10 @@
   stroke: #0f172a;
 }
 .header-topbar-user > button:hover {
-  background: rgba(240, 80, 96, 0.1);
+  background: rgba(239, 68, 68, 0.1);
 }
 .header-topbar-user > button:hover svg {
-  stroke: #f05060;
+  stroke: #ef4444;
 }
 
 @media (max-width: 650px) {
@@ -198,10 +198,10 @@
     stroke: #0f172a;
   }
   .header-topbar-user .btn[data-js=header-btn-logout]:hover {
-    background: rgba(240, 80, 96, 0.1);
+    background: rgba(239, 68, 68, 0.1);
   }
   .header-topbar-user .btn[data-js=header-btn-logout]:hover svg {
-    stroke: #f05060;
+    stroke: #ef4444;
   }
 }
 @media (max-width: 500px) {

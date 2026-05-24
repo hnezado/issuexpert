@@ -19,9 +19,8 @@ h2 {
     flex: 1;
     height: 3rem;
     border-radius: 12px 12px 0 0;
-    border: 1px solid $border-dark;
+    border: 1px solid $surface-dark;
     border-bottom: 0;
-    // border-bottom: 1px solid $border-dark;
     box-shadow: $shadow-sm;
     background-color: $surface-hover;
     transform: translateY(5px);
@@ -67,44 +66,44 @@ h2 {
     & .priority {
       &-low {
         svg {
-          stroke: $priority-low;
+          stroke: $success;
         }
       }
 
       &-medium {
         svg {
-          stroke: $priority-medium;
+          stroke: $info;
         }
       }
 
       &-high {
         svg {
-          stroke: $priority-high;
+          stroke: $warning;
         }
       }
 
       &-critical {
         svg {
-          stroke: $priority-critical;
+          stroke: $error;
         }
       }
     }
 
     & .status {
       &-open {
-        background-color: rgba($status-open, 0.2);
+        background-color: rgba($info-dark, 0.2);
       }
 
       &-in-progress {
-        background-color: rgba($status-in-progress, 0.2);
+        background-color: rgba($warning-dark, 0.2);
       }
 
       &-resolved {
-        background-color: rgba($status-resolved, 0.2);
+        background-color: rgba($success-dark, 0.2);
       }
 
       &-closed {
-        background-color: rgba($status-closed, 0.2);
+        background-color: rgba($invalid, 0.2);
       }
     }
   }

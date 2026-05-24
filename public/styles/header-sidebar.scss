@@ -18,7 +18,7 @@
   // overflow: hidden;
 
   background: $surface;
-  border-right: 1px solid $border-dark;
+  border-right: 1px solid $surface-dark;
   z-index: 100;
 
   &-top {
@@ -32,7 +32,7 @@
     @include flex(row, space-between);
     width: 100%;
     height: 80px;
-    border-top: 1px solid $border-dark;
+    border-top: 1px solid $surface-dark;
   }
 
   &-logo {
@@ -41,7 +41,7 @@
     height: 70px;
     cursor: pointer;
     user-select: none;
-    border-bottom: 1px solid $border-dark;
+    border-bottom: 1px solid $surface-dark;
 
     &-img {
       height: 100%;
@@ -161,7 +161,7 @@
       right: 50%;
       transform: translateX(50%);
       padding: 0 12px;
-      border-top: 1px solid $border-dark;
+      border-top: 1px solid $surface-dark;
       border-radius: 8px 8px 0 0;
       font-size: 0.6rem;
       cursor: pointer;
@@ -192,8 +192,8 @@
       width: 100%;
       padding: 5px 20px;
       background-color: $surface-hover;
-      border-top: 1px solid $border-dark;
-      border-bottom: 1px solid $border-dark;
+      border-top: 1px solid $surface-dark;
+      border-bottom: 1px solid $surface-dark;
       z-index: 40;
 
       &-btn {
@@ -239,7 +239,7 @@
 
           &:hover {
             svg {
-              stroke: $danger-hover;
+              stroke: $error;
               transform: translateX(1px);
             }
           }
@@ -268,7 +268,6 @@
     min-width: 0;
     width: 100%;
     background-color: $surface;
-    // border: 1px solid $border-dark;
     z-index: 100;
 
     &-avatar {
@@ -433,7 +432,7 @@
       width: 100%;
       height: 30px;
       border-left: 0;
-      border-top: 1px solid $border-dark;
+      border-top: 1px solid $surface-dark;
     }
   }
 }

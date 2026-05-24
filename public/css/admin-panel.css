@@ -72,13 +72,13 @@ h2 {
   background-color: rgba(37, 99, 235, 0.2);
 }
 .table-body .status-in-progress {
-  background-color: rgba(245, 158, 11, 0.2);
+  background-color: rgba(217, 119, 6, 0.2);
 }
 .table-body .status-resolved {
   background-color: rgba(22, 163, 74, 0.2);
 }
 .table-body .status-closed {
-  background-color: rgba(100, 116, 139, 0.2);
+  background-color: rgba(107, 114, 128, 0.2);
 }
 
 .no-wrap {

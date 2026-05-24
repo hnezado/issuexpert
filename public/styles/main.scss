@@ -52,7 +52,7 @@ body.modal-open {
   padding: $spacing-md;
 
   background: $surface;
-  border: 1px solid $border-dark;
+  border: 1px solid $surface-dark;
   border-radius: $radius-md;
 
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
@@ -93,7 +93,7 @@ body.modal-open {
 
     .row {
       display: table-row;
-      border-bottom: 1px solid $border-dark;
+      border-bottom: 1px solid $surface-dark;
       transition: background-color 0.15s ease;
       cursor: pointer;
 
@@ -216,7 +216,7 @@ body.modal-open {
     cursor: pointer;
 
     &:hover {
-      background-color: $border-dark;
+      background-color: $surface-dark;
 
       svg {
         stroke: $primary;
@@ -354,7 +354,7 @@ body.modal-open {
           gap: 50px;
 
           padding: 10px 0;
-          border-bottom: 1px solid $border-dark;
+          border-bottom: 1px solid $surface-dark;
           word-break: break-word;
           overflow-x: anywhere;
 

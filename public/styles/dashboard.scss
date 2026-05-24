@@ -55,7 +55,7 @@
             flex: 1;
 
             background: $surface;
-            border: 1px solid $border-dark;
+            border: 1px solid $surface-dark;
             border-radius: 8px;
 
             box-shadow: $shadow-sm;
@@ -115,7 +115,7 @@
             height: 40px;
             padding: 0 12px;
             background: $surface;
-            border: 1px solid $border-dark;
+            border: 1px solid $surface-dark;
             border-radius: 8px;
             box-shadow: $shadow-sm;
             font-size: 0.8rem;
@@ -169,7 +169,7 @@
             height: 40px;
             padding: 0 12px;
             background: $surface;
-            border: 1px solid $border-dark;
+            border: 1px solid $surface-dark;
             border-radius: 8px;
             box-shadow: $shadow-sm;
             font-size: 0.8rem;
@@ -230,7 +230,7 @@
     &-card {
       @include flex(column, center, stretch);
       background: $surface;
-      border: 1px solid $border-dark;
+      border: 1px solid $surface-dark;
       border-radius: $radius-md;
       padding: $spacing-md;
       box-shadow: $shadow-sm;
@@ -275,32 +275,32 @@
           &.priority {
             &-low {
               svg {
-                stroke: $priority-low;
+                stroke: $success;
               }
             }
 
             &-medium {
               svg {
-                stroke: $priority-medium;
+                stroke: $info;
               }
             }
 
             &-high {
               svg {
-                stroke: $priority-high;
+                stroke: $warning;
               }
             }
 
             &-critical {
               svg {
-                stroke: $priority-critical;
+                stroke: $error;
               }
             }
 
             &-invalid {
               svg {
-                stroke: $priority-invalid;
-                fill: $priority-invalid;
+                stroke: $invalid;
+                fill: $invalid;
               }
             }
           }
@@ -397,25 +397,25 @@
               }
 
               &-assign {
-                background-color: rgba($priority-bg-low, 0.6);
+                background-color: rgba($success, 0.1);
 
                 &:hover {
-                  background-color: rgba($priority-bg-low, 0.8);
+                  background-color: rgba($success, 0.2);
 
                   svg {
-                    stroke: $priority-low;
+                    stroke: $success;
                   }
                 }
               }
 
               &-unassign {
-                background-color: rgba($priority-bg-critical, 0.6);
+                background-color: rgba($error, 0.1);
 
                 &:hover {
-                  background-color: rgba($priority-bg-critical, 0.8);
+                  background-color: rgba($error, 0.2);
 
                   svg {
-                    stroke: $priority-critical;
+                    stroke: $error;
                   }
                 }
               }
@@ -430,22 +430,22 @@
 // Statuses
 .status {
   &-open {
-    background-color: $status-open;
+    background-color: $info-dark;
     color: $text-inverse;
   }
 
   &-in-progress {
-    background-color: $status-in-progress;
+    background-color: $warning-dark;
     color: $text;
   }
 
   &-resolved {
-    background-color: $status-resolved;
+    background-color: $success-dark;
     color: $text-inverse;
   }
 
   &-closed {
-    background-color: $status-closed;
+    background-color: $invalid;
     color: $text-inverse;
   }
 }

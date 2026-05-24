@@ -131,10 +131,10 @@
   padding-right: 22px;
 }
 .header-sidebar-list-item.active span {
-  color: #f8fafc;
+  color: #edf1f5;
 }
 .header-sidebar-list-item.active svg {
-  stroke: #f8fafc;
+  stroke: #edf1f5;
 }
 .header-sidebar-list-item.inactive {
   opacity: 0.3;
@@ -226,7 +226,7 @@
   transition: stroke 0.3s ease, transform 0.2s ease;
 }
 .header-sidebar-options-panel-btn-logout:hover svg {
-  stroke: #f05060;
+  stroke: #ef4444;
   transform: translateX(1px);
 }
 .header-sidebar-options.opened {

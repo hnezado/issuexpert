@@ -65,7 +65,7 @@
   transition: 0.2s;
 }
 .modal-header-close:hover {
-  color: #dc2626;
+  color: #ef4444;
 }
 .modal-body {
   display: flex;
@@ -122,7 +122,7 @@
   box-shadow: 0 0 0 2px rgba(122, 157, 233, 0.2);
 }
 .modal-form-input:hover, .modal-form-select:hover, .modal-form-textarea:hover {
-  border-color: #cbd5e1;
+  border-color: rgba(71, 85, 105, 0.3);
 }
 .modal-form-input:disabled, .modal-form-select:disabled, .modal-form-textarea:disabled {
   opacity: 0.5;
@@ -165,7 +165,7 @@
 }
 .modal-form-slider-label {
   background-color: #7a9de9;
-  color: #f8fafc;
+  color: #edf1f5;
 }
 .modal-form-slider-wrapper {
   position: relative;
@@ -177,7 +177,7 @@
   top: -22px;
   transform: translateX(-50%);
   background-color: #7a9de9;
-  color: #f8fafc;
+  color: #edf1f5;
   padding: 2px 6px;
   border-radius: 6px;
   font-size: 0.8rem;

@@ -31,7 +31,7 @@
     width: 100%;
     max-width: 400px;
 
-    background: $modal-bg;
+    background: $surface;
     border-radius: $radius-lg;
     box-shadow: $shadow-lg;
 
@@ -43,8 +43,8 @@
     @include flex(row);
     position: relative;
     padding: $spacing-md;
-    background: $modal-header;
-    border-bottom: 1px solid $modal-border;
+    background: $surface-hover;
+    border-bottom: 1px solid $surface-active;
     user-select: none;
 
     &-title {
@@ -67,7 +67,7 @@
       transition: 0.2s;
 
       &:hover {
-        color: $danger;
+        color: $error;
       }
     }
   }
@@ -112,7 +112,7 @@
       width: 100%;
       padding: $spacing-sm;
       // margin: 5px 0 10px 0;
-      border: 1px solid $border;
+      border: 1px solid $surface-active;
       border-radius: $radius-sm;
       background: $surface;
       color: $text;
@@ -126,7 +126,7 @@
       }
 
       &:hover {
-        border-color: $border-hover;
+        border-color: rgba($text-muted, 0.3);
       }
 
       &:disabled {
@@ -142,13 +142,13 @@
 
       &::-webkit-slider-runnable-track {
         height: 4px;
-        background: $border;
+        background: $surface-active;
         border-radius: 2px;
       }
 
       &::-moz-range-track {
         height: 4px;
-        background: $border;
+        background: $surface-active;
         border-radius: 2px;
       }
 
@@ -235,7 +235,7 @@
       height: 20px;
       padding: 0 12px;
       background: $surface;
-      border: 1px solid $border-dark;
+      border: 1px solid $surface-dark;
       border-radius: 8px;
       box-shadow: $shadow-sm;
       font-size: 0.8rem;
@@ -271,7 +271,7 @@
     gap: $spacing-sm;
 
     padding: $spacing-md;
-    border-top: 1px solid $modal-border;
+    border-top: 1px solid $surface-active;
     background: $surface;
   }
 }

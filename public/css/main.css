@@ -144,7 +144,7 @@ body.modal-open {
   letter-spacing: 1.2px;
 }
 .btn-primary {
-  color: #f8fafc;
+  color: #edf1f5;
   background-color: #7a9de9;
 }
 .btn-primary:disabled {
@@ -155,7 +155,7 @@ body.modal-open {
 }
 .btn-secondary {
   color: #7a9de9;
-  background-color: #f8fafc;
+  background-color: #edf1f5;
 }
 .btn-mini {
   padding: 0;
@@ -216,7 +216,7 @@ body.modal-open {
   padding: 5px;
 }
 .btn.btn-lg span {
-  color: #f8fafc;
+  color: #edf1f5;
 }
 .btn-anim-content-rotate {
   display: inline-flex;
@@ -238,7 +238,7 @@ body.modal-open {
   transition: transform 0.2s ease;
 }
 .btn-anim-content-grow-sm svg, .btn-anim-content-grow-md svg {
-  stroke: #f8fafc;
+  stroke: #edf1f5;
   width: 24px;
   height: 24px;
   flex-shrink: 0;

@@ -2,71 +2,35 @@
 // LIGHT THEME - Colors
 // =========================
 
-// Background system (light mode)
-$bg: #f8fafc; // main app background
-$surface: #ffffff; // cards, panels, containers
-$surface-hover: #f1f5f9; // hover on cards/rows
-$surface-active: #e2e8f0; // selected/active containers
-$surface-inactive: #ccd6e1; // inactive containers
-
-// Overlays (modals, dropdowns, dialogs)
-$overlay: rgba(15, 23, 42, 0.4); // backdrop for modals
-$modal-bg: #ffffff; // modal window background
-$modal-header: #f1f5f9; // modal header separation
-$modal-border: #e2e8f0; // modal borders
+// Background system
+$bg: #f8fafc; // main background
+$surface: #ffffff; // cards / containers
+$surface-hover: #f1f5f9;
+$surface-active: #e2e8f0; // active / selected
+$surface-inactive: #ccd6e1;
+$surface-dark: #c3c8ce; // darker variant
+$overlay: rgba(15, 23, 42, 0.4); // modal backdrop
 
 // Text
 $text: #0f172a; // primary text
 $text-muted: #475569; // secondary text / placeholders
-$text-inverse: #f8fafc; // text on dark elements (badges, etc)
+$text-inverse: #edf1f5; // text on dark backgrounds
 
 // Primary actions
-$primary: #7a9de9; // main buttons / links (slightly darker than dark mode)
-// $primary-hover: #70a3f4; // hover state
+$primary: #7a9de9;
 $primary-hover: #eaf2fb;
-$primary-active: #6f8ad5; // active/pressed state
+$primary-active: #6f8ad5;
 
-// Status system (tickets)
-$success: #16a34a; // resolved / done
-$success-hover: #22c55e;
-$success-active: #15803d;
-
-$warning: #d97706; // pending / attention
-$warning-hover: #f59e0b;
-$warning-active: #b45309;
-
-$danger: #dc2626; // blocked / error
-$danger-hover: #f05060;
-$danger-active: #881818;
-$danger-dark: #3a1018;
-
-$info: #0891b2; // informational
-$info-hover: #06b6d4;
-$info-active: #0e7490;
-
-// Borders & separators
-$border: #e2e8f0; // default borders
-$border-dark: #c3c8ce;
-$border-hover: #cbd5e1; // hover/focus borders
-$divider: #f1f5f9; // section separators
-
-// Priorities
-$priority-low: #22c55e;
-$priority-medium: #3b82f6;
-$priority-high: #f59e0b;
-$priority-critical: #ef4444;
-$priority-invalid: #6b7280;
-$priority-bg-low: #d1fae5;
-$priority-bg-medium: #dbeafe;
-$priority-bg-high: #fef3c7;
-$priority-bg-critical: #fee2e2;
-$priority-bg-invalid: #f3f4f6;
-
-// Statuses
-$status-open: #2563eb;
-$status-in-progress: #f59e0b;
-$status-resolved: #16a34a;
-$status-closed: #64748b;
+// Priorities & statuses
+$success: #22c55e;
+$success-dark: #16a34a;
+$info: #3b82f6;
+$info-dark: #2563eb;
+$warning: #f59e0b;
+$warning-dark: #d97706;
+$error: #ef4444;
+$error-dark: #dc2626;
+$invalid: #6b7280;
 
 // =========================
 // Font sizes
