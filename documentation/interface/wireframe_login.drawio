@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="sf0MrCpePRCNQuE_Z5fx">
+    <mxGraphModel dx="1414" dy="783" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-12" parent="1" style="strokeWidth=1;shadow=0;dashed=0;align=center;html=1;shape=mxgraph.mockup.containers.window;align=left;verticalAlign=top;spacingLeft=8;strokeColor2=#008cff;strokeColor3=#c4c4c4;fontColor=#333333;mainText=;fontSize=17;labelBackgroundColor=default;whiteSpace=wrap;fillColor=#f5f5f5;strokeColor=#666666;" value="IssueXpert" vertex="1">
+          <mxGeometry height="520" width="790" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="200" width="300" x="264" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Login" vertex="1">
+          <mxGeometry height="30" width="60" x="384" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="20" width="190" x="319" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="20" width="190" x="319" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Login" vertex="1">
+          <mxGeometry height="20" width="76" x="376" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-22" edge="1" parent="1" style="html=1;rounded=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;endArrow=none;endFill=0;" value="">
+          <mxGeometry relative="1" width="100" as="geometry">
+            <mxPoint x="264" y="337" as="sourcePoint" />
+            <mxPoint x="564" y="337" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-24" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Username" vertex="1">
+          <mxGeometry height="20" width="64" x="319" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="ZbhzYCmIeu871DCSfM6t-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Password" vertex="1">
+          <mxGeometry height="20" width="64" x="319" y="270" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
