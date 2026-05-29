@@ -114,87 +114,6 @@ class DashboardController {
     if (!this.currentUser) return;
   }
 
-  bindEvents() {
-    if (!this.rootElem) return;
-
-    this.elements.filterSearchInput?.addEventListener("input", () => {
-      this.addFilter("search", this.elements.filterSearchInput?.value);
-      this.applyFilters();
-    });
-
-    this.elements.filterStatusSelect?.addEventListener("change", () => {
-      this.addFilter("status", this.elements.filterStatusSelect?.value);
-      this.applyFilters();
-      this.elements.filterStatusSelect.blur();
-    });
-
-    this.elements.filterPrioritySelect?.addEventListener("change", () => {
-      this.addFilter("priority", this.elements.filterPrioritySelect?.value);
-      this.applyFilters();
-      this.elements.filterPrioritySelect.blur();
-    });
-
-    this.elements.createTicketBtn?.addEventListener("click", () =>
-      this.createTicket(),
-    );
-    this.elements.updateTicketBtn?.addEventListener("click", () =>
-      this.updateTicket(),
-    );
-    this.elements.deleteTicketBtn?.addEventListener("click", () =>
-      this.deleteTicket(),
-    );
-
-    // Event delegation for ticket list interactions
-    this.elements.ticketList?.addEventListener("click", async (e) => {
-      // Handle assign/unassign buttons
-      const assignBtn = e.target.closest(
-        '[data-js="dashboard-ticket-card-footer-users-assigned-btn-assign"]',
-      );
-      const unassignBtn = e.target.closest(
-        '[data-js="dashboard-ticket-card-footer-users-assigned-btn-unassign"]',
-      );
-
-      if (assignBtn || unassignBtn) {
-        e.stopPropagation();
-
-        const ticketId = (assignBtn || unassignBtn)?.dataset.id;
-        const ticket = this.ticketsFiltered.find(
-          (t) => String(t.id) === String(ticketId),
-        );
-
-        if (!ticketId || !ticket) return;
-
-        const isAdmin = this.currentUser.role === "admin";
-        const isTech = this.currentUser.role === "technician";
-        const isSelfAssigned = ticket.assigned_to === this.currentUser.id;
-
-        if (assignBtn) {
-          if (isAdmin || isTech) {
-            await this.assignTicket(ticketId);
-          }
-        } else if (unassignBtn) {
-          if (isAdmin || (isTech && isSelfAssigned)) {
-            await this.unassignTicket(ticketId);
-          }
-        }
-
-        return;
-      }
-
-      const card = e.target.closest("[data-ticket-id]");
-      if (!card) return;
-
-      const ticketId = card.dataset.ticketId;
-      if (!ticketId) return;
-
-      const ticket = this.ticketsFiltered.find(
-        (t) => String(t.id) === ticketId,
-      );
-
-      if (ticket) this.selectTicket(ticket, card);
-    });
-  }
-
   async loadTickets() {
     await this.loadUnassignedTickets();
     await this.loadAssignedTickets();
@@ -286,6 +205,87 @@ class DashboardController {
         },
       );
     }
+  }
+
+  bindEvents() {
+    if (!this.rootElem) return;
+
+    this.elements.filterSearchInput?.addEventListener("input", () => {
+      this.addFilter("search", this.elements.filterSearchInput?.value);
+      this.applyFilters();
+    });
+
+    this.elements.filterStatusSelect?.addEventListener("change", () => {
+      this.addFilter("status", this.elements.filterStatusSelect?.value);
+      this.applyFilters();
+      this.elements.filterStatusSelect.blur();
+    });
+
+    this.elements.filterPrioritySelect?.addEventListener("change", () => {
+      this.addFilter("priority", this.elements.filterPrioritySelect?.value);
+      this.applyFilters();
+      this.elements.filterPrioritySelect.blur();
+    });
+
+    this.elements.createTicketBtn?.addEventListener("click", () =>
+      this.createTicket(),
+    );
+    this.elements.updateTicketBtn?.addEventListener("click", () =>
+      this.updateTicket(),
+    );
+    this.elements.deleteTicketBtn?.addEventListener("click", () =>
+      this.deleteTicket(),
+    );
+
+    // Event delegation for ticket list interactions
+    this.elements.ticketList?.addEventListener("click", async (e) => {
+      // Handle assign/unassign buttons
+      const assignBtn = e.target.closest(
+        '[data-js="dashboard-ticket-card-footer-users-assigned-btn-assign"]',
+      );
+      const unassignBtn = e.target.closest(
+        '[data-js="dashboard-ticket-card-footer-users-assigned-btn-unassign"]',
+      );
+
+      if (assignBtn || unassignBtn) {
+        e.stopPropagation();
+
+        const ticketId = (assignBtn || unassignBtn)?.dataset.id;
+        const ticket = this.ticketsFiltered.find(
+          (t) => String(t.id) === String(ticketId),
+        );
+
+        if (!ticketId || !ticket) return;
+
+        const isAdmin = this.currentUser.role === "admin";
+        const isTech = this.currentUser.role === "technician";
+        const isSelfAssigned = ticket.assigned_to === this.currentUser.id;
+
+        if (assignBtn) {
+          if (isAdmin || isTech) {
+            await this.assignTicket(ticketId);
+          }
+        } else if (unassignBtn) {
+          if (isAdmin || (isTech && isSelfAssigned)) {
+            await this.unassignTicket(ticketId);
+          }
+        }
+
+        return;
+      }
+
+      const card = e.target.closest("[data-ticket-id]");
+      if (!card) return;
+
+      const ticketId = card.dataset.ticketId;
+      if (!ticketId) return;
+
+      const ticket = this.ticketsFiltered.find(
+        (t) => String(t.id) === ticketId,
+      );
+
+      if (ticket) this.selectTicket(ticket, card);
+    });
   }
 
   renderHeader() {

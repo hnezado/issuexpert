@@ -12,7 +12,7 @@ async function getAllTickets() {
       t.assigned_to,
       t.created_at,
       t.updated_at
-    FROM Tickets t
+    FROM tickets t
     LEFT JOIN TicketStatuses s ON t.status_id = s.id
     WHERE t.is_deleted = 0
     ORDER BY t.created_at DESC;
@@ -35,7 +35,7 @@ async function findById(ticketId) {
       t.created_at,
       t.updated_at,
       t.is_deleted
-    FROM Tickets t
+    FROM tickets t
     WHERE t.id = ? AND t.is_deleted = 0
     LIMIT 1;
   `;
@@ -57,7 +57,7 @@ async function getAllUnassignedTickets() {
       t.assigned_to,
       t.created_at,
       t.updated_at
-    FROM Tickets t
+    FROM tickets t
     LEFT JOIN ticketstatuses s ON t.status_id = s.id
     LEFT JOIN users creator ON t.created_by = creator.id
     WHERE t.assigned_to IS NULL AND t.is_deleted = 0
@@ -82,7 +82,7 @@ async function getAllAssignedTickets() {
       assigned.username AS assigned_to_username,
       t.created_at,
       t.updated_at
-    FROM Tickets t
+    FROM tickets t
     LEFT JOIN ticketstatuses s ON t.status_id = s.id
     LEFT JOIN users creator ON t.created_by = creator.id
     LEFT JOIN users assigned ON t.assigned_to = creator.id
@@ -148,7 +148,7 @@ async function getTicketsCreatedByUser(userId) {
 
 async function createTicket(title, description, priority, created_by) {
   const sql = `
-    INSERT INTO Tickets (title, description, priority, created_by)
+    INSERT INTO tickets (title, description, priority, created_by)
     VALUES (?, ?, ?, ?)
     `;
 
@@ -165,7 +165,7 @@ async function updateTicket(fields, values) {
   // Updates a ticket dynamically based on provided fields
   // Using safe parameter placeholders (?) to avoid SQL injection
   const sql = `
-    UPDATE Tickets
+    UPDATE tickets
     SET ${fields.join(", ")}
     WHERE id = ? AND is_deleted = 0
   `;
@@ -176,7 +176,7 @@ async function updateTicket(fields, values) {
 
 async function updateTicketStatus(ticketId, statusId) {
   const sql = `
-    UPDATE Tickets
+    UPDATE tickets
     SET status_id = ?
     WHERE id = ? AND is_deleted = 0
     `;
@@ -187,7 +187,7 @@ async function updateTicketStatus(ticketId, statusId) {
 
 async function assignTicket(ticketId, assignTo) {
   const sql = `
-    UPDATE Tickets
+    UPDATE tickets
     SET assigned_to = ?
     WHERE id = ? AND is_deleted = 0
     AND (assigned_to IS NULL OR assigned_to != ?)
@@ -199,7 +199,7 @@ async function assignTicket(ticketId, assignTo) {
 
 async function unassignTicket(ticketId) {
   const sql = `
-    UPDATE Tickets
+    UPDATE tickets
     SET assigned_to = NULL
     WHERE id = ? AND is_deleted = 0 AND assigned_to IS NOT NULL
     `;
@@ -210,7 +210,7 @@ async function unassignTicket(ticketId) {
 
 async function deleteTicket(id) {
   const sql = `
-    UPDATE Tickets
+    UPDATE tickets
     SET is_deleted = 1
     WHERE id = ? AND is_deleted = 0
   `;
