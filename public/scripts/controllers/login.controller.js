@@ -109,10 +109,10 @@ class LoginController {
       return;
     }
 
-    if (ENV.prod && !isValidPassword(password)) {
-      logger.warn("LoginController.login: invalid password", { password });
-      return;
-    }
+    // if (ENV.prod && !isValidPassword(password)) {
+    //   logger.warn("LoginController.login: invalid password", { password });
+    //   return;
+    // }
 
     try {
       const res = await fetch(`${API_BASE_URL}/auth/login`, {
