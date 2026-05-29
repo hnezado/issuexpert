@@ -13,7 +13,7 @@ async function getAllTickets() {
       t.created_at,
       t.updated_at
     FROM tickets t
-    LEFT JOIN TicketStatuses s ON t.status_id = s.id
+    LEFT JOIN ticketstatuses s ON t.status_id = s.id
     WHERE t.is_deleted = 0
     ORDER BY t.created_at DESC;
   `;
