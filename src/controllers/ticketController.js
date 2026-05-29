@@ -389,7 +389,6 @@ async function updateStatus(req, res) {
 }
 
 async function assignTicket(req, res) {
-  console.log("holi");
   try {
     const ticketId = Number(req.params.id);
     const requesterId = req.user.id;

@@ -72,7 +72,7 @@ class AdminPanelController {
     this.renderUsers();
     this.renderTickets();
     this.renderCategories();
-    this.showTab("categories");
+    this.showTab("users");
     this.updateActionButtons();
     this.bindEvents();
 
