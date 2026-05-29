@@ -13,12 +13,16 @@ import { fileURLToPath } from "url";
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Static files (frontend)
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // =======================
 // API ROUTES
@@ -42,8 +46,6 @@ app.get("/api", (req, res) => {
 // =======================
 // SPA FALLBACK
 // =======================
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // IMPORTANT: fallback AFTER API routes
 app.use((req, res, next) => {
