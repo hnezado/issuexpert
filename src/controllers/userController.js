@@ -1,7 +1,7 @@
 import * as userModel from "../models/userModel.js";
 import logger from "../utils/logger.js";
 import { getRoleId } from "../utils/roles.js";
-import { hashPassword } from "../utils/password.js";
+import { comparePassword, hashPassword } from "../utils/password.js";
 
 // Get all users excluding soft deleted ones
 async function getAllUsers(req, res) {
@@ -194,19 +194,19 @@ async function changePassword(req, res) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const user = await userModel.getUserById(userId);
+    const dbPassword = (await userModel.getUserPassword(userId)).password;
 
-    if (!user) {
-      logger.warn("UserController.changePassword: user not found");
-      return res.status(404).json({ message: "User not found" });
+    if (!dbPassword) {
+      logger.warn("UserController.changePassword: password not found in DB");
+      return res.status(404).json({ message: "Password not found in DB" });
     }
 
-    // const isValid = await verifyPassword(currentPassword, user.password);
+    const isValid = await comparePassword(currentPassword, dbPassword);
 
-    // if (!isValid) {
-    //   logger.warn("UserController.changePassword: invalid current password");
-    //   return res.status(401).json({ message: "Invalid password" });
-    // }
+    if (!isValid) {
+      logger.warn("UserController.changePassword: invalid current password");
+      return res.status(401).json({ message: "Invalid current password" });
+    }
 
     const hashed = await hashPassword(newPassword);
 

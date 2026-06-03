@@ -3,6 +3,7 @@ import {
   getUserAvatar,
   beautifyUsername,
   beautifyRole,
+  isValidPassword,
 } from "../../utils/user.js";
 import { fetchCurrentUser, logout } from "../auth/user.js";
 import { API_BASE_URL } from "../config.js";
@@ -12,6 +13,7 @@ import {
 } from "../core/controller-registry.js";
 import { logger } from "../core/logger.js";
 import { goTo } from "../core/router.js";
+import { Toast } from "../core/toast.js";
 
 class HeaderSidebarController {
   static instance = null;
@@ -248,11 +250,11 @@ class HeaderSidebarController {
     `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
+          const formData = modal.getFormData();
 
-          const currentPassword = data?.["modal-user-password-current"];
-          const newPassword = data?.["modal-user-password-new"];
-          const confirmPassword = data?.["modal-user-password-confirm"];
+          const currentPassword = formData?.["modal-user-password-current"];
+          const newPassword = formData?.["modal-user-password-new"];
+          const confirmPassword = formData?.["modal-user-password-confirm"];
 
           // Validation
           if (!currentPassword || !newPassword || !confirmPassword) {
@@ -261,11 +263,26 @@ class HeaderSidebarController {
               newPassword,
               confirmPassword,
             });
+            Toast.error("Missing fields");
+            return;
+          }
+
+          if (!isValidPassword(newPassword)) {
+            logger.warn(
+              "HeaderSidebarController.changePassword: invalid new password",
+              {
+                newPassword,
+              },
+            );
+            Toast.error("Invalid new password");
             return;
           }
 
           if (newPassword !== confirmPassword) {
-            logger.warn("changePassword: passwords do not match");
+            logger.warn(
+              "HeaderSidebarController.changePassword: new passwords do not match",
+            );
+            Toast.error("New passwords do not match");
             return;
           }
 
@@ -283,16 +300,22 @@ class HeaderSidebarController {
             }),
           });
 
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
-            logger.error("changePassword: server error", {
-              status: res.status,
-              message: error,
-            });
+            logger.error(
+              "HeaderSidebarController.changePassword: server error",
+              {
+                status: res.status,
+                message: data?.message,
+              },
+            );
+            Toast.error(data?.message);
             return;
           }
+
+          Toast.success(data?.message);
+          modal.close();
         },
 
         cancel: () => modal.close(),
