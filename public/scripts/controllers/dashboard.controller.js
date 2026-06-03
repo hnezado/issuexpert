@@ -212,18 +212,15 @@ class DashboardController {
 
     this.elements.filterSearchInput?.addEventListener("input", () => {
       this.addFilter("search", this.elements.filterSearchInput?.value);
-      this.applyFilters();
     });
 
     this.elements.filterStatusSelect?.addEventListener("change", () => {
       this.addFilter("status", this.elements.filterStatusSelect?.value);
-      this.applyFilters();
       this.elements.filterStatusSelect.blur();
     });
 
     this.elements.filterPrioritySelect?.addEventListener("change", () => {
       this.addFilter("priority", this.elements.filterPrioritySelect?.value);
-      this.applyFilters();
       this.elements.filterPrioritySelect.blur();
     });
 
@@ -526,6 +523,8 @@ class DashboardController {
 
   resetFilters() {
     this.filters = { search: "", status: "all", priority: "all" };
+    this.elements.filterSearchInput.value = "";
+    this.renderHeader();
   }
 
   addFilter(filter, value) {
@@ -558,7 +557,6 @@ class DashboardController {
     this.ticketsFiltered = [...filteredList];
 
     this.resetSelectedTicket();
-    this.renderHeader();
     this.renderTickets();
     this.updateButtons();
   }
