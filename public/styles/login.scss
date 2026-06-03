@@ -1,5 +1,14 @@
 @use "core" as *;
 
-.btn-span {
-  color: $text-inverse;
+.btn-primary {
+  & .btn-span {
+    color: $text-inverse;
+    transition: color 0.3s ease;
+  }
+
+  &:hover {
+    & .btn-span {
+      color: $primary;
+    }
+  }
 }

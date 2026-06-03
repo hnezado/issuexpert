@@ -1,0 +1,69 @@
+@use "core" as *;
+
+.toast {
+  &-container {
+    position: fixed;
+    bottom: $spacing-lg;
+    right: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  & {
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-md;
+    font-size: $size-sm;
+    color: $text-inverse;
+    box-shadow: $shadow-md;
+    animation: toast-fade-in 0.2s ease;
+    pointer-events: auto;
+    max-width: 280px;
+    word-break: break-word;
+  }
+
+  &-success {
+    background-color: $success;
+  }
+
+  &-error {
+    background-color: $error;
+  }
+
+  &-info {
+    background-color: $info;
+  }
+
+  &-warning {
+    background-color: $warning;
+    color: $text;
+  }
+
+  &-fade-out {
+    animation: toast-fade-out 0.2s ease forwards;
+  }
+}
+
+@keyframes toast-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

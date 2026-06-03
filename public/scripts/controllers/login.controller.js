@@ -9,6 +9,7 @@ import { API_BASE_URL } from "../config.js";
 import { registerController } from "../core/controller-registry.js";
 import { logger } from "../core/logger.js";
 import { goTo } from "../core/router.js";
+import { Toast } from "../core/toast.js";
 
 /**
  * Login controller (singleton)
@@ -99,6 +100,7 @@ class LoginController {
         identifier,
         password,
       });
+      Toast.error("Missing credentials");
       return;
     }
 
@@ -106,6 +108,7 @@ class LoginController {
 
     if (!isValidUsername(identifier) && !isValidEmail(identifier)) {
       logger.warn("LoginController.login: invalid identifier", { identifier });
+      Toast.error("Invalid username or email format");
       return;
     }
 
@@ -126,9 +129,12 @@ class LoginController {
       if (!res.ok) {
         logger.warn("LoginController.login: server error", {
           status: res.status,
-          message: data,
+          message: data.message,
         });
+        Toast.error(data.message);
         return;
+      } else {
+        Toast.success(data.message);
       }
 
       localStorage.setItem("auth_token", data.token);

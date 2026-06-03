@@ -1,5 +1,9 @@
-.btn-span {
+.btn-primary .btn-span {
   color: #edf1f5;
+  transition: color 0.3s ease;
+}
+.btn-primary:hover .btn-span {
+  color: #7a9de9;
 }
 
 /*# sourceMappingURL=login.css.map */
