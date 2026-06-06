@@ -1,6 +1,8 @@
 <div class="modal-form">
   <div class="modal-form-group">
-    <label for="modal-form-ticket-title" class="modal-form-label">Title</label>
+    <label for="modal-form-ticket-title" class="modal-form-label"
+      ><span class="required-field">*</span>Title</label
+    >
     <input
       placeholder="Brief issue summary"
       id="modal-form-ticket-title"
@@ -11,7 +13,7 @@
   </div>
   <div class="modal-form-group">
     <label for="modal-form-ticket-description" class="modal-form-label"
-      >Description</label
+      >Description (optional)</label
     >
     <textarea
       placeholder="Describe the issue in detail"
@@ -21,7 +23,9 @@
     ></textarea>
   </div>
   <div class="modal-form-group">
-    <label class="modal-form-label">Priority</label>
+    <label class="modal-form-label"
+      ><span class="required-field">*</span>Priority</label
+    >
     <div class="modal-form-slider-wrapper">
       <!-- <span
         data-js="modal-ticket-create-priority-span"

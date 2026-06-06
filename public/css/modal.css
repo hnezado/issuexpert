@@ -68,6 +68,7 @@
   color: #ef4444;
 }
 .modal-body {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -75,6 +76,16 @@
   padding: 24px 60px;
   color: #0f172a;
   user-select: none;
+}
+.modal-body .required-field {
+  color: #ef4444;
+}
+.modal-body-required-text {
+  position: absolute;
+  top: 16px;
+  right: 65px;
+  color: #ef4444;
+  font-size: 0.6rem;
 }
 .modal-body-user {
   display: flex;

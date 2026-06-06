@@ -1,6 +1,8 @@
 <div class="modal-form">
   <div class="modal-form-group">
-    <label for="modal-form-ticket-title" class="modal-form-label">Title</label>
+    <label for="modal-form-ticket-title" class="modal-form-label"
+      ><span class="required-field">*</span>Title</label
+    >
     <input
       id="modal-form-ticket-title"
       data-js="modal-form-ticket-update-title"
@@ -9,7 +11,7 @@
   </div>
   <div class="modal-form-group">
     <label for="modal-form-ticket-description" class="modal-form-label"
-      >Description</label
+      >Description (optional)</label
     >
     <textarea
       id="modal-form-ticket-description"
@@ -18,7 +20,9 @@
     ></textarea>
   </div>
   <div class="modal-form-group">
-    <label class="modal-form-label">Priority</label>
+    <label class="modal-form-label"
+      ><span class="required-field">*</span>Priority</label
+    >
     <div class="modal-form-slider-wrapper">
       <input
         value="5"
@@ -39,7 +43,9 @@
     </div>
   </div>
   <div class="modal-form-group">
-    <label class="modal-form-label">Status</label>
+    <label class="modal-form-label"
+      ><span class="required-field">*</span>Status</label
+    >
     <select
       name="status"
       data-js="modal-form-ticket-status"

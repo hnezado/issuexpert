@@ -121,6 +121,7 @@ class ModalController {
 
     if (this.elements.body?.elem) {
       this.elements.body.elem.innerHTML = content;
+      this.elements.body.elem.innerHTML += `<span class="modal-body-required-text">*Required field</span>`;
     }
 
     if (this.elements.footer?.elem) {

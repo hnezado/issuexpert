@@ -73,10 +73,23 @@
   }
 
   &-body {
+    position: relative;
     @include flex();
     padding: $spacing-xl $spacing-xl * 2.5;
     color: $text;
     user-select: none;
+
+    & .required-field {
+      color: $error;
+    }
+
+    &-required-text {
+      position: absolute;
+      top: 16px;
+      right: 65px;
+      color: $error;
+      font-size: 0.6rem;
+    }
 
     &-user {
       @include flex(column);
