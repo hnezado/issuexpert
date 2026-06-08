@@ -38,6 +38,12 @@
     box-shadow: 0 2px 10px rgba($success-dark, 0.95);
   }
 
+  &-warning {
+    background-color: rgba($warning, 0.95);
+    box-shadow: 0 2px 10px rgba($warning-dark, 0.95);
+    color: $text;
+  }
+
   &-error {
     background-color: rgba($error, 0.95);
     box-shadow: 0 2px 10px rgba($error-dark, 0.95);
@@ -46,12 +52,6 @@
   &-info {
     background-color: rgba($info, 0.95);
     box-shadow: 0 2px 10px rgba($info-dark, 0.95);
-  }
-
-  &-warning {
-    background-color: rgba($warning, 0.95);
-    box-shadow: 0 2px 10px rgba($warning-dark, 0.95);
-    color: $text;
   }
 
   &-fade-out {

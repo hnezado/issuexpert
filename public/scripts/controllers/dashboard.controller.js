@@ -651,7 +651,7 @@ class DashboardController {
                 priority,
               },
             );
-            Toast.error("Missing required fields");
+            Toast.warning("Missing required fields");
             return;
           }
 
@@ -758,7 +758,7 @@ class DashboardController {
                 priority,
               },
             );
-            Toast.error("Missing required fields");
+            Toast.warning("Missing required fields");
             return;
           }
 

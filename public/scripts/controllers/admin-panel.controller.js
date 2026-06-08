@@ -20,6 +20,7 @@ import {
   isValidEmail,
   isValidPassword,
 } from "../../utils/user.js";
+import { Toast } from "../core/toast.js";
 
 /**
  * AdminPanelController (singleton)
@@ -38,6 +39,7 @@ class AdminPanelController {
 
   constructor() {
     this.currentUser = null;
+    this.modal = null;
     this.users = [];
     this.elements = {};
     this.activeTab = null;
@@ -51,6 +53,8 @@ class AdminPanelController {
     if (this.isInitialized) this.destroy();
 
     this.rootElem = rootElem;
+
+    this.modal = getController("modal").getInstance();
 
     this.gatherElements();
     await this.loadUser();
@@ -539,13 +543,20 @@ class AdminPanelController {
     }
   }
 
+  async resetUsers() {
+    this.selectedUser = null;
+    this.updateActionButtons();
+    this.modal.close();
+    await this.loadUsers();
+    this.renderUsers();
+  }
+
   async createUser() {
-    const modal = getController("modal").getInstance();
     const content = await (
       await fetch("../components/forms/user-create.form.html")
     ).text();
 
-    modal.open({
+    this.modal.open({
       title: "New user",
       content,
       footer: `
@@ -554,12 +565,11 @@ class AdminPanelController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
-
-          const username = data?.["modal-user-create-username"];
-          const email = data?.["modal-user-create-email"];
-          const password = data?.["modal-user-create-password"];
-          const role = data?.["modal-user-create-role"];
+          const formData = this.modal.getFormData();
+          const username = formData?.["modal-user-create-username"];
+          const email = formData?.["modal-user-create-email"];
+          const password = formData?.["modal-user-create-password"];
+          const role = formData?.["modal-user-create-role"];
 
           // Fields data validation
           if (!username || !email || !password || !role) {
@@ -572,33 +582,28 @@ class AdminPanelController {
                 role,
               },
             );
+            Toast.warning("Missing required fields");
             return;
           }
           if (!ENV.dev && !isValidUsername(cleanUsername(username))) {
             logger.warn("AdminPanelController.createUser: invalid username", {
               username,
             });
-            this.selectedUser = null;
-            this.updateActionButtons();
-            modal.close();
+            Toast.warning("Invalid username");
             return;
           }
           if (!ENV.dev && !isValidEmail(email)) {
             logger.warn("AdminPanelController.createUser: invalid email", {
               email,
             });
-            this.selectedUser = null;
-            this.updateActionButtons();
-            modal.close();
+            Toast.warning("Invalid email");
             return;
           }
           if (!ENV.dev && !isValidPassword(password)) {
             logger.warn("AdminPanelController.createUser: invalid password", {
               password,
             });
-            this.selectedUser = null;
-            this.updateActionButtons();
-            modal.close();
+            Toast.warning("Invalid password");
             return;
           }
 
@@ -617,44 +622,39 @@ class AdminPanelController {
             }),
           });
 
-          this.selectedUser = null;
-          this.updateActionButtons();
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.createUser: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetUsers();
             return;
           }
 
-          await this.loadUsers();
-          this.renderUsers();
+          Toast.success(data.message);
+          this.resetUsers();
         },
 
-        cancel: () => {
-          this.selectedUser = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetUsers(),
       },
     });
   }
 
   async updateUser() {
     if (!this.selectedUser) {
-      logger.warn("AdminPanelController.updateUser: no selected user");
+      logger.warn("AdminPanelController.updateUser: no user selected");
+      Toast.error("No user selected");
       return;
     }
 
-    const modal = getController("modal").getInstance();
     const content = await (
       await fetch("/components/forms/user-update.form.html")
     ).text();
 
-    modal.open({
+    this.modal.open({
       title: "Edit user",
       content,
       footer: `
@@ -663,11 +663,10 @@ class AdminPanelController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
-
-          const username = data?.["modal-user-update-username"];
-          const email = data?.["modal-user-update-email"];
-          let role = data?.["modal-user-update-role"];
+          const formData = this.modal.getFormData();
+          const username = formData?.["modal-user-update-username"];
+          const email = formData?.["modal-user-update-email"];
+          let role = formData?.["modal-user-update-role"];
 
           // Fields data validation
           if (!username || !email || !role) {
@@ -679,6 +678,7 @@ class AdminPanelController {
                 role,
               },
             );
+            Toast.warning("Missing required fields");
             return;
           }
 
@@ -699,25 +699,22 @@ class AdminPanelController {
             },
           );
 
+          const data = await res.json();
+
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.updateUser: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetUsers();
+            return;
           }
 
-          this.selectedUser = null;
-          this.updateActionButtons();
-          modal.close();
-          await this.loadUsers();
-          this.renderUsers();
+          Toast.success(data.message);
+          this.resetUsers();
         },
-        cancel: () => {
-          this.selectedUser = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetUsers(),
       },
     });
 
@@ -740,13 +737,12 @@ class AdminPanelController {
 
   async deleteUser() {
     if (!this.selectedUser) {
-      logger.warn("AdminPanelController.deleteUser: no selected user");
+      logger.warn("AdminPanelController.deleteUser: no user selected");
+      Toast.warning("No user selected");
       return;
     }
 
-    const modal = getController("modal").getInstance();
-
-    modal.open({
+    this.modal.open({
       title: "Delete user",
       content: `
         <div class="modal-body-user">
@@ -757,6 +753,7 @@ class AdminPanelController {
         <button class="btn btn-primary btn-wider-lg" data-action="confirm">Confirm</button>
         <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
       `,
+      showRequiredFields: false,
       actions: {
         confirm: async () => {
           const userId = this.selectedUser?.id;
@@ -776,38 +773,40 @@ class AdminPanelController {
             },
           });
 
-          this.selectedUser = null;
-          this.updateActionButtons();
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.deleteUser: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetUsers();
             return;
           }
 
-          await this.loadUsers();
-          this.renderUsers();
+          Toast.success(data.message);
+          this.resetUsers();
         },
-        cancel: () => {
-          this.selectedUser = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetUsers(),
       },
     });
   }
 
+  async resetTickets() {
+    this.selectedTicket = null;
+    this.updateActionButtons();
+    this.modal.close();
+    await this.loadTickets();
+    this.renderTickets();
+  }
+
   async createTicket() {
-    const modal = getController("modal").getInstance();
     const content = await (
       await fetch("../components/forms/ticket-create.form.html")
     ).text();
 
-    modal.open({
+    this.modal.open({
       title: "New Ticket",
       content,
       footer: `
@@ -816,11 +815,10 @@ class AdminPanelController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
-
-          const title = data?.["modal-form-ticket-create-title"];
-          const description = data?.["modal-ticket-create-description"];
-          const priority = data?.["modal-ticket-create-priority-slider"];
+          const formData = this.modal.getFormData();
+          const title = formData?.["modal-form-ticket-create-title"];
+          const description = formData?.["modal-ticket-create-description"];
+          const priority = formData?.["modal-ticket-create-priority-slider"];
 
           // Fields data validation
           if (!title || !priority) {
@@ -831,9 +829,7 @@ class AdminPanelController {
                 priority,
               },
             );
-            this.selectedTicket = null;
-            this.updateActionButtons();
-            modal.close();
+            Toast.warning("Missing required fields");
             return;
           }
 
@@ -851,28 +847,23 @@ class AdminPanelController {
             }),
           });
 
-          this.selectedTicket = null;
-          this.updateActionButtons();
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.createTicket: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetTickets();
             return;
           }
 
-          await this.loadTickets();
-          this.renderTickets();
+          Toast.success(data.message);
+          this.resetTickets();
         },
 
-        cancel: () => {
-          this.selectedTicket = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetTickets(),
       },
     });
 
@@ -906,16 +897,16 @@ class AdminPanelController {
 
   async updateTicket() {
     if (!this.selectedTicket) {
-      logger.warn("AdminPanelController.updateTicket: no selected ticket");
+      logger.warn("AdminPanelController.updateTicket: no ticket selected");
+      Toast.warning("No ticket selected");
       return;
     }
 
-    const modal = getController("modal").getInstance();
     const content = await (
       await fetch("/components/forms/ticket-update.form.html")
     ).text();
 
-    modal.open({
+    this.modal.open({
       title: "Edit ticket",
       content,
       footer: `
@@ -924,11 +915,13 @@ class AdminPanelController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
-          const title = data?.["modal-form-ticket-update-title"];
-          const description = data?.["modal-form-ticket-update-description"];
-          const priority = data?.["modal-form-ticket-update-priority-slider"];
-          const status = data?.["modal-form-ticket-status"];
+          const formData = this.modal.getFormData();
+          const title = formData?.["modal-form-ticket-update-title"];
+          const description =
+            formData?.["modal-form-ticket-update-description"];
+          const priority =
+            formData?.["modal-form-ticket-update-priority-slider"];
+          const status = formData?.["modal-form-ticket-status"];
 
           // Fields data validation
           if (!title || !priority) {
@@ -939,6 +932,7 @@ class AdminPanelController {
                 priority,
               },
             );
+            Toast.warning("Missing required fields");
             return;
           }
 
@@ -960,25 +954,22 @@ class AdminPanelController {
             },
           );
 
+          const data = await res.json();
+
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.updateTicket: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetTickets();
+            return;
           }
 
-          this.selectedTicket = null;
-          this.updateActionButtons();
-          modal.close();
-          await this.loadTickets();
-          this.renderTickets();
+          Toast.success(data.message);
+          this.resetTickets();
         },
-        cancel: () => {
-          this.selectedTicket = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetTickets(),
       },
     });
 
@@ -1013,7 +1004,8 @@ class AdminPanelController {
       },
     });
 
-    const statuses = await res.json();
+    const data = await res.json();
+    const statuses = data.data;
 
     if (!res.ok) {
       const error = await res.json();
@@ -1059,13 +1051,12 @@ class AdminPanelController {
 
   async deleteTicket() {
     if (!this.selectedTicket) {
-      logger.warn("AdminPanelController.deleteTicket: no selected ticket");
+      logger.warn("AdminPanelController.deleteTicket: no ticket selected");
+      Toast.warning("No ticket selected");
       return;
     }
 
-    const modal = getController("modal").getInstance();
-
-    modal.open({
+    this.modal.open({
       title: "Delete ticket",
       content: `
         <div class="modal-body-ticket">
@@ -1076,6 +1067,7 @@ class AdminPanelController {
         <button class="btn btn-primary btn-wider-lg" data-action="confirm">Confirm</button>
         <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
       `,
+      showRequiredFields: false,
       actions: {
         confirm: async () => {
           const ticketId = this.selectedTicket?.id;
@@ -1095,38 +1087,40 @@ class AdminPanelController {
             },
           });
 
-          this.selectedTicket = null;
-          this.updateActionButtons();
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.deleteTicket: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetTickets();
             return;
           }
 
-          await this.loadTickets();
-          this.renderTickets();
+          Toast.success(data.message);
+          this.resetTickets();
         },
-        cancel: () => {
-          this.selectedTicket = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetTickets(),
       },
     });
   }
 
+  async resetCategories() {
+    this.selectedCategory = null;
+    this.updateActionButtons();
+    this.modal.close();
+    await this.loadCategories();
+    this.renderCategories();
+  }
+
   async createCategory() {
-    const modal = getController("modal").getInstance();
     const content = await (
       await fetch("../components/forms/category-create.form.html")
     ).text();
 
-    modal.open({
+    this.modal.open({
       title: "New category",
       content,
       footer: `
@@ -1135,9 +1129,8 @@ class AdminPanelController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
-
-          const name = data?.["modal-category-create-name"];
+          const formData = this.modal.getFormData();
+          const name = formData?.["modal-category-create-name"];
 
           // Fields data validation
           if (!name) {
@@ -1147,6 +1140,7 @@ class AdminPanelController {
                 name,
               },
             );
+            Toast.warning("Missing required fields");
             return;
           }
 
@@ -1162,44 +1156,39 @@ class AdminPanelController {
             }),
           });
 
-          this.selectedCategory = null;
-          this.updateActionButtons();
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.createCategory: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetCategories();
             return;
           }
 
-          await this.loadCategories();
-          this.renderCategories();
+          Toast.success(data.message);
+          this.resetCategories();
         },
 
-        cancel: () => {
-          this.selectedCategory = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetCategories(),
       },
     });
   }
 
   async updateCategory() {
     if (!this.selectedCategory) {
-      logger.warn("AdminPanelController.updateCategory: no selected category");
+      logger.warn("AdminPanelController.updateCategory: no category selected");
+      Toast.warning("No category selected");
       return;
     }
 
-    const modal = getController("modal").getInstance();
     const content = await (
       await fetch("/components/forms/category-update.form.html")
     ).text();
 
-    modal.open({
+    this.modal.open({
       title: "Edit category",
       content,
       footer: `
@@ -1208,9 +1197,8 @@ class AdminPanelController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
-
-          const name = data?.["modal-category-update-name"];
+          const formData = this.modal.getFormData();
+          const name = formData?.["modal-category-update-name"];
 
           // Fields data validation
           if (!name) {
@@ -1220,6 +1208,7 @@ class AdminPanelController {
                 name,
               },
             );
+            Toast.warning("Missing required fields");
             return;
           }
 
@@ -1238,25 +1227,22 @@ class AdminPanelController {
             },
           );
 
+          const data = await res.json();
+
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.updateCategory: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetCategories();
+            return;
           }
 
-          this.selectedCategory = null;
-          this.updateActionButtons();
-          modal.close();
-          await this.loadCategories();
-          this.renderCategories();
+          Toast.success(data.message);
+          this.resetCategories();
         },
-        cancel: () => {
-          this.selectedCategory = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetCategories(),
       },
     });
 
@@ -1269,13 +1255,12 @@ class AdminPanelController {
 
   async deleteCategory() {
     if (!this.selectedCategory) {
-      logger.warn("AdminPanelController.deleteCategory: no selected category");
+      logger.warn("AdminPanelController.deleteCategory: no category selected");
+      Toast.warning("No category selected");
       return;
     }
 
-    const modal = getController("modal").getInstance();
-
-    modal.open({
+    this.modal.open({
       title: "Delete category",
       content: `
         <div class="modal-body-category">
@@ -1285,6 +1270,7 @@ class AdminPanelController {
         <button class="btn btn-primary btn-wider-lg" data-action="confirm">Confirm</button>
         <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
       `,
+      showRequiredFields: false,
       actions: {
         confirm: async () => {
           const categoryId = this.selectedCategory?.id;
@@ -1304,27 +1290,22 @@ class AdminPanelController {
             },
           });
 
-          this.selectedCategory = null;
-          this.updateActionButtons();
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.deleteCategory: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            this.resetCategories();
             return;
           }
 
-          await this.loadCategories();
-          this.renderCategories();
+          Toast.success(data.message);
+          this.resetCategories();
         },
-        cancel: () => {
-          this.selectedCategory = null;
-          this.updateActionButtons();
-          modal.close();
-        },
+        cancel: () => this.resetCategories(),
       },
     });
   }

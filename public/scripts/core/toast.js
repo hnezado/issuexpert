@@ -31,6 +31,10 @@ export class Toast {
     this.show(msg, "success");
   }
 
+  static warning(msg) {
+    this.show(msg, "warning");
+  }
+
   static error(msg) {
     this.show(msg, "error");
   }
