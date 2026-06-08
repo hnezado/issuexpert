@@ -133,9 +133,9 @@ class LoginController {
         });
         Toast.error(data.message);
         return;
-      } else {
-        Toast.success(data.message);
       }
+
+      Toast.info(data.message);
 
       localStorage.setItem("auth_token", data.token);
 

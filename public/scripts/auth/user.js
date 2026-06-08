@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "../config.js";
 import { logger } from "../core/logger.js";
 import { goTo } from "../core/router.js";
+import { Toast } from "../core/toast.js";
 
 let cachedUser = null;
 
@@ -89,6 +90,7 @@ function clearCurrentUser() {
 
 function logout() {
   clearCurrentUser();
+  Toast.info("Logged out successfully");
   goTo("login");
 }
 
