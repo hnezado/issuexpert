@@ -90,7 +90,7 @@ function clearCurrentUser() {
 
 function logout() {
   clearCurrentUser();
-  Toast.info("Logged out successfully");
+  Toast.info("Logout successful");
   goTo("login");
 }
 
