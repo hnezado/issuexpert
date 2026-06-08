@@ -18,6 +18,7 @@ import {
   formatTicketListName,
 } from "../../utils/tickets.js";
 import { beautifyUsername } from "../../utils/user.js";
+import { Toast } from "../core/toast.js";
 
 /**
  * Dashboard Controller
@@ -75,6 +76,8 @@ class DashboardController {
     this.renderTickets();
 
     this.isInitialized = true;
+
+    this.setActiveList("owned-tickets");
   }
 
   gatherElements() {
@@ -633,11 +636,11 @@ class DashboardController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
+          const formData = modal.getFormData();
 
-          const title = data?.["modal-form-ticket-create-title"];
-          const description = data?.["modal-ticket-create-description"];
-          const priority = data?.["modal-ticket-create-priority-slider"];
+          const title = formData?.["modal-form-ticket-create-title"];
+          const description = formData?.["modal-ticket-create-description"];
+          const priority = formData?.["modal-ticket-create-priority-slider"];
 
           // Fields data validation
           if (!title || !priority) {
@@ -648,7 +651,7 @@ class DashboardController {
                 priority,
               },
             );
-            modal.close();
+            Toast.error("Missing required fields");
             return;
           }
 
@@ -666,16 +669,20 @@ class DashboardController {
             }),
           });
 
+          const data = await res.json();
+
           modal.close();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.createTicket: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
             return;
           }
+
+          Toast.success(data.message);
 
           await this.loadTickets();
           this.updateActiveList();
@@ -715,7 +722,8 @@ class DashboardController {
 
   async updateTicket() {
     if (!this.selectedTicket) {
-      logger.warn("AdminPanelController.updateTicket: no selected ticket");
+      logger.warn("AdminPanelController.updateTicket: no ticket selected");
+      Toast.warning("No ticket selected");
       return;
     }
 
@@ -733,11 +741,13 @@ class DashboardController {
       `,
       actions: {
         save: async () => {
-          const data = modal.getFormData();
-          const title = data?.["modal-form-ticket-update-title"];
-          const description = data?.["modal-form-ticket-update-description"];
-          const priority = data?.["modal-form-ticket-update-priority-slider"];
-          const status = data?.["modal-form-ticket-status"];
+          const formData = modal.getFormData();
+          const title = formData?.["modal-form-ticket-update-title"];
+          const description =
+            formData?.["modal-form-ticket-update-description"];
+          const priority =
+            formData?.["modal-form-ticket-update-priority-slider"];
+          const status = formData?.["modal-form-ticket-status"];
 
           // Fields data validation
           if (!title || !priority) {
@@ -748,6 +758,7 @@ class DashboardController {
                 priority,
               },
             );
+            Toast.error("Missing required fields");
             return;
           }
 
@@ -769,13 +780,18 @@ class DashboardController {
             },
           );
 
+          const data = await res.json();
+
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.updateTicket: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
+            return;
           }
+
+          Toast.success(data.message);
 
           modal.close();
           await this.loadTickets();
@@ -816,15 +832,15 @@ class DashboardController {
       },
     });
 
-    const statuses = await res.json();
+    const data = await res.json();
+    const statuses = data.data;
 
     if (!res.ok) {
-      const error = await res.json();
       logger.error(
         "AdminPanelController.updateTicket: error fetching statuses",
         {
           status: res.status,
-          message: error,
+          message: data.message,
         },
       );
     }
@@ -862,7 +878,8 @@ class DashboardController {
 
   async deleteTicket() {
     if (!this.selectedTicket) {
-      logger.warn("AdminPanelController.deleteTicket: no selected ticket");
+      logger.warn("AdminPanelController.deleteTicket: no ticket selected");
+      Toast.warning("No ticket selected");
       return;
     }
 
@@ -879,6 +896,7 @@ class DashboardController {
         <button class="btn btn-primary btn-wider-lg" data-action="confirm">Confirm</button>
         <button class="btn btn-primary btn-wider-lg" data-action="cancel">Cancel</button>
       `,
+      showRequiredFields: false,
       actions: {
         confirm: async () => {
           const ticketId = this.selectedTicket?.id;
@@ -898,17 +916,20 @@ class DashboardController {
             },
           });
 
-          modal.close();
+          const data = await res.json();
 
           if (!res.ok) {
-            const error = await res.json();
             logger.error("AdminPanelController.deleteTicket: server error", {
               status: res.status,
-              message: error,
+              message: data.message,
             });
+            Toast.error(data.message);
             return;
           }
 
+          Toast.success(data.message);
+
+          modal.close();
           await this.loadTickets();
           this.updateActiveList();
         },

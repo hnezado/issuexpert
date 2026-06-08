@@ -5,7 +5,7 @@ import * as statusModel from "../models/statusModel.js";
 async function getAllStatuses(req, res) {
   try {
     const statuses = await statusModel.getAllStatuses();
-    res.status(200).json(statuses);
+    res.status(200).json({ data: statuses });
   } catch (error) {
     logger.error("StatusController.getAllStatuses: error retrieving statuses", {
       error,

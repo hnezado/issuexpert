@@ -112,7 +112,13 @@ class ModalController {
   }
   // Allows partial params ({title: "Modal"})
   // Default object ({}) prevents undefined errors
-  open({ title = "", content = "", footer = "", actions = {} } = {}) {
+  open({
+    title = "",
+    content = "",
+    footer = "",
+    showRequiredFields = true,
+    actions = {},
+  } = {}) {
     if (!this.elements.modalContainer?.elem) return;
 
     if (this.elements.title?.elem) {
@@ -121,7 +127,9 @@ class ModalController {
 
     if (this.elements.body?.elem) {
       this.elements.body.elem.innerHTML = content;
-      this.elements.body.elem.innerHTML += `<span class="modal-body-required-text">*Required field</span>`;
+      if (showRequiredFields) {
+        this.elements.body.elem.innerHTML += `<span class="modal-body-required-text">*Required field</span>`;
+      }
     }
 
     if (this.elements.footer?.elem) {
